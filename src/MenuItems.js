@@ -1,14 +1,14 @@
 export const MenuItems = [
     {
         title: 'about us',
-        url: 'AboutUs', //put the link here
+        url: 'aboutus', //put the link here
         cName: 'nav-links'
 
     },
  
     {
         title: 'FAQs',
-        url: 'FAQs', //put the link here
+        url: 'faq', //put the link here
         cName: 'nav-links'
 
     },
