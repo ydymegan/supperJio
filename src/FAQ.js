@@ -1,7 +1,7 @@
 import React from "react";
 
 function FAQ() {
-    return <div> Enter text Here</div>;
+    return <div> This is the FAQ page</div>;
 
 }
 
