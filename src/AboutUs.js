@@ -1,7 +1,7 @@
 import React from "react";
 
 function AboutUs() {
-    return <div> Enter text Here</div>;
+    return <div> About Us </div>;
 
 }
 
