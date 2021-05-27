@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+
+.navbar{
+    /* background: linear-gradient(90deg, #5C65CF 0%, #bdc1eb 100%); */
+    background: #FFFAEA;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}

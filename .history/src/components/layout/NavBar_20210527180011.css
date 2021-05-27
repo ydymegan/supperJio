@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+
+.navbar{
+    /* background: linear-gradient(90deg, #5C65CF 0%, #bdc1eb 100%); */
+    background: #FFFAEA;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}
+
+.navbar-logo{
+    color: #5C65CF !important;
+    justify-self: start !important;
+    margin-left: 20px !important;
+    cursor: pointer !important;
+}
+
+.navbar-items {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 10px;
+    list-style: none;
+    text-align: center;
+    width: 70vw;
+    justify-content: end;
+    margin-right: 2rem; 
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}
+
+.nav-links {
+    color: #374B8C !important;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+}
+
+.nav-links:hover {
+    background-color: #bdc1eb;
+    border-radius: 4px;
+    transition: all 0.2s ease-out;
+}
+

@@ -1,0 +1,26 @@
+.animation-area {
+    background: linear-gradient(90deg, #5C65CF 0%, #bdc1eb 100%);
+    width: 100%;
+    height: 100vh;
+}
+
+.box-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.box-area li {
+    position: absolute;
+    display: block;
+    list-style: none;
+    width: 25px;
+    height: 25px;
+    background: rgba(255,255,255,0.2);
+    animation: animate 20s linear inifnite;
+}
+
+.box-area
