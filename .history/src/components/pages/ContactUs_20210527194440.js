@@ -1,19 +1,16 @@
 import React, { useState } from "react"
 import { db } from '../../firebase.js'
-import { Container } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
-import './ContactUs.css'
 
 export default function ContactUs() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
 
-    const[loader, setLoader] = useState(false);
+    const[loader, setLoader] = useState(true);
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoader(true);
 
         db.collection('contacts').add({
             name:name,
@@ -22,11 +19,9 @@ export default function ContactUs() {
         })
         .then(() => {
             alert('Your message has been submitted!')
-            setLoader(false);
         })
         .catch(error => {
             alert(error.message);
-            setLoader(false);
         });
 
         setName("");
@@ -35,13 +30,9 @@ export default function ContactUs() {
     };
 
     return (
-        <div className="page">
+        <div>
         <NavBar></NavBar>
         
-        <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}>
-        <div className="w-100" style={{ maxWidth: "400px" }}>
         <form className="form" onSubmit=
         {handleSubmit}>
             <h1>Contact Us Here!</h1>
@@ -67,15 +58,9 @@ export default function ContactUs() {
                 onChange={(e) => setMessage(e.target.value)} 
             />
 
-            <button type="submit" style={{background : loader
-            ? "#ccc" : "#5C65CF"}}
-            >
-                Submit
-            </button>
+            <button type="submit">Submit</button>
             
         </form>
-        </div>
-        </Container>
         </div>
     );
 }

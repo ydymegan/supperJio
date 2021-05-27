@@ -35,7 +35,7 @@ export default function ContactUs() {
     };
 
     return (
-        <div className="page">
+        <div>
         <NavBar></NavBar>
         
         <Container

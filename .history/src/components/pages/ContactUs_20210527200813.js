@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { db } from '../../firebase.js'
-import { Container } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './ContactUs.css'
 
@@ -35,7 +34,7 @@ export default function ContactUs() {
     };
 
     return (
-        <div className="page">
+        <div>
         <NavBar></NavBar>
         
         <Container
