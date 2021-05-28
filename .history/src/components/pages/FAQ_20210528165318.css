@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
+.body {
+    background-color: #FFFAEA;
+}
+
+.w-200 > h1 {
+    margin-bottom: 30px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}
+
+.accordion {
+    width: 500px;
+}
+
+.item {
+    background-color: #FFFAEA;
+    margin-bottom: 5px;
+    padding: 10px 20px;
+    box-shadow: 0px -1px 2px #bdc1eb;
+}
+
+.title {
+    color: #5C65CF;
+    font-family: 'Coiny', cursive;
+    font-size: 25px;
+    font-weight: bolder;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.content {
+    color: #5C65CF;
+    font-family: 'Crimson Text', serif;
+    font-size: 20px;
+    text-align: left;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+.content-show {
+    color: #5C65CF;
+    font-family: 'Space Mono', monospace;
+    font-size: 20px;
+    text-align: left;
+    height: auto;
+    max-height: 9999px;
+    transition: all 0.5s cubic-bezier(1, 0, 1, 0); 
+}

@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap');
+
+
+.w-100 > h1 {
+    margin-bottom: 30px;
+    display: flex;
+    text-align: center;
+    font-size: 40px;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}
+
+.accordion {
+    width: 500px;
+}
+
+.item {
+    background: linear-gradient(90deg, #5C65CF 0%, #bdc1eb 100%);
+    margin-bottom: 5px;
+    padding: 10px 20px;
+}
+
+.title {
+    color: #FFFAEA;
+    font-family: 'Coiny', cursive;
+    font-size: 25px;
+    font-weight: bolder;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.content {
+    color: #FFFAEA;
+    font-family: 'Crimson Text', serif;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0, 1, 0, 1);
+}
+
+.content-show {
+    color: #FFFAEA;
+    font-family: 'Crimson Text', serif;
+    height: auto;
+    max-height: 9999px;
+    transition: all 0.5s cubic-bezier(1, 0, 1, 0); 
+}

@@ -17,20 +17,19 @@ export default function FAQ() {
     }
 
     return (
-        <div className="body">
-            <NavBar></NavBar>
-            
-            <Container
-                className="d-flex align-items-center justify-content-center"
-                style={{ minHeight: "100vh" }}>
-                    <div className="w-100" style={{ maxWidth: "400px" }}>
-                        <h1>Frequently Asked Questions</h1>
+        <div>
+        <NavBar></NavBar>
+        <Container
+            className="d-flex align-items-center justify-content-center"
+            style={{ minHeight: "100vh" }}>
+                <div className="w-100" style={{ maxWidth: "400px" }}>
+                    <div className="wrapper">
                         <div className="accordion">
                             {Data.map((item ,index) => {
                                 return (
                                     <div className="item">
                                         <div className="title" onClick={() => toggle(index)}>
-                                            {item.question}
+                                            <h1>{item.question}</h1>
                                             <span>{selected === index ? '-' : '+'}</span>
                                         </div>
                                         <div className={selected === index ? 'content-show' : 'content'}>
@@ -41,6 +40,7 @@ export default function FAQ() {
                             })}
                         </div>
                     </div>
+                </div>
             </Container>
         </div>
     );

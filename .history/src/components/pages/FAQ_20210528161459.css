@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap');
+
+/* font-family: 'Crimson Text', serif; */
+
+.wrapper {
+    display: flex;
+    height: 100wh;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.accordion {
+    width: 500px;
+}
+
+.item {
+    background: #5C65CF;
+    margin-bottom: 5px;
+    padding: 10px 20px;
+}
+
+.title {
+    color: #FFFAEA;
+}
+
+.content {
+    color: #FFFAEA;
+}

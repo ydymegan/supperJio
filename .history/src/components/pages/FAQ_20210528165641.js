@@ -24,7 +24,7 @@ export default function FAQ() {
                 className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
                     <div className="w-100" style={{ maxWidth: "400px" }}>
-                        <h1>Frequently Asked Questions</h1>
+                        <h1>Frequently Asked</h1>
                         <div className="accordion">
                             {Data.map((item ,index) => {
                                 return (
