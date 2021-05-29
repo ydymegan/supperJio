@@ -13,8 +13,8 @@ export default function LandingPage() {
       <NavBar></NavBar>
       <Container className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}>
-          <div className="w-100" style={{ maxWidth: "1000px" }}>
-            <h2>Welcome {user.email}!</h2>
+          <div className="w-100" style={{ maxWidth: "500px" }}>
+            <h1>Welcome {user.email}!</h1>
             <div className="buttons">
               <Button style={{padding: "20px"}} variant="outline-primary">Start A Jio</Button>{' '}
               <Button style={{padding: "20px"}} variant="outline-primary">Join A Jio</Button>{' '}

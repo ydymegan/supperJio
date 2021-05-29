@@ -5,13 +5,13 @@
     background-color: #FFFAEA;
 }
 
-.w-100 > h2 {
+.w-100 > h1 {
     margin-bottom: 30px;
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
+    font-size: 20px;
     font-family: 'Coiny', cursive;
     color: #5C65CF;
 }

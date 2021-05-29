@@ -10,7 +10,7 @@ export default function AboutUs() {
             <Container className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
                 <div className="w-100" style={{ maxWidth: "500px" }}>
-                    <h2>About Us</h2>
+                    <h1>About Us</h1>
                 </div>
             </Container>  
         </div>
