@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+ 
+.page {
+    background-color: #FFFAEA;
+}
+
+.w-100 > h1 {
+    margin-bottom: 30px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+} 
