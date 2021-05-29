@@ -1,10 +1,12 @@
 import React from "react"
 import { Button, Container } from "react-bootstrap"
+import { useAuth } from "../../contexts/AuthContext"
 import NavBar from "../layout/NavBar"
 import './LandingPage.css'
-import firebase from "firebase/app";
+import '../../firebase.js'
 
 export default function LandingPage() {
+  //const { currentUser, setCurrentUser } = useAuth()
 
   let user = firebase.auth().currentUser
 

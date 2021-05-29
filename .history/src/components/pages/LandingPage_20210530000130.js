@@ -1,12 +1,11 @@
 import React from "react"
 import { Button, Container } from "react-bootstrap"
+import { useAuth } from "../../contexts/AuthContext"
 import NavBar from "../layout/NavBar"
 import './LandingPage.css'
-import firebase from "firebase/app";
 
 export default function LandingPage() {
-
-  let user = firebase.auth().currentUser
+  const { currentUser, setCurrentUser } = useAuth()
 
   return ( 
     <div className="page">
@@ -14,7 +13,7 @@ export default function LandingPage() {
       <Container className="d-flex align-items-center justify-content-center"
         style={{ minHeight: "100vh" }}>
           <div className="w-100" style={{ maxWidth: "1000px" }}>
-            <h1>Welcome {user.email}!</h1>
+            <h1>Welcome {currentUser.email}!</h1>
             <div className="buttons">
               <Button style={{padding: "20px"}} variant="outline-primary">Start A Jio</Button>{' '}
               <Button style={{padding: "20px"}} variant="outline-primary">Join A Jio</Button>{' '}
