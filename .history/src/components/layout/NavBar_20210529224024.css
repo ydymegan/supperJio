@@ -27,20 +27,21 @@
     text-align: center;
     width: 70vw;
     justify-content: end;
+    align-items: right;
     margin-right: 2rem; 
     font-family: 'Coiny', cursive;
 }
 
 .nav-links {
     color: #5C65CF !important;
-    text-decoration: none !important;
-    padding: 0.5rem 1rem !important;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
 }
 
 .nav-links:hover {
-    background-color: #5C65CF !important;
+    background-color: #5C65CF;
     color: #FFFAEA !important; 
-    border-radius: 4px !important;
+    border-radius: 4px;
     transition: all 0.2s ease-out;
 }
 

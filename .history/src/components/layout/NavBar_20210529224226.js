@@ -22,7 +22,7 @@ export default function NavBar() {
     }
 
     return (
-        <div>
+        <div className="body">
             <Navbar>
                 <Nav.Link href="/"><h1 className="navbar-logo">supperJio <i className="fas fa-utensils"></i></h1></Nav.Link>
                 <nav className="navbar-items">

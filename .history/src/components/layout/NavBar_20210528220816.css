@@ -10,6 +10,7 @@
     font-size: 1.2rem;
     font-family: 'Coiny', cursive;
     color: #5C65CF;
+    overflow: hidden;
 }
 
 .navbar-logo{
@@ -21,7 +22,7 @@
 
 .navbar-items {
     display: grid;
-    grid-template-columns: repeat(5, auto);
+    grid-template-columns: repeat(3, auto);
     grid-gap: 10px;
     list-style: none;
     text-align: center;
@@ -33,14 +34,14 @@
 
 .nav-links {
     color: #5C65CF !important;
-    text-decoration: none !important;
-    padding: 0.5rem 1rem !important;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
 }
 
 .nav-links:hover {
-    background-color: #5C65CF !important;
+    background-color: #5C65CF;
     color: #FFFAEA !important; 
-    border-radius: 4px !important;
+    border-radius: 4px;
     transition: all 0.2s ease-out;
 }
 

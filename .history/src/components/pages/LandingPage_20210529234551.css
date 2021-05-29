@@ -20,7 +20,6 @@
     height: auto;
     display: grid;
     grid-template-columns: repeat(2, auto);
-    grid-gap: 20px;
+    grid-gap: 10px;
     justify-content: center;
-    font-family: 'Coiny', cursive;
 }

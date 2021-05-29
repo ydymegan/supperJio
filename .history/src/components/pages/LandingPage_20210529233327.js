@@ -1,11 +1,26 @@
 import React from "react"
 import { Button, Container } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
+// import { Link, useHistory } from "react-router-dom"
 import NavBar from "../layout/NavBar"
 import './LandingPage.css'
 
 export default function LandingPage() {
-  const { currentUser, setCurrentUser } = useAuth()
+  const { currentUser, logout } = useAuth()
+  /*const [error, setError] = useState("")
+  const { currentUser, logout } = useAuth()
+  const history = useHistory()
+
+  async function handleLogout() {
+    setError("")
+
+    try {
+      await logout()
+      history.push("/login")
+    } catch {
+      setError("Failed to log out")
+    }
+  }*/
 
   return ( 
     <div className="page">
@@ -14,12 +29,12 @@ export default function LandingPage() {
         style={{ minHeight: "100vh" }}>
           <div className="w-100" style={{ maxWidth: "1000px" }}>
             <h1>Welcome {currentUser.email}!</h1>
-            <div className="buttons">
-              <Button style={{padding: "20px"}} variant="outline-primary">Start A Jio</Button>{' '}
-              <Button style={{padding: "20px"}} variant="outline-primary">Join A Jio</Button>{' '}
-            </div>   
+
+            <Button className="btn" href="/">Start A Jio!</Button>
+            <Button className="btn" href="/">Join A Jio!</Button>
           </div>
-      </Container>     
+
+      </Container>
     </div>
   );
 }

@@ -16,11 +16,6 @@
     color: #5C65CF;
 } 
 
-.buttons {
-    height: auto;
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-gap: 20px;
-    justify-content: center;
+.w-100 > btn {
     font-family: 'Coiny', cursive;
 }

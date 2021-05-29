@@ -5,7 +5,7 @@ import NavBar from "../layout/NavBar"
 import './LandingPage.css'
 
 export default function LandingPage() {
-  const { currentUser, setCurrentUser } = useAuth()
+  const { currentUser, logout } = useAuth()
 
   return ( 
     <div className="page">

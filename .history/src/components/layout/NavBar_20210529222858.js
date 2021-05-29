@@ -29,8 +29,7 @@ export default function NavBar() {
                 <Nav.Link href="about-us" className="nav-links">About Us</Nav.Link>
                 <Nav.Link href="FAQ" className="nav-links">FAQs</Nav.Link>
                 <Nav.Link href="contact-us" className="nav-links">Contact Us</Nav.Link>
-                <Nav.Link href="update-profile" className="nav-links">Update Profile</Nav.Link>
-                <Nav.Link className="nav-links" onClick={handleLogout}>Logout from {currentUser.email}</Nav.Link>
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                 {error && <Alert variant="danger">{error}</Alert>}
                 </nav>
             </Navbar>

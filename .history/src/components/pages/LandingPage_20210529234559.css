@@ -22,5 +22,4 @@
     grid-template-columns: repeat(2, auto);
     grid-gap: 20px;
     justify-content: center;
-    font-family: 'Coiny', cursive;
 }

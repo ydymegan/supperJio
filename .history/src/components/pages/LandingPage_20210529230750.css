@@ -1,26 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
  
-.page {
+.body {
     background-color: #FFFAEA;
 }
-
-.w-100 > h1 {
+.title {
     margin-bottom: 30px;
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
-    font-size: 100px;
+    font-size: 40px;
     font-family: 'Coiny', cursive;
     color: #5C65CF;
-} 
-
-.buttons {
-    height: auto;
-    display: grid;
-    grid-template-columns: repeat(2, auto);
-    grid-gap: 20px;
-    justify-content: center;
-    font-family: 'Coiny', cursive;
 }
