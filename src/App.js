@@ -10,6 +10,8 @@ import Login from "./components/auth/Login"
 import PrivateRoute from "./components/routing/PrivateRoute"
 import ForgotPassword from "./components/auth/ForgotPassword"
 import UpdateProfile from "./components/auth/UpdateProfile"
+import StartAJio from "./components/pages/StartAJio"
+import JoinAJio from "./components/pages/JoinAJio"
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/forgot-password" component={ForgotPassword} />
+            <Route path="/join-a-jio" component={JoinAJio} />
+            <Route path="/start-a-jio" component={StartAJio} />
           </Switch>
         </AuthProvider>
       </Router>
