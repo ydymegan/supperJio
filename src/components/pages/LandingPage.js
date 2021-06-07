@@ -3,6 +3,7 @@ import { Button, Container } from "react-bootstrap"
 import NavBar from "../layout/NavBar"
 import './LandingPage.css'
 import firebase from "firebase/app";
+import { Link } from "react-router-dom";
 
 export default function LandingPage() {
 
@@ -16,8 +17,8 @@ export default function LandingPage() {
           <div className="w-100" style={{ maxWidth: "1000px" }}>
             <h2>Welcome {user.email}!</h2>
             <div className="buttons">
-              <Button style={{padding: "20px"}} variant="outline-primary">Start A Jio</Button>{' '}
-              <Button style={{padding: "20px"}} variant="outline-primary">Join A Jio</Button>{' '}
+              <Link to="/start-a-jio" style={{padding: "20px"}} variant="outline-primary">Start A Jio</Link>{' '}
+              <Link to="/join-a-jio" style={{padding: "20px"}} variant="outline-primary">Join A Jio</Link>{' '}
             </div>   
           </div>
       </Container>     
