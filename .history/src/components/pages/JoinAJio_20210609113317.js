@@ -57,7 +57,7 @@ export default function JoinAJio() {
                             <p>Delivery App: {jio.deliveryApp}</p>  
                             <p>Region: {jio.region.label}</p>
                             <p>Collection Point: {jio.collectionPoint}</p>
-                            <p>Order Time: {jio.orderTime.toDate().toString()}</p>
+                            <p>Order Time: {jio.orderTime.toString()}</p>
                         </div>
                     ))}
                 </div>

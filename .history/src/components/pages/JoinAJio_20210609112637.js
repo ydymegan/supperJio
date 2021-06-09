@@ -54,10 +54,10 @@ export default function JoinAJio() {
                     {startAJio.map((jio) => (
                         <div key={jio.id} className="jio">
                             <h2>{jio.foodStore}</h2>
-                            <p>Delivery App: {jio.deliveryApp}</p>  
-                            <p>Region: {jio.region.label}</p>
+                            <p>Delivery App: {jio.deliveryApp}</p>
+                            
+                            
                             <p>Collection Point: {jio.collectionPoint}</p>
-                            <p>Order Time: {jio.orderTime.toDate().toString()}</p>
                         </div>
                     ))}
                 </div>

@@ -147,7 +147,7 @@ export default function StartAJio() {
                             options={groupedOptions}
                             onChange={handleChange}
                         />
-                        <br></br>
+
                         <button type="submit" style={{
                             background: loader
                                 ? "#ccc" : "#5C65CF"

@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.page {
+    background-color: #FFFAEA;
+}
+
+.w-100 > h1 {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}
+
+.jio {
+    /* padding: 20px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 5px rgb(194, 182, 182);
+    margin-bottom: 20px;
+    border: 1px solid lightgray;
+    background: #fff;
+    font-size: 16px;
+    color: rgb(0, 0, 32);
+    outline: none; */
+
+    background-color: #FFFAEA;
+    margin-bottom: 5px;
+    padding: 10px 20px;
+    box-shadow: 0px 0px 5px #bdc1eb;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+.jio > h2 {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: 40px;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}
+

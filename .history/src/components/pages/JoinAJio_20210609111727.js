@@ -52,12 +52,12 @@ export default function JoinAJio() {
                 <div className="w-100" style={{ maxWidth: "400px" }}>
                     <h1>Available Jio</h1>
                     {startAJio.map((jio) => (
-                        <div key={jio.id} className="jio">
+                        <div key={jio.id}>
                             <h2>{jio.foodStore}</h2>
-                            <p>Delivery App: {jio.deliveryApp}</p>  
-                            <p>Region: {jio.region.label}</p>
-                            <p>Collection Point: {jio.collectionPoint}</p>
-                            <p>Order Time: {jio.orderTime.toDate().toString()}</p>
+                            <p>{jio.deliveryApp}</p>
+                            
+                            
+                            <p>{jio.collectionPoint}</p>
                         </div>
                     ))}
                 </div>

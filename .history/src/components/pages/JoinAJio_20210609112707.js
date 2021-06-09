@@ -55,9 +55,9 @@ export default function JoinAJio() {
                         <div key={jio.id} className="jio">
                             <h2>{jio.foodStore}</h2>
                             <p>Delivery App: {jio.deliveryApp}</p>  
-                            <p>Region: {jio.region.label}</p>
+                            <p>Region: </p>
                             <p>Collection Point: {jio.collectionPoint}</p>
-                            <p>Order Time: {jio.orderTime.toDate().toString()}</p>
+                            <p>Order Time: </p>
                         </div>
                     ))}
                 </div>

@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.page {
+    background-color: #FFFAEA;
+}
+
+.w-100 > h1 {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}
+
+.jio {
+    
+}
+
+.jio > h2 {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: 40px;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}
+
