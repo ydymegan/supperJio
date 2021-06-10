@@ -6,8 +6,12 @@ import { db } from '../../firebase.js';
 import { Container } from "react-bootstrap";
 import NavBar from '../layout/NavBar.js';
 import './StartAJio.css';
+import firebase from "firebase/app";
+
 
 export default function StartAJio() {
+    var user = firebase.auth().currentUser;
+
     const [foodStore, setFoodStore] = useState("");
     const [deliveryApp, setDeliveryApp] = useState("");
     const [collectionPoint, setCollectionPoint] = useState("");
@@ -76,6 +80,8 @@ export default function StartAJio() {
         setLoader(true);
 
         db.collection('startAJio').add({
+            jioID: orderTime+user.uid,
+            starterID: user.uid,
             foodStore: foodStore,
             deliveryApp: deliveryApp,
             collectionPoint: collectionPoint,

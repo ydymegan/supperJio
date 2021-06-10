@@ -3,7 +3,7 @@ import { db } from '../../firebase.js'
 import { Container } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './JoinAJio.css'
-
+import moment from "moment";
 
 export default function JoinAJio() {
     
@@ -57,7 +57,7 @@ export default function JoinAJio() {
                             <p>Delivery App: {jio.deliveryApp}</p>  
                             <p>Region: {jio.region.label}</p>
                             <p>Collection Point: {jio.collectionPoint}</p>
-                            <p>Order Time: {jio.orderTime.toDate().toString()}</p>
+                            <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                         </div>
                     ))}
                 </div>
