@@ -7,7 +7,7 @@ import { Container } from "react-bootstrap";
 import NavBar from '../layout/NavBar.js';
 import './StartAJio.css';
 import firebase from "firebase/app";
-
+import moment from "moment";
 
 export default function StartAJio() {
     var user = firebase.auth().currentUser;
@@ -18,6 +18,7 @@ export default function StartAJio() {
     const [orderTime, setOrderTime] = useState(new Date());
     const [region, setRegion] = useState("");
     var selectedOption = "";
+    var dateToday = new Date();
 
     const North = [
         { value: '25', label: "Woodlands, Admiralty" },
@@ -79,8 +80,8 @@ export default function StartAJio() {
         e.preventDefault();
         setLoader(true);
 
-        db.collection('startAJio').add({
-            jioID: orderTime+user.uid,
+        db.collection('jio').add({
+            jioID: Math.random(),
             starterID: user.uid,
             foodStore: foodStore,
             deliveryApp: deliveryApp,
@@ -143,6 +144,7 @@ export default function StartAJio() {
                             onChange={(e) => setOrderTime(e)}
                             timeInputLabel="Time:"
                             dateFormat="MM/dd/yyyy h:mm aa"
+                            minDate={dateToday}
                             showTimeInput
                         />
                         <br></br>
