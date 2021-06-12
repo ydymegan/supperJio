@@ -14,11 +14,14 @@ export default function JoinAJio() {
     const [startAJio, setstartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
     const [region, setRegion] = useState("");
+    const [order, setOrder] = useState("");
     var selectedOption = "";
 
     const ref = db.collection("jio");
 
-    const handleChange = (selectedOption) => {
+    const [loader, setLoader] = useState(false);
+
+    const handleRegionChange = (selectedOption) => {
         setRegion(selectedOption);
     };
 
@@ -41,6 +44,25 @@ export default function JoinAJio() {
     function filterByRegion(selectedRegion, jio) {
         return selectedRegion.label == jio.region.label;
     }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setLoader(true);
+
+        ref.doc("").set({
+            join: { joinerID: user.uid, order: order }
+        })
+            .then(() => {
+                alert('You have successfully joined a Jio!')
+                setLoader(false);
+            })
+            .catch(error => {
+                alert(error.message);
+                setLoader(false);
+            });
+
+        setOrder("");
+    };
 
     // function getJio() {
     //     setLoading(true);
@@ -68,23 +90,36 @@ export default function JoinAJio() {
                 placeholder="Region"
                 value={selectedOption.label}
                 options={groupedOptions}
-                onChange={handleChange}
+                onChange={handleRegionChange}
             />
             <Container
                 className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
                 <div className="w-100" style={{ maxWidth: "400px" }}>
-                    <h1>Available Jio</h1>
-                    {startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).map((jio) => (
-                        <div key={jio.id} className="jio">
-                            <h2>{jio.foodStore}</h2>
-                            <p>Delivery App: {jio.deliveryApp}</p>
-                            <p>Region: {jio.region.label}</p>
-                            <p>Collection Point: {jio.collectionPoint}</p>
-                            <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
-                            <input></input>
-                        </div>
-                    ))}
+                    <form className="form" onSubmit=
+                        {handleSubmit}>
+                        <h1>Available Jio</h1>
+                        {startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).map((jio) => (
+                            <div key={jio.id} className="jio">
+                                <h2>{jio.foodStore}</h2>
+                                <p>Delivery App: {jio.deliveryApp}</p>
+                                <p>Region: {jio.region.label}</p>
+                                <p>Collection Point: {jio.collectionPoint}</p>
+                                <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                                <input
+                                    placeholder="Order"
+                                    value={order}
+                                    onChange={(e) => setOrder(e.target.value)} />
+                                <button type="submit" style={{
+                                    background: loader
+                                        ? "#ccc" : "#5C65CF"
+                                }}
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                        ))}
+                    </form>
                 </div>
             </Container>
         </div>
