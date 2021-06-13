@@ -18,6 +18,7 @@ export default function StartAJio() {
     const [collectionPoint, setCollectionPoint] = useState("");
     const [orderTime, setOrderTime] = useState("");
     const [region, setRegion] = useState("");
+    const jioID = Math.random().toString();
     var selectedOption = "";
     var dateToday = new Date();
 
@@ -31,14 +32,16 @@ export default function StartAJio() {
         e.preventDefault();
         setLoader(true);
 
-        db.collection('jio').add({
-            jioID: Math.random(),
+        db.collection('jio').doc(jioID).set({
+            jioID: jioID,
             starterID: user.uid,
             foodStore: foodStore,
             deliveryApp: deliveryApp,
             collectionPoint: collectionPoint,
             orderTime: orderTime,
-            region: region
+            region: region,
+            joinerID: [],
+            order: []
         })
             .then(() => {
                 alert('You have successfully started a Jio!')

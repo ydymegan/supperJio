@@ -11,10 +11,11 @@ import { groupedOptions } from "./regionData.js";
 export default function JoinAJio() {
     var user = firebase.auth().currentUser;
 
-    const [startAJio, setstartAJio] = useState([]);
+    const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
     const [region, setRegion] = useState("");
     const [order, setOrder] = useState("");
+    const [selectedJio, setSelectedJio] = useState("");
     var selectedOption = "";
 
     const ref = db.collection("jio");
@@ -25,6 +26,8 @@ export default function JoinAJio() {
         setRegion(selectedOption);
     };
 
+
+
     function getJio() {
         setLoading(true);
         ref.onSnapshot((querySnapshot) => {
@@ -32,7 +35,7 @@ export default function JoinAJio() {
             querySnapshot.forEach((doc) => {
                 items.push(doc.data());
             });
-            setstartAJio(items);
+            setStartAJio(items);
             setLoading(false);
         });
     }
@@ -49,9 +52,24 @@ export default function JoinAJio() {
         e.preventDefault();
         setLoader(true);
 
-        ref.doc("").set({
-            join: { joinerID: user.uid, order: order }
-        })
+        var joinerIDArray = [];
+        var orderArray= []
+        var i;
+        var j;
+
+        for (i = 0; i < selectedJio.joinerID.length; i++) {
+            joinerIDArray.push(selectedJio.joinerID[i]);
+        }
+
+        for (j = 0; j < selectedJio.order.length; j++) {
+            orderArray.push(selectedJio.order[j]);
+        }
+
+        joinerIDArray.push(user.uid);
+        orderArray.push(order);
+
+        ref.doc(selectedJio.jioID).update({joinerID: joinerIDArray, order: orderArray}
+            )
             .then(() => {
                 alert('You have successfully joined a Jio!')
                 setLoader(false);
@@ -99,26 +117,29 @@ export default function JoinAJio() {
                     <form className="form" onSubmit=
                         {handleSubmit}>
                         <h1>Available Jio</h1>
-                        {startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).map((jio) => (
-                            <div key={jio.id} className="jio">
-                                <h2>{jio.foodStore}</h2>
-                                <p>Delivery App: {jio.deliveryApp}</p>
-                                <p>Region: {jio.region.label}</p>
-                                <p>Collection Point: {jio.collectionPoint}</p>
-                                <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
-                                <input
-                                    placeholder="Order"
-                                    value={order}
-                                    onChange={(e) => setOrder(e.target.value)} />
-                                <button type="submit" style={{
-                                    background: loader
-                                        ? "#ccc" : "#5C65CF"
-                                }}
-                                >
-                                    Submit
-                                </button>
-                            </div>
-                        ))}
+                        {startAJio
+                            .filter(jio => getAvailableJio(jio))
+                            .filter(jio => filterByRegion(region, jio))
+                            .map((jio) => (
+                                <div key={jio.id} className="jio">
+                                    <h2>{jio.foodStore}</h2>
+                                    <p>Delivery App: {jio.deliveryApp}</p>
+                                    <p>Region: {jio.region.label}</p>
+                                    <p>Collection Point: {jio.collectionPoint}</p>
+                                    <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                                    <input
+                                        placeholder="Order"
+                                        value={order}
+                                        onChange={(e) => { setOrder(e.target.value); setSelectedJio(jio) }} />
+                                    <button type="submit" style={{
+                                        background: loader
+                                            ? "#ccc" : "#5C65CF"
+                                    }}
+                                    >
+                                        Submit
+                                    </button>
+                                </div>
+                            ))}
                     </form>
                 </div>
             </Container>
