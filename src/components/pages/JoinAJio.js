@@ -26,6 +26,8 @@ export default function JoinAJio() {
         setRegion(selectedOption);
     };
 
+
+
     function getJio() {
         setLoading(true);
         ref.onSnapshot((querySnapshot) => {
@@ -50,10 +52,24 @@ export default function JoinAJio() {
         e.preventDefault();
         setLoader(true);
 
-        ref.doc(selectedJio.jioID).set({
-            joinerID: firebase.firestore.FieldValue.arrayUnion(user.uid),
-            order: firebase.firestore.FieldValue.arrayUnion(order)
-        }, { merge: true })
+        var joinerIDArray = [];
+        var orderArray= []
+        var i;
+        var j;
+
+        for (i = 0; i < selectedJio.joinerID.length; i++) {
+            joinerIDArray.push(selectedJio.joinerID[i]);
+        }
+
+        for (j = 0; j < selectedJio.order.length; j++) {
+            orderArray.push(selectedJio.order[j]);
+        }
+
+        joinerIDArray.push(user.uid);
+        orderArray.push(order);
+
+        ref.doc(selectedJio.jioID).update({joinerID: joinerIDArray, order: orderArray}
+            )
             .then(() => {
                 alert('You have successfully joined a Jio!')
                 setLoader(false);
