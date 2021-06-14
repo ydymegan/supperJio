@@ -12,6 +12,8 @@ import ForgotPassword from "./components/auth/ForgotPassword"
 import UpdateProfile from "./components/auth/UpdateProfile"
 import StartAJio from "./components/pages/StartAJio"
 import JoinAJio from "./components/pages/JoinAJio"
+import MyStartedJio from "./components/pages/MyStartedJio"
+import MyJoinedJio from "./components/pages/MyJoinedJio"
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
             <PrivateRoute path="/contact-us" component={ContactUs} />
             <Route path="/join-a-jio" component={JoinAJio} />
             <Route path="/start-a-jio" component={StartAJio} />
+            <Route path="/my-started-jio" component={MyStartedJio} />
+            <Route path="/my-joined-jio" component={MyJoinedJio} />
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/forgot-password" component={ForgotPassword} />

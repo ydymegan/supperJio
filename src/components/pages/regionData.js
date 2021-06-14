@@ -41,9 +41,10 @@ const Central = [
 ]
 
 export const groupedOptions = [
+    { label: "", options: "" },
     { label: "North", options: North },
     { label: "South", options: South },
     { label: "East", options: East },
     { label: "West", options: West },
-    { label: "Central", options: Central }
+    { label: "Central", options: Central },
 ]
