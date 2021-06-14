@@ -8,7 +8,7 @@ import NavBar from '../layout/NavBar.js';
 import './StartAJio.css';
 import firebase from "firebase/app";
 import moment from "moment";
-import { groupedOptions } from "./regionData.js";
+import { groupedOptions } from "./RegionData.js";
 
 export default function StartAJio() {
     var user = firebase.auth().currentUser;

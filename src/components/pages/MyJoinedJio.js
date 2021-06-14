@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react"
 import { db } from '../../firebase.js'
 import { Container } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
-import './JoinAJio.css'
+import './MyStartedJio.css'
 import moment from "moment";
 import firebase from "firebase/app";
 import Select from "react-select";
 import { groupedOptions } from "./RegionData.js";
 
-export default function JoinAJio() {
+export default function MyJoinedJio() {
     var user = firebase.auth().currentUser;
 
     const [startAJio, setStartAJio] = useState([]);
@@ -44,18 +44,34 @@ export default function JoinAJio() {
         return jio.orderTime.toDate().getTime() >= new Date().getTime();
     }
 
-    function filterByRegion(selectedRegion, jio) {
-        return selectedRegion.label === jio.region.label;
-    }
-
     function filterByID(jio) {
-        return user.uid != jio.starterID;
+        var i;
+        for (i = 0; i < jio.joinerID.length; i++) {
+            if (user.uid === jio.joinerID[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     function filterJio() {
-        return (region === "" || region.label === "") ? 
-        startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByID(jio)) : 
-        startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).filter(jio => filterByID(jio));
+        return startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByID(jio))
+    }
+
+    function displayOrders(jio) {
+        var i;
+        var j;
+        let temp = [];
+        let output = "";
+        for (i = 0; i < jio.order.length; i++) {
+            if (user.uid === jio.joinerID[i]) {
+                temp.push(jio.order[i]);
+            }
+        }
+        for (j = 0; j < temp.length; j++) {
+            (j === temp.length - 1) ? output += temp[j] : output += temp[j] + ", ";
+        }
+        return output;
     }
 
     const handleSubmit = (e) => {
@@ -63,7 +79,7 @@ export default function JoinAJio() {
         setLoader(true);
 
         var joinerIDArray = [];
-        var orderArray= []
+        var orderArray = []
         var i;
         var j;
 
@@ -78,8 +94,8 @@ export default function JoinAJio() {
         joinerIDArray.push(user.uid);
         orderArray.push(order);
 
-        ref.doc(selectedJio.jioID).update({joinerID: joinerIDArray, order: orderArray}
-            )
+        ref.doc(selectedJio.jioID).update({ joinerID: joinerIDArray, order: orderArray }
+        )
             .then(() => {
                 alert('You have successfully joined a Jio!')
                 setLoader(false);
@@ -113,20 +129,13 @@ export default function JoinAJio() {
     return (
         <div className="page">
             <NavBar></NavBar>
-            <label>Region</label>
-            <Select
-                placeholder="Region"
-                value={selectedOption.label}
-                options={groupedOptions}
-                onChange={handleRegionChange}
-            />
             <Container
                 className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
                 <div className="w-100" style={{ maxWidth: "400px" }}>
                     <form className="form" onSubmit=
                         {handleSubmit}>
-                        <h1>Available Jio</h1>
+                        <h1>My Joined Jio</h1>
                         {filterJio()
                             .map((jio) => (
                                 <div key={jio.id} className="jio">
@@ -135,10 +144,7 @@ export default function JoinAJio() {
                                     <p>Region: {jio.region.label}</p>
                                     <p>Collection Point: {jio.collectionPoint}</p>
                                     <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
-                                    <input
-                                        placeholder="Order"
-                                        value={order}
-                                        onChange={(e) => { setOrder(e.target.value); setSelectedJio(jio) }} />
+                                    <p>My Orders: {displayOrders(jio)}</p>
                                     <button type="submit" style={{
                                         background: loader
                                             ? "#ccc" : "#5C65CF"
