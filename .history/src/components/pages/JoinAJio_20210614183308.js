@@ -6,7 +6,7 @@ import './JoinAJio.css'
 import moment from "moment";
 import firebase from "firebase/app";
 import Select from "react-select";
-import { groupedOptions } from "./RegionData.js";
+import { groupedOptions } from "./regionData.js";
 
 export default function JoinAJio() {
     var user = firebase.auth().currentUser;
@@ -49,7 +49,7 @@ export default function JoinAJio() {
     }
 
     function filterByID(jio) {
-        return user.uid !== jio.starterID;
+        return user.uid != jio.starterID;
     }
 
     function filterJio() {

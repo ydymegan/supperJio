@@ -49,7 +49,7 @@ export default function JoinAJio() {
     }
 
     function filterByID(jio) {
-        return user.uid !== jio.starterID;
+        return user.uid != jio.starterID;
     }
 
     function filterJio() {

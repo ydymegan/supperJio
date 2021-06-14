@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import NavBar from '../layout/NavBar.js'
-import { Data } from './FaqData.js'
+import { Data } from './faqData.js'
 import { Container } from "react-bootstrap"
 import './FAQ.css'
 
