@@ -11,7 +11,8 @@ export default function MyStartedJio() {
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [selectedJio, setSelectedJio] = useState("");
+    const [tag, setTag] = useState("");
+    //var tag = user.uid;
 
     const ref = db.collection("jio");
 
@@ -55,9 +56,15 @@ export default function MyStartedJio() {
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
 
+    const handleChange = e => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
+    };
+
     const handleUpload = () => {
-        
-        const uploadTask = storage.ref(`receipts/${selectedJio.jioID}.receipt`).put(image);
+
+        const uploadTask = storage.ref(`receipts/${tag}.receipt`).put(image);
         uploadTask.on(
             "state_changed",
             snapshot => {
@@ -71,7 +78,7 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref(selectedJio.jioID)
+                    .ref(tag)
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
@@ -79,7 +86,6 @@ export default function MyStartedJio() {
                     });
             }
         )
-        setSelectedJio("");
     };
 
     useEffect(() => {
@@ -108,8 +114,9 @@ export default function MyStartedJio() {
                             <br />
                             <progress value={progress} max="100" />
                             <br />
-                            <input type="file" onChange = {e => {setImage(e.target.files[0]); setSelectedJio(jio)}}/>
-                            <button onClick={handleUpload}>Upload Receipt</button>
+                            {setTag({jio.id})}
+                            <input type="file" onChange={handleChange} />
+                            <button value={jio.id} onClick={handleUpload}>Upload Receipt</button>
                             < br/>
                             {url}
                             <br />

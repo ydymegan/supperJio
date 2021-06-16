@@ -55,6 +55,12 @@ export default function MyStartedJio() {
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
 
+    const handleChange = e => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
+    };
+
     const handleUpload = () => {
         
         const uploadTask = storage.ref(`receipts/${selectedJio.jioID}.receipt`).put(image);
@@ -71,7 +77,7 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref(selectedJio.jioID)
+                    .ref(ref.doc(selectedJio.jioID))
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {

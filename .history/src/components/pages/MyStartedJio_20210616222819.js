@@ -55,8 +55,14 @@ export default function MyStartedJio() {
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
 
+    const handleChange = e => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
+    };
+
     const handleUpload = () => {
-        
+
         const uploadTask = storage.ref(`receipts/${selectedJio.jioID}.receipt`).put(image);
         uploadTask.on(
             "state_changed",
@@ -71,7 +77,7 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref(selectedJio.jioID)
+                    .ref(ref.doc(selectedJio.jioID))
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
@@ -79,7 +85,6 @@ export default function MyStartedJio() {
                     });
             }
         )
-        setSelectedJio("");
     };
 
     useEffect(() => {
@@ -108,8 +113,8 @@ export default function MyStartedJio() {
                             <br />
                             <progress value={progress} max="100" />
                             <br />
-                            <input type="file" onChange = {e => {setImage(e.target.files[0]); setSelectedJio(jio)}}/>
-                            <button onClick={handleUpload}>Upload Receipt</button>
+                            <input type="file" onChange={handleChange} />
+                            <button value={jio.id} onClick={(e) => {setSelectedJio(jio); {handleUpload}}}>Upload Receipt</button>
                             < br/>
                             {url}
                             <br />

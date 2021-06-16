@@ -55,6 +55,12 @@ export default function MyStartedJio() {
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
 
+    const handleChange = e => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
+    };
+
     const handleUpload = () => {
         
         const uploadTask = storage.ref(`receipts/${selectedJio.jioID}.receipt`).put(image);
@@ -71,7 +77,7 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref(selectedJio.jioID)
+                    .ref(ref.doc(selectedJio.jioID))
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
@@ -96,6 +102,7 @@ export default function MyStartedJio() {
         <NavBar></NavBar>
         <h1>My Started Jio</h1>
             <Container style={{ width: "max-content", justify: "center"}}>
+                <form className="form" onSubmit={handleUpload}>
                 {filterJio()
                     .map((jio) => (
                         <div key={jio.id} className="jio">
@@ -108,14 +115,15 @@ export default function MyStartedJio() {
                             <br />
                             <progress value={progress} max="100" />
                             <br />
-                            <input type="file" onChange = {e => {setImage(e.target.files[0]); setSelectedJio(jio)}}/>
-                            <button onClick={handleUpload}>Upload Receipt</button>
+                            <input type="file" onChange={handleChange} />
+                            <button type="submit" value={jio.id} onClick={setSelectedJio(jio)}>Upload Receipt</button>
                             < br/>
                             {url}
                             <br />
                             {/* <img src={url || "http://via.placeholder.com/300x300"} alt="firebase-image" /> */}
                         </div>
                     ))}
+                </form>
                 <br /> 
             </Container> 
         </div>

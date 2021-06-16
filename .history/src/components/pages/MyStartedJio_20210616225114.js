@@ -71,7 +71,7 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref(selectedJio.jioID)
+                    .ref(ref.doc(selectedJio.jioID))
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
@@ -106,7 +106,7 @@ export default function MyStartedJio() {
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Joiner Orders: {displayOrders(jio)}</p>
                             <br />
-                            <progress value={progress} max="100" />
+                            {/* <progress value={progress} max="100" /> */}
                             <br />
                             <input type="file" onChange = {e => {setImage(e.target.files[0]); setSelectedJio(jio)}}/>
                             <button onClick={handleUpload}>Upload Receipt</button>

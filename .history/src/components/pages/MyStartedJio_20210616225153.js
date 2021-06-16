@@ -71,7 +71,7 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref(selectedJio.jioID)
+                    .ref(ref.doc(selectedJio.jioID))
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
