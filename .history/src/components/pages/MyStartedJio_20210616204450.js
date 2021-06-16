@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { db, storage } from '../../firebase.js'
-import { Container } from "react-bootstrap"
+import { Container, Card } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './MyStartedJio.css'
 import moment from "moment";
@@ -11,8 +11,6 @@ export default function MyStartedJio() {
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
-    // const [tag, setTag] = useState("");
-    var tag = user.uid;
 
     const ref = db.collection("jio");
 
@@ -63,8 +61,7 @@ export default function MyStartedJio() {
     };
 
     const handleUpload = () => {
-
-        const uploadTask = storage.ref(`receipts/${tag}.receipt`).put(image);
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
         uploadTask.on(
             "state_changed",
             snapshot => {
@@ -78,7 +75,7 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref(tag)
+                    .ref("images")
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
@@ -101,7 +98,7 @@ export default function MyStartedJio() {
         <div className="page">
         <NavBar></NavBar>
         <h1>My Started Jio</h1>
-            <Container style={{ width: "max-content", justify: "center"}}>
+            <Card style={{ width: "max-content", justify: "center"}}>
                 {filterJio()
                     .map((jio) => (
                         <div key={jio.id} className="jio">
@@ -111,19 +108,19 @@ export default function MyStartedJio() {
                             <p>Collection Point: {jio.collectionPoint}</p>
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Joiner Orders: {displayOrders(jio)}</p>
-                            <br />
-                            <progress value={progress} max="100" />
-                            <br />
-                            <input type="file" onChange={handleChange} />
-                            <button value={jio.id} onClick={handleUpload}>Upload Receipt</button>
-                            < br/>
-                            {url}
-                            <br />
-                            {/* <img src={url || "http://via.placeholder.com/300x300"} alt="firebase-image" /> */}
                         </div>
                     ))}
-                <br /> 
-            </Container> 
+            </Card>
+                <br />
+                <progress value={progress} max="100" />
+                <br />
+                <input type="file" onChange={handleChange} />
+                <button onClick={handleUpload}>Upload</button>
+                < br/>
+                {url}
+                <br />
+                {/* <img src= {url || "http://via.placeholder.com/300x400"} alt="firebase-image" />  */}   
+            
         </div>
     );
 }

@@ -2,7 +2,6 @@ import firebase from "firebase/app"
 import "firebase/auth"
 import 'firebase/database'
 import 'firebase/firestore'
-import 'firebase/storage'
 
 // const app = firebase.initializeApp({
 //   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -16,7 +15,7 @@ import 'firebase/storage'
 const app = firebase.initializeApp({
   apiKey: "AIzaSyD_wHa1ApvkJHZaoy1DcqRSgmTspWAUG40",
   authDomain: "supperjio-313906.firebaseapp.com",
-  databaseURL: "gs://supperjio-313906.appspot.com",
+  databaseURL: "gs://supperjio-313906.appspot.com"
   projectId: "supperjio-313906",
   storageBucket: "supperjio-313906.appspot.com",
   messagingSenderId: "218924193577",
@@ -24,8 +23,7 @@ const app = firebase.initializeApp({
 })
 
 const db = firebase.firestore();
-const storage = firebase.storage();
 
 export const auth = app.auth()
-export { db, storage }
+export { db }
 export default app

@@ -15,7 +15,6 @@
     font-size: 40px;
     font-family: 'Coiny', cursive;
     color: #5C65CF;
-    padding: 20px;
 }
 
 .jio {
@@ -28,6 +27,10 @@
     color: rgb(0, 0, 32);
     border-radius: 3px;
     border: 1px solid lightgray;
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .jio > h2 {

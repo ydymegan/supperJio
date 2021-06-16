@@ -59,7 +59,16 @@ export default function MyJoinedJio() {
         }
         return output;
     }
-    
+
+    // function getJio() {
+    //     setLoading(true);
+    //     ref.get().then((item) => {
+    //         const items = item.docs.map((doc) => doc.data());
+    //         setstartAJio(items);
+    //         setLoading(false);
+    //     });
+    // }
+
     useEffect(() => {
         getJio();
         // eslint-disable-next-line

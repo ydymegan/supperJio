@@ -5,14 +5,28 @@ import NavBar from '../layout/NavBar.js'
 import './MyStartedJio.css'
 import moment from "moment";
 import firebase from "firebase/app";
+import Select from "react-select";
+import { groupedOptions } from "./RegionData.js";
 
 export default function MyJoinedJio() {
     var user = firebase.auth().currentUser;
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [region, setRegion] = useState("");
+    const [order, setOrder] = useState("");
+    const [selectedJio, setSelectedJio] = useState("");
+    var selectedOption = "";
 
     const ref = db.collection("jio");
+
+    const [loader, setLoader] = useState(false);
+
+    const handleRegionChange = (selectedOption) => {
+        setRegion(selectedOption);
+    };
+
+
 
     function getJio() {
         setLoading(true);
@@ -59,7 +73,16 @@ export default function MyJoinedJio() {
         }
         return output;
     }
-    
+
+    // function getJio() {
+    //     setLoading(true);
+    //     ref.get().then((item) => {
+    //         const items = item.docs.map((doc) => doc.data());
+    //         setstartAJio(items);
+    //         setLoading(false);
+    //     });
+    // }
+
     useEffect(() => {
         getJio();
         // eslint-disable-next-line

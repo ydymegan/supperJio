@@ -15,10 +15,9 @@
     font-size: 40px;
     font-family: 'Coiny', cursive;
     color: #5C65CF;
-    padding: 20px;
 }
 
-.jio {
+.page > jio {
     background-color: #fff;
     margin-bottom: 5px;
     padding: 10px 20px;
@@ -39,4 +38,7 @@
     color: #5C65CF;
 }
 
+.content {
+
+}
 

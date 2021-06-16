@@ -5,14 +5,28 @@ import NavBar from '../layout/NavBar.js'
 import './MyStartedJio.css'
 import moment from "moment";
 import firebase from "firebase/app";
+import Select from "react-select";
+import { groupedOptions } from "./RegionData.js";
 
 export default function MyJoinedJio() {
     var user = firebase.auth().currentUser;
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [region, setRegion] = useState("");
+    const [order, setOrder] = useState("");
+    const [selectedJio, setSelectedJio] = useState("");
+    var selectedOption = "";
 
     const ref = db.collection("jio");
+
+    const [loader, setLoader] = useState(false);
+
+    const handleRegionChange = (selectedOption) => {
+        setRegion(selectedOption);
+    };
+
+
 
     function getJio() {
         setLoading(true);
@@ -59,7 +73,50 @@ export default function MyJoinedJio() {
         }
         return output;
     }
-    
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setLoader(true);
+
+        var joinerIDArray = [];
+        var orderArray = []
+        var i;
+        var j;
+
+        for (i = 0; i < selectedJio.joinerID.length; i++) {
+            joinerIDArray.push(selectedJio.joinerID[i]);
+        }
+
+        for (j = 0; j < selectedJio.order.length; j++) {
+            orderArray.push(selectedJio.order[j]);
+        }
+
+        joinerIDArray.push(user.uid);
+        orderArray.push(order);
+
+        ref.doc(selectedJio.jioID).update({ joinerID: joinerIDArray, order: orderArray }
+        )
+            .then(() => {
+                alert('You have successfully joined a Jio!')
+                setLoader(false);
+            })
+            .catch(error => {
+                alert(error.message);
+                setLoader(false);
+            });
+
+        setOrder("");
+    };
+
+    // function getJio() {
+    //     setLoading(true);
+    //     ref.get().then((item) => {
+    //         const items = item.docs.map((doc) => doc.data());
+    //         setstartAJio(items);
+    //         setLoading(false);
+    //     });
+    // }
+
     useEffect(() => {
         getJio();
         // eslint-disable-next-line
@@ -76,7 +133,8 @@ export default function MyJoinedJio() {
                 className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
                 <div className="w-100" style={{ maxWidth: "400px" }}>
-                    <form className="form">
+                    <form className="form" onSubmit=
+                        {handleSubmit}>
                         <h1>My Joined Jio</h1>
                         {filterJio()
                             .map((jio) => (
@@ -87,6 +145,13 @@ export default function MyJoinedJio() {
                                     <p>Collection Point: {jio.collectionPoint}</p>
                                     <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                                     <p>My Orders: {displayOrders(jio)}</p>
+                                    <button type="submit" style={{
+                                        background: loader
+                                            ? "#ccc" : "#5C65CF"
+                                    }}
+                                    >
+                                        Submit
+                                    </button>
                                 </div>
                             ))}
                     </form>

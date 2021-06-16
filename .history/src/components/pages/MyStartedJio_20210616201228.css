@@ -3,11 +3,9 @@
 
 .page {
     background-color: #FFFAEA;
-    justify-content: center;
-    align-items: center;
 }
 
-.page > h1 {
+.h1 {
     margin-bottom: 30px;
     display: flex;
     justify-content: center;
@@ -15,7 +13,6 @@
     font-size: 40px;
     font-family: 'Coiny', cursive;
     color: #5C65CF;
-    padding: 20px;
 }
 
 .jio {
@@ -39,4 +36,7 @@
     color: #5C65CF;
 }
 
+.content {
+
+}
 

@@ -8,11 +8,10 @@ import firebase from "firebase/app";
 
 export default function MyStartedJio() {
     var user = firebase.auth().currentUser;
+    var tag = user.uid;
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
-    // const [tag, setTag] = useState("");
-    var tag = user.uid;
 
     const ref = db.collection("jio");
 
@@ -63,8 +62,7 @@ export default function MyStartedJio() {
     };
 
     const handleUpload = () => {
-
-        const uploadTask = storage.ref(`receipts/${tag}.receipt`).put(image);
+        const uploadTask = storage.ref(`receipts/${image.name}`).put(image);
         uploadTask.on(
             "state_changed",
             snapshot => {
@@ -78,7 +76,7 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref(tag)
+                    .ref({user.uid})
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
@@ -115,11 +113,10 @@ export default function MyStartedJio() {
                             <progress value={progress} max="100" />
                             <br />
                             <input type="file" onChange={handleChange} />
-                            <button value={jio.id} onClick={handleUpload}>Upload Receipt</button>
+                            <button value={user.uid} onClick={handleUpload}>Upload Receipt</button>
                             < br/>
                             {url}
                             <br />
-                            {/* <img src={url || "http://via.placeholder.com/300x300"} alt="firebase-image" /> */}
                         </div>
                     ))}
                 <br /> 

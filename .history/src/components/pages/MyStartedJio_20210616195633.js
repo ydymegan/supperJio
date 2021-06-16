@@ -11,8 +11,6 @@ export default function MyStartedJio() {
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
-    // const [tag, setTag] = useState("");
-    var tag = user.uid;
 
     const ref = db.collection("jio");
 
@@ -63,8 +61,7 @@ export default function MyStartedJio() {
     };
 
     const handleUpload = () => {
-
-        const uploadTask = storage.ref(`receipts/${tag}.receipt`).put(image);
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
         uploadTask.on(
             "state_changed",
             snapshot => {
@@ -78,7 +75,7 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref(tag)
+                    .ref("images")
                     .child(image.name)
                     .getDownloadURL()
                     .then(url => {
@@ -99,31 +96,36 @@ export default function MyStartedJio() {
 
     return (
         <div className="page">
-        <NavBar></NavBar>
-        <h1>My Started Jio</h1>
-            <Container style={{ width: "max-content", justify: "center"}}>
-                {filterJio()
-                    .map((jio) => (
-                        <div key={jio.id} className="jio">
-                            <h2>{jio.foodStore}</h2>
-                            <p>Delivery App: {jio.deliveryApp}</p>
-                            <p>Region: {jio.region.label}</p>
-                            <p>Collection Point: {jio.collectionPoint}</p>
-                            <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
-                            <p>Joiner Orders: {displayOrders(jio)}</p>
-                            <br />
-                            <progress value={progress} max="100" />
-                            <br />
-                            <input type="file" onChange={handleChange} />
-                            <button value={jio.id} onClick={handleUpload}>Upload Receipt</button>
-                            < br/>
-                            {url}
-                            <br />
-                            {/* <img src={url || "http://via.placeholder.com/300x300"} alt="firebase-image" /> */}
-                        </div>
-                    ))}
-                <br /> 
-            </Container> 
+            <NavBar></NavBar>
+            <Container
+                className="d-flex align-items-center justify-content-center"
+                style={{ minHeight: "800vh" }}>
+                <div className="w-100" style={{ maxWidth: "400px" }}>
+                    <form className="form">
+                        <h1>My Started Jio</h1>
+                        {filterJio()
+                            .map((jio) => (
+                                <div key={jio.id} className="jio">
+                                    <h2>{jio.foodStore}</h2>
+                                    <p>Delivery App: {jio.deliveryApp}</p>
+                                    <p>Region: {jio.region.label}</p>
+                                    <p>Collection Point: {jio.collectionPoint}</p>
+                                    <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                                    <p>Joiner Orders: {displayOrders(jio)}</p>
+                                </div>
+                            ))}
+                        <br />
+                        <progress value={progress} max="100" />
+                        <br />
+                        <input type="file" onChange={handleChange} />
+                        <button onClick={handleUpload}>Upload</button>
+                        < br/>
+                        {url}
+                        <br />
+                        {/* <img src= {url || "http://via.placeholder.com/300x400"} alt="firebase-image" />  */}
+                    </form>
+                </div>
+            </Container>
         </div>
     );
 }

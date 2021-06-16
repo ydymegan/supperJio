@@ -11,8 +11,7 @@ export default function MyStartedJio() {
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
-    // const [tag, setTag] = useState("");
-    var tag = user.uid;
+    const [tag, setTag] = useState({user.uid});
 
     const ref = db.collection("jio");
 
@@ -79,7 +78,7 @@ export default function MyStartedJio() {
             () => {
                 storage 
                     .ref(tag)
-                    .child(image.name)
+                    .child(`${tag}.receipt`)
                     .getDownloadURL()
                     .then(url => {
                         setUrl(url);
@@ -119,7 +118,6 @@ export default function MyStartedJio() {
                             < br/>
                             {url}
                             <br />
-                            {/* <img src={url || "http://via.placeholder.com/300x300"} alt="firebase-image" /> */}
                         </div>
                     ))}
                 <br /> 
