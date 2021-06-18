@@ -41,7 +41,7 @@ export default function MyJoinedJio() {
     }
 
     function filterJio() {
-        return startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByID(jio))
+        return startAJio.filter(jio => filterByID(jio))
     }
 
     function displayOrders(jio) {
