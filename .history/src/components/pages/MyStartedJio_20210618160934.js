@@ -27,6 +27,10 @@ export default function MyStartedJio() {
         });
     }
 
+    function getAvailableJio(jio) {
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
+    }
+
     function filterByID(jio) {
         return user.uid === jio.starterID;
     }
@@ -111,8 +115,7 @@ export default function MyStartedJio() {
                             <br />
                             <p>Download Receipt Here: {url} </p>
                         </div>
-                    ))
-                    }
+                    ))}
                 <br /> 
             </Container> 
         </div>

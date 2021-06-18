@@ -27,6 +27,10 @@ export default function MyStartedJio() {
         });
     }
 
+    function getAvailableJio(jio) {
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
+    }
+
     function filterByID(jio) {
         return user.uid === jio.starterID;
     }

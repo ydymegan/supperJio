@@ -27,6 +27,10 @@ export default function MyStartedJio() {
         });
     }
 
+    function getAvailableJio(jio) {
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
+    }
+
     function filterByID(jio) {
         return user.uid === jio.starterID;
     }
@@ -50,6 +54,24 @@ export default function MyStartedJio() {
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
+    // const [imageUrl, setImageUrl] = useState(undefined);
+    
+    // const getImage = () => {
+        
+    //     storage()
+    //         .ref(`receipts/${selectedJio.jioID}.receipt`)
+    //         .getDownloadURL()()
+    //         .then((url) => {
+    //             setImageUrl(url);
+    //         })
+    //         .catch((e) => console.log('Errors while downloading => ', e));
+        
+    // };
+
+    // function getImage(jio) {
+    //     setImageUrl(storage().ref(`receipts/${jio}.receipt`).getDownloadURL());
+    //     return true;
+    // }
 
     const handleUpload = () => {
         
@@ -68,7 +90,7 @@ export default function MyStartedJio() {
             () => {
                 storage 
                     .ref("receipts")
-                    .child(`${selectedJio.jioID}.receipt`)
+                    .child(selectedJio.jioID)
                     .getDownloadURL()
                     .then(url => {
                         setUrl(url);
@@ -109,10 +131,11 @@ export default function MyStartedJio() {
                             <button onClick={handleUpload}>Upload Receipt</button>
                             <br />
                             <br />
-                            <p>Download Receipt Here: {url} </p>
+                            <button onChange = {e => {setUrl(storage.ref("receipts").child(jio.id).getDownloadURL())}}>Download Receipt Here: {url}</button>
+                            {/* <Image src={url || "http://via.placeholder.com/300"} alt="firebase-image" width="300"/> */}
+                            {/* <button onClick = {e => {getImage(jio.id)}}> Receipt Image<Image source={{uri: imageUrl}} /></button> */}
                         </div>
-                    ))
-                    }
+                    ))}
                 <br /> 
             </Container> 
         </div>

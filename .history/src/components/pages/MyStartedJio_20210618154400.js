@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { db, storage } from '../../firebase.js'
-import { Container } from "react-bootstrap"
+import { Container, Image } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './MyStartedJio.css'
 import moment from "moment";
@@ -27,6 +27,10 @@ export default function MyStartedJio() {
         });
     }
 
+    function getAvailableJio(jio) {
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
+    }
+
     function filterByID(jio) {
         return user.uid === jio.starterID;
     }
@@ -47,9 +51,31 @@ export default function MyStartedJio() {
 
     }
 
+    function getURL(jio) {
+        return storage.ref(`receipts/${jio}.receipt`).getDownloadURL();
+    }
+
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
+    // const [imageUrl, setImageUrl] = useState(undefined);
+    
+    // const getImage = () => {
+        
+    //     storage()
+    //         .ref(`receipts/${selectedJio.jioID}.receipt`)
+    //         .getDownloadURL()()
+    //         .then((url) => {
+    //             setImageUrl(url);
+    //         })
+    //         .catch((e) => console.log('Errors while downloading => ', e));
+        
+    // };
+
+    // function getImage(jio) {
+    //     setImageUrl(storage().ref(`receipts/${jio}.receipt`).getDownloadURL());
+    //     return true;
+    // }
 
     const handleUpload = () => {
         
@@ -65,19 +91,21 @@ export default function MyStartedJio() {
             error => {
                 console.log(error);
             },
-            () => {
-                storage 
-                    .ref("receipts")
-                    .child(`${selectedJio.jioID}.receipt`)
-                    .getDownloadURL()
-                    .then(url => {
-                        setUrl(url);
-                    });
-            }
+            // () => {
+            //     storage 
+            //         .ref("receipts")
+            //         .child(selectedJio.jioID)
+            //         .getDownloadURL()
+            //         .then(url => {
+            //             setUrl(url);
+            //         });
+            // }
         )
         console.log(selectedJio.jioID)
         setSelectedJio("");
     };
+
+    console.log("image: ", image);
 
     useEffect(() => {
         getJio();
@@ -109,10 +137,11 @@ export default function MyStartedJio() {
                             <button onClick={handleUpload}>Upload Receipt</button>
                             <br />
                             <br />
-                            <p>Download Receipt Here: {url} </p>
+                            <p>Download Receipt Here: onClick={getURL(jio.id)}</p>
+                            {/* <Image src={url || "http://via.placeholder.com/300"} alt="firebase-image" width="300"/> */}
+                            {/* <button onClick = {e => {getImage(jio.id)}}> Receipt Image<Image source={{uri: imageUrl}} /></button> */}
                         </div>
-                    ))
-                    }
+                    ))}
                 <br /> 
             </Container> 
         </div>

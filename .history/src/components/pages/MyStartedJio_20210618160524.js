@@ -27,6 +27,10 @@ export default function MyStartedJio() {
         });
     }
 
+    function getAvailableJio(jio) {
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
+    }
+
     function filterByID(jio) {
         return user.uid === jio.starterID;
     }
@@ -68,7 +72,7 @@ export default function MyStartedJio() {
             () => {
                 storage 
                     .ref("receipts")
-                    .child(`${selectedJio.jioID}.receipt`)
+                    .child(selectedJio.jioID)
                     .getDownloadURL()
                     .then(url => {
                         setUrl(url);
@@ -109,10 +113,9 @@ export default function MyStartedJio() {
                             <button onClick={handleUpload}>Upload Receipt</button>
                             <br />
                             <br />
-                            <p>Download Receipt Here: {url} </p>
+                            <p>Download Receipt Here: {url}</p>
                         </div>
-                    ))
-                    }
+                    ))}
                 <br /> 
             </Container> 
         </div>

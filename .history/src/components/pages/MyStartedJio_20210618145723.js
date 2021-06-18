@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { db, storage } from '../../firebase.js'
-import { Container } from "react-bootstrap"
+import { Container, Image } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './MyStartedJio.css'
 import moment from "moment";
@@ -27,6 +27,10 @@ export default function MyStartedJio() {
         });
     }
 
+    function getAvailableJio(jio) {
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
+    }
+
     function filterByID(jio) {
         return user.uid === jio.starterID;
     }
@@ -50,6 +54,23 @@ export default function MyStartedJio() {
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("");
     const [progress, setProgress] = useState(0);
+    const [imageUrl, setImageUrl] = useState(undefined);
+    
+    const getImage = () => {
+        
+        storage()
+            .ref(`receipts/${selectedJio.jioID}.receipt`)
+            .getDownloadURL()
+            .then((url) => {
+                setImageUrl(url);
+            })
+            .catch((e) => console.log('Errors while downloading => ', e));
+
+        return (
+            <Image source={{uri: imageUrl}} />
+        )
+        
+    };
 
     const handleUpload = () => {
         
@@ -67,15 +88,14 @@ export default function MyStartedJio() {
             },
             () => {
                 storage 
-                    .ref("receipts")
-                    .child(`${selectedJio.jioID}.receipt`)
+                    .ref(selectedJio.jioID)
+                    .child(image.name)
                     .getDownloadURL()
                     .then(url => {
                         setUrl(url);
                     });
             }
         )
-        console.log(selectedJio.jioID)
         setSelectedJio("");
     };
 
@@ -107,12 +127,13 @@ export default function MyStartedJio() {
                             <br />
                             <input type="file" onChange = {e => {setImage(e.target.files[0]); setSelectedJio(jio)}}/>
                             <button onClick={handleUpload}>Upload Receipt</button>
+                            < br/>
+                            {url}
                             <br />
-                            <br />
-                            <p>Download Receipt Here: {url} </p>
+                            {/* <img src={url || "http://via.placeholder.com/300x300"} alt="firebase-image" /> */}
+                            <p>Receipt Image: {getImage}</p>
                         </div>
-                    ))
-                    }
+                    ))}
                 <br /> 
             </Container> 
         </div>

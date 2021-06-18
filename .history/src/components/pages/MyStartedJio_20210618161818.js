@@ -27,6 +27,10 @@ export default function MyStartedJio() {
         });
     }
 
+    function getAvailableJio(jio) {
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
+    }
+
     function filterByID(jio) {
         return user.uid === jio.starterID;
     }
@@ -103,15 +107,24 @@ export default function MyStartedJio() {
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Joiner Orders: {displayOrders(jio)}</p>
                             <br />
-                            <progress value={progress} max="100" />
+                            {/* <progress value={progress} max="100" />
+                            <br />
+                            <input type="file" onChange = {e => {setImage(e.target.files[0]); setSelectedJio(jio)}}/>
+                            <button onClick={handleUpload}>Upload Receipt</button>
+                            <br />
+                            <br />
+                            <p>Download Receipt Here: {url} </p> */}
+                        </div>
+                    ))
+                   <div>
+                    <progress value={progress} max="100"> />
                             <br />
                             <input type="file" onChange = {e => {setImage(e.target.files[0]); setSelectedJio(jio)}}/>
                             <button onClick={handleUpload}>Upload Receipt</button>
                             <br />
                             <br />
                             <p>Download Receipt Here: {url} </p>
-                        </div>
-                    ))
+                    </div>
                     }
                 <br /> 
             </Container> 
