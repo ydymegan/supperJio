@@ -12,8 +12,11 @@ export default function MyStartedJio() {
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedJio, setSelectedJio] = useState("");
+    const [image, setImage] = useState(null);
+    const [url, setUrl] = useState("");
 
     const ref = db.collection("jio");
+    const storageRef = storage.ref("receipts");
 
     function getJio() {
         setLoading(true);
@@ -47,36 +50,30 @@ export default function MyStartedJio() {
 
     }
 
-    const [image, setImage] = useState(null);
-    const [url, setUrl] = useState("");
-    const [progress, setProgress] = useState(0);
+    function updateURL(url) {
+        ref.doc(selectedJio.jioID).update({ receiptURL: url });
+    }
 
     const handleUpload = () => {
-        
-        const uploadTask = storage.ref(`receipts/${selectedJio.jioID}.receipt`).put(image);
+
+        const uploadTask = storageRef.child(`${selectedJio.jioID}.receipt`).put(image);
         uploadTask.on(
             "state_changed",
-            snapshot => {
-                const progress = Math.round(
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                );
-                setProgress(progress);
-            },
-            error => {
-                console.log(error);
-            },
             () => {
-                storage 
-                    .ref("receipts")
+                storageRef
                     .child(`${selectedJio.jioID}.receipt`)
                     .getDownloadURL()
                     .then(url => {
-                        setUrl(url);
+                        setUrl(url); updateURL(url)
                     });
+            },
+            error => {
+                console.log(error);
             }
         )
         console.log(selectedJio.jioID)
         setSelectedJio("");
+
     };
 
     useEffect(() => {
@@ -90,9 +87,9 @@ export default function MyStartedJio() {
 
     return (
         <div className="page">
-        <NavBar></NavBar>
-        <h1>My Started Jio</h1>
-            <Container style={{ width: "max-content", justify: "center"}}>
+            <NavBar></NavBar>
+            <h1>My Started Jio</h1>
+            <Container style={{ width: "600px", justify: "center" }}>
                 {filterJio()
                     .map((jio) => (
                         <div key={jio.id} className="jio">
@@ -102,19 +99,16 @@ export default function MyStartedJio() {
                             <p>Collection Point: {jio.collectionPoint}</p>
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Joiner Orders: {displayOrders(jio)}</p>
-                            <br />
-                            <progress value={progress} max="100" />
-                            <br />
-                            <input type="file" onChange = {e => {setImage(e.target.files[0]); setSelectedJio(jio)}}/>
+                            <p>Receipt URL: {jio.receiptURL} </p>
+                            <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio) }} />
                             <button onClick={handleUpload}>Upload Receipt</button>
                             <br />
                             <br />
-                            <p>Download Receipt Here: {url} </p>
                         </div>
                     ))
-                    }
-                <br /> 
-            </Container> 
+                }
+                <br />
+            </Container>
         </div>
     );
 }
