@@ -41,7 +41,8 @@ export default function StartAJio() {
             orderTime: orderTime,
             region: region,
             joinerID: [],
-            order: []
+            order: [],
+            receiptURL: ""
         })
             .then(() => {
                 alert('You have successfully started a Jio!')
