@@ -16,12 +16,12 @@
 }
 
 .w-100 > h3 {
-    margin-top: 20px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 25px;
-    font-family: 'Coiny', cursive;
+    font-family: 'Inter', sans-serif;
     color: #5c68f3;
 }
 

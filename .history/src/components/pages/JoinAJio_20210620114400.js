@@ -117,7 +117,7 @@ export default function JoinAJio() {
                 className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
                 <div className="w-100" style={{ maxWidth: "400px" }}>
-                <h3>Filter Available Jios by Region</h3>
+                <h2>Filter Available Jios by Region</h2>
                 <Select
                     placeholder="Region"
                     value={selectedOption.label}

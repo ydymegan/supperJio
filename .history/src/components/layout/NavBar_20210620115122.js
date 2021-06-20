@@ -26,7 +26,7 @@ export default function NavBar() {
             <Navbar>
                 <Nav.Link href="/"><h1 className="navbar-logo">supperJio <i className="fas fa-utensils"></i></h1></Nav.Link>
                 <nav className="navbar-items">
-                <Nav.Link href="/" className="nav-links">Home</Nav.Link>
+                <Nav.link href="/" className="nav-links">Home</Nav.link>
                 <Nav.Link href="about-us" className="nav-links">About Us</Nav.Link>
                 <Nav.Link href="FAQ" className="nav-links">FAQs</Nav.Link>
                 <Nav.Link href="contact-us" className="nav-links">Contact Us</Nav.Link>

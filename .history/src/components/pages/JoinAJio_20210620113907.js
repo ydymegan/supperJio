@@ -116,14 +116,14 @@ export default function JoinAJio() {
             <Container
                 className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
+                 <label>Region</label>
+            <Select
+                placeholder="Region"
+                value={selectedOption.label}
+                options={groupedOptions}
+                onChange={handleRegionChange}
+            />
                 <div className="w-100" style={{ maxWidth: "400px" }}>
-                <h3>Filter Available Jios by Region</h3>
-                <Select
-                    placeholder="Region"
-                    value={selectedOption.label}
-                    options={groupedOptions}
-                    onChange={handleRegionChange}
-                />
                     <form className="form" onSubmit=
                         {handleSubmit}>
                         <h1>Available Jio</h1>
@@ -141,7 +141,7 @@ export default function JoinAJio() {
                                         onChange={(e) => { setOrder(e.target.value); setSelectedJio(jio) }} />
                                     <button type="submit" style={{
                                         background: loader
-                                            ? "#ccc" : "#bdc1eb"
+                                            ? "#ccc" : "#5C65CF"
                                     }}
                                     >
                                         Submit

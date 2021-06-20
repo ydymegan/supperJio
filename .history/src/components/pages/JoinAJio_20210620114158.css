@@ -15,14 +15,14 @@
     color: #5C65CF;
 }
 
-.w-100 > h3 {
-    margin-top: 20px;
+.w-100 > h2 {
+    margin-bottom: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 25px;
-    font-family: 'Coiny', cursive;
-    color: #5c68f3;
+    font-family: 'Inter', sans-serif;
+    color: #828cf3;
 }
 
 .jio {
