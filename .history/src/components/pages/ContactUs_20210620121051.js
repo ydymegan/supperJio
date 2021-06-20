@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { db } from '../../firebase.js'
-import { Container, Button } from "react-bootstrap"
+import { Container } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './ContactUs.css'
 

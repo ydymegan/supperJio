@@ -113,7 +113,6 @@ export default function JoinAJio() {
     return (
         <div className="page">
             <NavBar></NavBar>
-            <Button href="/" className="button">Back to Home</Button>
             <Container
                 className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>

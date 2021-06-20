@@ -5,23 +5,6 @@
     background-color: #FFFAEA;
 }
 
-.button {
-    color: #5C65CF !important;
-    background: #FFFAEA !important; 
-    justify-self: start !important;
-    margin-left: 50px !important;
-    cursor: pointer !important;
-    text-decoration: none !important;
-    padding: 0.5rem 1rem !important;
-}
-
-.button:hover {
-    background-color: #5C65CF !important;
-    color: #FFFAEA !important; 
-    border-radius: 4px !important;
-    transition: all 0.2s ease-out;
-}
-
 .w-100 > h1 {
     margin-bottom: 30px;
     display: flex;
@@ -30,16 +13,6 @@
     font-size: 40px;
     font-family: 'Coiny', cursive;
     color: #5C65CF;
-}
-
-.w-100 > h3 {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 25px;
-    font-family: 'Coiny', cursive;
-    color: #5c68f3;
 }
 
 .jio {

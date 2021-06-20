@@ -9,17 +9,10 @@
     color: #5C65CF !important;
     background: #FFFAEA !important; 
     justify-self: start !important;
-    margin-left: 50px !important;
+    padding: 20px !important;
     cursor: pointer !important;
     text-decoration: none !important;
     padding: 0.5rem 1rem !important;
-}
-
-.button:hover {
-    background-color: #5C65CF !important;
-    color: #FFFAEA !important; 
-    border-radius: 4px !important;
-    transition: all 0.2s ease-out;
 }
 
 .w-100 > h2 {

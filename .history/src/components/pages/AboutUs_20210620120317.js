@@ -1,13 +1,13 @@
 import React from "react"
 import NavBar from '../layout/NavBar.js'
-import { Container, Button } from "react-bootstrap"
+import { Container, Link } from "react-bootstrap"
 import './AboutUs.css'
 
 export default function AboutUs() {
     return (
         <div className="page">
             <NavBar></NavBar>
-            <Button href="/" className="button">Back to Home</Button>
+            <Link to="/"><Button>Back to Home</Button></Link>
             <Container className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
                 <div className="w-100" style={{ maxWidth: "600px" }}>

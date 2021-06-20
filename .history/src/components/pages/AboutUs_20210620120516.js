@@ -7,7 +7,7 @@ export default function AboutUs() {
     return (
         <div className="page">
             <NavBar></NavBar>
-            <Button href="/" className="button">Back to Home</Button>
+            <Button href="">Back to Home</Button>
             <Container className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
                 <div className="w-100" style={{ maxWidth: "600px" }}>
