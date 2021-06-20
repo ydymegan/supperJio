@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+ 
+.page {
+    background-color: #FFFAEA;
+}
+
+.w-100 > h2 {
+    margin-bottom: 30px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+} 
+
+.button {
+    color: #5C65CF !important;
+    background: #FFFAEA !important; 
+    justify-self: start !important;
+    margin-left: 50px !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    padding: 0.5rem 1rem !important;
+}
+
+.button:hover {
+    background-color: #5C65CF !important;
+    color: #FFFAEA !important; 
+    border-radius: 4px !important;
+    transition: all 0.2s ease-out;
+}
+
+.buttons {
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-gap: 20px;
+    justify-content: center;
+    font-family: 'Coiny', cursive;
+}

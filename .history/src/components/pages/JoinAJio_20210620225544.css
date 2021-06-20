@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+.page {
+    background-color: #FFFAEA;
+    justify-content: center;
+    align-items: center;
+    min-height: 600px;
+}
+
+.button {
+    color: #5C65CF !important;
+    background: #FFFAEA !important; 
+    justify-self: start !important;
+    margin-left: 50px !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    padding: 0.5rem 1rem !important;
+}
+
+.button:hover {
+    background-color: #5C65CF !important;
+    color: #FFFAEA !important; 
+    border-radius: 4px !important;
+    transition: all 0.2s ease-out;
+}
+
+.title2 {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-family: 'Coiny', cursive;
+    color: #5C65CF;
+}
+
+.title {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    font-family: 'Coiny', cursive;
+    color: #5c68f3;
+}
+
+.jio {
+    background-color: #fff;
+    margin-bottom: 5px;
+    padding: 10px 20px;
+    box-shadow: 0px 0px 5px #bdc1eb;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: rgb(0, 0, 32);
+    border-radius: 3px;
+    border: 1px solid lightgray;
+}
+
+.jio > h2 {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: 30px;
+    color: #5C65CF;
+}
+
