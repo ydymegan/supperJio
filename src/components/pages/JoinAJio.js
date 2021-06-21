@@ -26,8 +26,6 @@ export default function JoinAJio() {
         setRegion(selectedOption);
     };
 
-
-
     function getJio() {
         setLoading(true);
         ref.onSnapshot((querySnapshot) => {
@@ -53,9 +51,9 @@ export default function JoinAJio() {
     }
 
     function filterJio() {
-        return (region === "" || region.label === "") ? 
-        startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByID(jio)) : 
-        startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).filter(jio => filterByID(jio));
+        return (region === "" || region.label === "") ?
+            startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByID(jio)) :
+            startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).filter(jio => filterByID(jio));
     }
 
     const handleSubmit = (e) => {
@@ -63,7 +61,7 @@ export default function JoinAJio() {
         setLoader(true);
 
         var joinerIDArray = [];
-        var orderArray= []
+        var orderArray = [];
         var i;
         var j;
 
@@ -78,8 +76,8 @@ export default function JoinAJio() {
         joinerIDArray.push(user.uid);
         orderArray.push(order);
 
-        ref.doc(selectedJio.jioID).update({joinerID: joinerIDArray, order: orderArray}
-            )
+        ref.doc(selectedJio.jioID).update({ joinerID: joinerIDArray, order: orderArray }
+        )
             .then(() => {
                 alert('You have successfully joined a Jio!')
                 setLoader(false);
@@ -115,7 +113,7 @@ export default function JoinAJio() {
             <NavBar></NavBar>
             <Button href="/" className="button">Back to Home</Button>
             <Container style={{ width: "600px", justify: "center" }}>
-            <div className="title">Filter Available Jios by Region</div>
+                <div className="title">Filter Available Jios by Region</div>
                 <Select
                     placeholder="Region"
                     value={selectedOption.label}
@@ -124,30 +122,31 @@ export default function JoinAJio() {
                 />
             </Container>
             <Container style={{ width: "600px", justify: "center" }}>
-                        <div className="title2">Available Jio</div>
-                        {filterJio()
-                            .map((jio) => (
-                                <div key={jio.id} className="jio">
-                                    <h2>{jio.foodStore}</h2>
-                                    <p>Delivery App: {jio.deliveryApp}</p>
-                                    <p>Region: {jio.region.label}</p>
-                                    <p>Collection Point: {jio.collectionPoint}</p>
-                                    <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
-                                    <p>Order Status: {jio.orderStatus}</p>
-                                    <input
-                                        placeholder="Order"
-                                        value={order}
-                                        onChange={(e) => { setOrder(e.target.value); setSelectedJio(jio) }} />
-                                    <button type="submit" onSubmit= {handleSubmit}
-                                        style={{
-                                        background: loader
-                                            ? "#ccc" : "#bdc1eb"
-                                    }}
-                                    >
-                                        Join
-                                    </button>
-                                </div>
-                            ))}
+                <div className="title2">Available Jio</div>
+                {filterJio()
+                    .map((jio) => (
+                        <div key={jio.id} className="jio">
+                            <h2>{jio.foodStore}</h2>
+                            <p>Delivery App: {jio.deliveryApp}</p>
+                            <p>Region: {jio.region.label}</p>
+                            <p>Collection Point: {jio.collectionPoint}</p>
+                            <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                            <p>Order Status: {jio.orderStatus}</p>
+                            <input
+                                placeholder="Order"
+                                value={(jio.jioID === selectedJio.jioID) ? order : null}
+                                onClick={(e) => { setOrder(e.target.value); setSelectedJio(jio) }}
+                                onChange={(e) => { setOrder(e.target.value); setSelectedJio(jio) }} />
+                            <button type="submit" onClick={handleSubmit}
+                                style={{
+                                    background: loader
+                                        ? "#ccc" : "#bdc1eb"
+                                }}
+                            >
+                                Join
+                            </button>
+                        </div>
+                    ))}
                 <br />
             </Container>
         </div>
