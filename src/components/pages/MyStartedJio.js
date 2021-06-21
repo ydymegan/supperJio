@@ -55,12 +55,12 @@ export default function MyStartedJio() {
     }
 
     function updateStatus(message) {
-        ref.doc(selectedJio.jioID).update({ orderStatus: message});
+        ref.doc(selectedJio.jioID).update({ orderStatus: message });
     }
 
     const updateOrder = () => {
 
-        ref.doc(selectedJio.jioID).update({ 
+        ref.doc(selectedJio.jioID).update({
             orderStatus: "Ready to Collect"
         })
             .then(() => {
@@ -81,8 +81,8 @@ export default function MyStartedJio() {
                     .child(`${selectedJio.jioID}.receipt`)
                     .getDownloadURL()
                     .then(url => {
-                        setUrl(url); 
-                        updateURL(url); 
+                        setUrl(url);
+                        updateURL(url);
                         updateStatus("Orders Placed");
                         alert('You have uploaded your receipt!');
                     })
