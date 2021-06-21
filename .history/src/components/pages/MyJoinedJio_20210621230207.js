@@ -82,10 +82,11 @@ export default function MyJoinedJio() {
         }
 
         for (j = 0; j < selectedJio.order.length; j++) {
-            if (j !== idxForOrders[k]) {
+            
+            if (j !== k) {
                 orderArray.push(selectedJio.order[j]);
             } else {
-                k = (idxForOrders.length !== k+1) ? k+1 : k;
+                idxForOrders.shift();
             }
         }
 

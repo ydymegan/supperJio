@@ -71,7 +71,6 @@ export default function MyJoinedJio() {
         var i;
         var j;
         var idxForOrders = [];
-        var k = 0;
         
         for (i = 0; i < selectedJio.joinerID.length; i++) {
             if (selectedJio.joinerID[i] !== user.uid) {
@@ -82,10 +81,10 @@ export default function MyJoinedJio() {
         }
 
         for (j = 0; j < selectedJio.order.length; j++) {
-            if (j !== idxForOrders[k]) {
+            if (j !== idxForOrders.peek()) {
                 orderArray.push(selectedJio.order[j]);
             } else {
-                k = (idxForOrders.length !== k+1) ? k+1 : k;
+                idxForOrders.shift();
             }
         }
 
