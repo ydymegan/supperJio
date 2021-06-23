@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { db } from '../../firebase.js'
 import { Container, Button } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
-import './MyStartedJio.css'
+import './MyJoinedJio.css'
 import moment from "moment";
 import firebase from "firebase/app";
 
@@ -114,29 +114,23 @@ export default function MyJoinedJio() {
         <div className="page">
             <NavBar></NavBar>
             <Button href="/" className="button">Back to Home</Button>
-            <Container
-                className="d-flex align-items-center justify-content-center"
-                style={{ minHeight: "100vh" }}>
-                <div className="w-100" style={{ maxWidth: "400px" }}>
-                    <form className="form" onSubmit={handleSubmit}>
-                        <h1>My Joined Jio</h1>
-                        {filterJio()
-                            .map((jio) => (
-                                <div key={jio.id} className="jio">
-                                    <h2>{jio.foodStore}</h2>
-                                    <p>Delivery App: {jio.deliveryApp}</p>
-                                    <p>Region: {jio.region.label}</p>
-                                    <p>Collection Point: {jio.collectionPoint}</p>
-                                    <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
-                                    <p>Order Status: {jio.orderStatus}</p>
-                                    <p>My Orders: {displayOrders(jio)}</p>
-                                    <input placeholder="Type Yes, Click Remove" onChange={e => setSelectedJio(jio)}></input>
-                                    <br /><br />
-                                    <button type="submit">Remove My Order</button>
-                                </div>
-                            ))}
-                    </form>
-                </div>
+            <div className="title">My Joined Jio</div>
+            <Container style={{ width: "600px", justify: "center" }}>
+                {filterJio()
+                    .map((jio) => (
+                        <div key={jio.id} className="jio">
+                            <h2>{jio.foodStore}</h2>
+                            <p>Delivery App: {jio.deliveryApp}</p>
+                            <p>Region: {jio.region.label}</p>
+                            <p>Collection Point: {jio.collectionPoint}</p>
+                            <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                            <p>Order Status: {jio.orderStatus}</p>
+                            <p>My Orders: {displayOrders(jio)}</p>
+                            <input placeholder="Type Yes, Click Remove" onChange={e => setSelectedJio(jio)}></input>
+                            <br /><br />
+                            <button type="submit" onClick={handleSubmit}>Remove My Order</button>
+                        </div>
+                    ))}
             </Container>
         </div>
     );

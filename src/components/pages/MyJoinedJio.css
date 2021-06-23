@@ -22,14 +22,15 @@
     transition: all 0.2s ease-out;
 }
 
-.w-100 > h1 {
+.title {
+    margin-top: 30px;
     margin-bottom: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 40px;
     font-family: 'Coiny', cursive;
-    color: #5C65CF;
+    color: #5C65CF; 
 }
 
 .jio {
