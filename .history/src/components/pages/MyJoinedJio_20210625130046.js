@@ -110,7 +110,7 @@ export default function MyJoinedJio() {
             <NavBar></NavBar>
             <Button href="/" className="button">Back to Home</Button>
             <div className="title">My Joined Jio</div>
-            <Container style={{ width: "600px", justify: "center" }}>
+            <Container className="d-flex align-items-center justify-content-center" style={{ width: "600px", justify: "center" }}>
                 {filterJio()
                     .map((jio) => (
                         <div key={jio.id} className="jio">
@@ -126,8 +126,8 @@ export default function MyJoinedJio() {
                             <button type="submit" 
                                 onClick={handleSubmit} 
                                 disabled={jio.orderTime.toDate().getTime() <= new Date().getTime()}
-                                style={{background: loader ? "#ccc" : "#bdc1eb"}}
-                            >
+                                // style={{background: loader ? "#ccc" : "#bdc1eb"}}
+                                >
                                     Remove My Order
                             </button>
                         </div>

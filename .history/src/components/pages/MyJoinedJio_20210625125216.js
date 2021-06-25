@@ -126,8 +126,8 @@ export default function MyJoinedJio() {
                             <button type="submit" 
                                 onClick={handleSubmit} 
                                 disabled={jio.orderTime.toDate().getTime() <= new Date().getTime()}
-                                style={{background: loader ? "#ccc" : "#bdc1eb"}}
-                            >
+                                // style={{background: loader ? "#ccc" : "#bdc1eb"}}
+                                >
                                     Remove My Order
                             </button>
                         </div>

@@ -3,9 +3,6 @@
 
 .body {
     background-color: #FFFAEA;
-    justify-content: center;
-    align-items: center;
-    min-height: 1000px;
 }
 
 .button {
@@ -25,7 +22,7 @@
     transition: all 0.2s ease-out;
 }
 
-.head {
+.w-100 > h2 {
     margin-bottom: 30px;
     display: flex;
     text-align: center;
