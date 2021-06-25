@@ -13,8 +13,8 @@ export default function MyStartedJio() {
     const [loading, setLoading] = useState(false);
     const [selectedJio, setSelectedJio] = useState("");
     const [image, setImage] = useState(null);
-    // eslint-disable-next-line
     const [url, setUrl] = useState("");
+    // eslint-disable-next-line 
     const ref = db.collection("jio");
     const storageRef = storage.ref("receipts");
 
