@@ -36,6 +36,10 @@ export default function MyJoinedJio() {
         return <h1>Loading...</h1>
     }
 
+    function getAvailableJio(jio) {
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
+    }
+
     function filterByID(jio) {
         var i;
         for (i = 0; i < jio.joinerID.length; i++) {
@@ -126,10 +130,7 @@ export default function MyJoinedJio() {
                             <button type="submit" 
                                 onClick={handleSubmit} 
                                 disabled={jio.orderTime.toDate().getTime() <= new Date().getTime()}
-                                style={{background: loader ? "#ccc" : "#bdc1eb"}}
-                            >
-                                    Remove My Order
-                            </button>
+                                style={{background: loader ? "#ccc" : "#bdc1eb"}}>Remove My Order</button>
                         </div>
                     ))}
             </Container>

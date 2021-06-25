@@ -8,12 +8,12 @@ import firebase from "firebase/app";
 
 export default function MyStartedJio() {
     var user = firebase.auth().currentUser;
+    console.log(user.email);
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedJio, setSelectedJio] = useState("");
     const [image, setImage] = useState(null);
-    // eslint-disable-next-line
     const [url, setUrl] = useState("");
     const ref = db.collection("jio");
     const storageRef = storage.ref("receipts");
@@ -103,6 +103,8 @@ export default function MyStartedJio() {
         console.log(selectedJio.jioID)
         setSelectedJio("");
     };
+
+
 
     return (
         <div className="page">

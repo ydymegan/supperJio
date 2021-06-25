@@ -3,9 +3,6 @@
 
 .body {
     background-color: #FFFAEA;
-    justify-content: center;
-    align-items: center;
-    min-height: 1000px;
 }
 
 .button {
@@ -25,7 +22,7 @@
     transition: all 0.2s ease-out;
 }
 
-.head {
+.w-100 > h2 {
     margin-bottom: 30px;
     display: flex;
     text-align: center;
@@ -49,7 +46,7 @@
     box-shadow: 0px -2px 2px #bdc1eb;
 }
 
-.question {
+.title {
     color: #5C65CF;
     font-family: 'Coiny', cursive;
     font-size: 25px;
@@ -73,7 +70,7 @@
 .content-show {
     color: #5C65CF;
     font-family: 'Space Mono', monospace;
-    font-size: 20px;
+    font-size: 5px;
     text-align: left;
     height: auto;
     max-height: 9999px;

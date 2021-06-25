@@ -20,13 +20,13 @@ export default function FAQ() {
         <div className="body">
             <NavBar></NavBar>
             <Button href="/" className="button">Back to Home</Button>
-            <Container style={{ width: "600px", justify: "center"}}>
-                    <div className="head">Frequently Asked Questions</div>
+            <Container style={{ width: "600px", justify: "center" }}>
+                    <h2>Frequently Asked Questions</h2>
                     <div className="accordion">
                         {Data.map((item, index) => {
                             return (
                                 <div className="item">
-                                    <div className="question" onClick={() => toggle(index)}>
+                                    <div className="title" onClick={() => toggle(index)}>
                                         {item.question}
                                         <span>{selected === index ? '-' : '+'}</span>
                                     </div>

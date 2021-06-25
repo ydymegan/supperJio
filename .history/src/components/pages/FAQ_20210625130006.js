@@ -20,7 +20,7 @@ export default function FAQ() {
         <div className="body">
             <NavBar></NavBar>
             <Button href="/" className="button">Back to Home</Button>
-            <Container style={{ width: "600px", justify: "center"}}>
+            <Container style={{ width: "600px", justify: "center", verticalalign: "middle" }}>
                     <div className="head">Frequently Asked Questions</div>
                     <div className="accordion">
                         {Data.map((item, index) => {
