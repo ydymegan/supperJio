@@ -13,7 +13,6 @@ export default function MyJoinedJio() {
     const [loading, setLoading] = useState(false);
     const [selectedJio, setSelectedJio] = useState("");
     const [loader, setLoader] = useState(false);
-
     const ref = db.collection("jio");
 
     function getJio() {
@@ -26,6 +25,15 @@ export default function MyJoinedJio() {
             setStartAJio(items);
             setLoading(false);
         });
+    }
+
+    useEffect(() => {
+        getJio();
+        // eslint-disable-next-line
+    }, []);
+
+    if (loading) {
+        return <h1>Loading...</h1>
     }
 
     function getAvailableJio(jio) {
@@ -67,12 +75,12 @@ export default function MyJoinedJio() {
         setLoader(true);
 
         var joinerIDArray = [];
-        var orderArray= []
+        var orderArray = []
         var i;
         var j;
         var idxForOrders = [];
         var k = 0;
-        
+
         for (i = 0; i < selectedJio.joinerID.length; i++) {
             if (selectedJio.joinerID[i] !== user.uid) {
                 joinerIDArray.push(selectedJio.joinerID[i]);
@@ -85,12 +93,12 @@ export default function MyJoinedJio() {
             if (j !== idxForOrders[k]) {
                 orderArray.push(selectedJio.order[j]);
             } else {
-                k = (idxForOrders.length !== k+1) ? k+1 : k;
+                k = (idxForOrders.length !== k + 1) ? k + 1 : k;
             }
         }
 
-        ref.doc(selectedJio.jioID).update({joinerID: joinerIDArray, order: orderArray}
-            )
+        ref.doc(selectedJio.jioID).update({ joinerID: joinerIDArray, order: orderArray }
+        )
             .then(() => {
                 alert('You have successfully removed your order!')
                 setLoader(false);
@@ -99,15 +107,6 @@ export default function MyJoinedJio() {
                 alert(error.message);
                 setLoader(false);
             });
-    }
-    
-    useEffect(() => {
-        getJio();
-        // eslint-disable-next-line
-    }, []);
-
-    if (loading) {
-        return <h1>Loading...</h1>
     }
 
     return (

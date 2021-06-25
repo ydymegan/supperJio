@@ -12,6 +12,8 @@ import { groupedOptions } from "./RegionData.js";
 
 export default function StartAJio() {
     var user = firebase.auth().currentUser;
+    var selectedOption = "";
+    var dateToday = new Date();
 
     const [foodStore, setFoodStore] = useState("");
     const [deliveryApp, setDeliveryApp] = useState("");
@@ -19,9 +21,6 @@ export default function StartAJio() {
     const [orderTime, setOrderTime] = useState("");
     const [region, setRegion] = useState("");
     const jioID = Math.random().toString();
-    var selectedOption = "";
-    var dateToday = new Date();
-
     const [loader, setLoader] = useState(false);
 
     const handleRegionChange = (selectedOption) => {
