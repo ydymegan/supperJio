@@ -9,22 +9,17 @@ import Select from "react-select";
 import { groupedOptions } from "./RegionData.js";
 
 export default function JoinAJio() {
+
     var user = firebase.auth().currentUser;
+    var selectedOption = "";
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
     const [region, setRegion] = useState("");
     const [order, setOrder] = useState("");
     const [selectedJio, setSelectedJio] = useState("");
-    var selectedOption = "";
-
-    const ref = db.collection("jio");
-
     const [loader, setLoader] = useState(false);
-
-    const handleRegionChange = (selectedOption) => {
-        setRegion(selectedOption);
-    };
+    const ref = db.collection("jio");
 
     function getJio() {
         setLoading(true);
@@ -37,6 +32,15 @@ export default function JoinAJio() {
             setLoading(false);
         });
     }
+
+    // function getJio() {
+    //     setLoading(true);
+    //     ref.get().then((item) => {
+    //         const items = item.docs.map((doc) => doc.data());
+    //         setstartAJio(items);
+    //         setLoading(false);
+    //     });
+    // }
 
     function getAvailableJio(jio) {
         return jio.orderTime.toDate().getTime() >= new Date().getTime();
@@ -55,6 +59,19 @@ export default function JoinAJio() {
             startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByID(jio)) :
             startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).filter(jio => filterByID(jio));
     }
+
+    useEffect(() => {
+        getJio();
+        // eslint-disable-next-line
+    }, []);
+
+    if (loading) {
+        return <h1>Loading...</h1>
+    }
+
+    const handleRegionChange = (selectedOption) => {
+        setRegion(selectedOption);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -89,24 +106,6 @@ export default function JoinAJio() {
 
         setOrder("");
     };
-
-    // function getJio() {
-    //     setLoading(true);
-    //     ref.get().then((item) => {
-    //         const items = item.docs.map((doc) => doc.data());
-    //         setstartAJio(items);
-    //         setLoading(false);
-    //     });
-    // }
-
-    useEffect(() => {
-        getJio();
-        // eslint-disable-next-line
-    }, []);
-
-    if (loading) {
-        return <h1>Loading...</h1>
-    }
 
     return (
         <div className="page">

@@ -14,7 +14,6 @@ export default function MyStartedJio() {
     const [selectedJio, setSelectedJio] = useState("");
     const [image, setImage] = useState(null);
     const [url, setUrl] = useState("");
-
     const ref = db.collection("jio");
     const storageRef = storage.ref("receipts");
 
@@ -28,6 +27,15 @@ export default function MyStartedJio() {
             setStartAJio(items);
             setLoading(false);
         });
+    }
+
+    useEffect(() => {
+        getJio();
+        // eslint-disable-next-line
+    }, []);
+
+    if (loading) {
+        return <h1>Loading...</h1>
     }
 
     function filterByID(jio) {
@@ -47,7 +55,6 @@ export default function MyStartedJio() {
             }
             return output;
         }
-
     }
 
     function updateURL(url) {
@@ -59,7 +66,6 @@ export default function MyStartedJio() {
     }
 
     const updateOrder = () => {
-
         ref.doc(selectedJio.jioID).update({
             orderStatus: "Ready to Collect"
         })
@@ -72,7 +78,6 @@ export default function MyStartedJio() {
     };
 
     const handleUpload = () => {
-
         const uploadTask = storageRef.child(`${selectedJio.jioID}.receipt`).put(image);
         uploadTask.on(
             "state_changed",
@@ -96,17 +101,9 @@ export default function MyStartedJio() {
         )
         console.log(selectedJio.jioID)
         setSelectedJio("");
-
     };
 
-    useEffect(() => {
-        getJio();
-        // eslint-disable-next-line
-    }, []);
 
-    if (loading) {
-        return <h1>Loading...</h1>
-    }
 
     return (
         <div className="page">

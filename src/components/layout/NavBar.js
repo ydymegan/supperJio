@@ -14,10 +14,10 @@ export default function NavBar() {
         setError("")
 
         try {
-        await logout()
-        history.push("/login")
+            await logout()
+            history.push("/login")
         } catch {
-        setError("Failed to log out")
+            setError("Failed to log out")
         }
     }
 
@@ -26,14 +26,14 @@ export default function NavBar() {
             <Navbar>
                 <Nav.Link href="/"><h1 className="navbar-logo">supperJio <i className="fas fa-utensils"></i></h1></Nav.Link>
                 <nav className="navbar-items">
-                <Nav.Link href="about-us" className="nav-links">About Us</Nav.Link>
-                <Nav.Link href="FAQ" className="nav-links">FAQs</Nav.Link>
-                <Nav.Link href="contact-us" className="nav-links">Contact Us</Nav.Link>
-                <Nav.Link href="update-profile" className="nav-links">Update Profile</Nav.Link>
-                <Nav.Link className="nav-links" onClick={handleLogout}>Logout from {currentUser.email}</Nav.Link>
-                {error && <Alert variant="danger">{error}</Alert>}
+                    <Nav.Link href="about-us" className="nav-links">About Us</Nav.Link>
+                    <Nav.Link href="FAQ" className="nav-links">FAQs</Nav.Link>
+                    <Nav.Link href="contact-us" className="nav-links">Contact Us</Nav.Link>
+                    <Nav.Link href="update-profile" className="nav-links">Update Profile</Nav.Link>
+                    <Nav.Link className="nav-links" onClick={handleLogout}>Logout from {currentUser.email}</Nav.Link>
+                    {error && <Alert variant="danger">{error}</Alert>}
                 </nav>
             </Navbar>
         </div>
     );
-} 
+}
