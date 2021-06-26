@@ -9,9 +9,9 @@ import Select from "react-select";
 import { groupedOptions } from "./RegionData.js";
 
 export default function JoinAJio() {
-
     var user = firebase.auth().currentUser;
     var selectedOption = "";
+    var dateToday = new Date();
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -58,6 +58,16 @@ export default function JoinAJio() {
         return (region === "" || region.label === "") ?
             startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByID(jio)) :
             startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).filter(jio => filterByID(jio));
+    }
+
+    function submit(event) {
+        event.preventDefault();
+
+        if (order === "") {
+            alert("Invalid Order");
+        } else {
+            return handleSubmit(event);
+        }
     }
 
     useEffect(() => {
@@ -136,7 +146,7 @@ export default function JoinAJio() {
                                 value={(jio.jioID === selectedJio.jioID) ? order : null}
                                 onClick={(e) => { setOrder(e.target.value); setSelectedJio(jio) }}
                                 onChange={(e) => { setOrder(e.target.value); setSelectedJio(jio) }} />
-                            <button type="submit" onClick={handleSubmit}
+                            <button type="submit" onClick={submit}
                                 style={{
                                     background: loader
                                         ? "#ccc" : "#bdc1eb"
