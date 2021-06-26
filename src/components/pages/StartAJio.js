@@ -76,6 +76,7 @@ export default function StartAJio() {
                             placeholder="Food Store"
                             value={foodStore}
                             onChange={(e) => setFoodStore(e.target.value)}
+                            required
                         />
 
                         <label>Delivery App</label>
@@ -83,6 +84,7 @@ export default function StartAJio() {
                             placeholder="Delivery App"
                             value={deliveryApp}
                             onChange={(e) => setDeliveryApp(e.target.value)}
+                            required
                         />
 
                         <label>Collection Point</label>
@@ -90,6 +92,7 @@ export default function StartAJio() {
                             placeholder="Collection Point"
                             value={collectionPoint}
                             onChange={(e) => setCollectionPoint(e.target.value)}
+                            required
                         />
 
                         <label>Order Time</label>
@@ -100,6 +103,7 @@ export default function StartAJio() {
                             dateFormat="MM/dd/yyyy h:mm aa"
                             minDate={dateToday}
                             showTimeInput
+                            required
                         />
                         <br></br>
                         <label>Region</label>
@@ -108,6 +112,7 @@ export default function StartAJio() {
                             value={selectedOption.label}
                             options={groupedOptions}
                             onChange={handleRegionChange}
+                            required
                         />
                         <br></br>
                         <button type="submit" style={{

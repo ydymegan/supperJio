@@ -3,10 +3,13 @@ import { db } from '../../firebase.js'
 import { Container, Button } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './ContactUs.css'
+import firebase from "firebase/app";
 
 export default function ContactUs() {
+    var user = firebase.auth().currentUser;
+
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [queryType, setQueryType] = useState("");
     const [message, setMessage] = useState("");
     const [loader, setLoader] = useState(false);
 
@@ -16,7 +19,8 @@ export default function ContactUs() {
 
         db.collection('contacts').add({
             name: name,
-            email: email,
+            email: user.email,
+            queryType: queryType,
             message: message,
         })
             .then(() => {
@@ -29,7 +33,7 @@ export default function ContactUs() {
             });
 
         setName("");
-        setEmail("");
+        setQueryType("");
         setMessage("");
     };
 
@@ -47,16 +51,18 @@ export default function ContactUs() {
 
                         <label>Name</label>
                         <input
-                            placeholder="name"
+                            placeholder="Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            required
                         />
 
-                        <label>Email</label>
+                        <label>Query Type</label>
                         <input
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Query Type"
+                            value={queryType}
+                            onChange={(e) => setQueryType(e.target.value)}
+                            required
                         />
 
                         <label>Message</label>
@@ -64,6 +70,7 @@ export default function ContactUs() {
                             placeholder="Message"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
+                            required
                         />
 
                         <button type="submit" style={{
