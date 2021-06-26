@@ -54,6 +54,7 @@ export default function ContactUs() {
                             placeholder="Name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            required
                         />
 
                         <label>Query Type</label>
@@ -61,6 +62,7 @@ export default function ContactUs() {
                             placeholder="Query Type"
                             value={queryType}
                             onChange={(e) => setQueryType(e.target.value)}
+                            required
                         />
 
                         <label>Message</label>
@@ -68,6 +70,7 @@ export default function ContactUs() {
                             placeholder="Message"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
+                            required
                         />
 
                         <button type="submit" style={{
