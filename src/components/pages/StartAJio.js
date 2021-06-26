@@ -59,6 +59,20 @@ export default function StartAJio() {
         setRegion("");
     };
 
+    function submit(event) {
+        event.preventDefault();
+
+        if (orderTime < dateToday) {
+            alert("Order time is invalid");
+            setLoader(false);
+        } else if (region === "" || region.label === "" || region.value === "") {
+            alert("Region not set");
+            setLoader(false);
+        } else {
+            return handleSubmit(event);
+        }
+    }
+
     return (
         <div className="page">
             <NavBar></NavBar>
@@ -68,7 +82,7 @@ export default function StartAJio() {
                 style={{ minHeight: "150vh" }}>
                 <div className="w-100" style={{ maxWidth: "400px" }}>
                     <form className="form" onSubmit=
-                        {handleSubmit}>
+                        {submit}>
                         <h1>Start A Jio</h1>
 
                         <label>Food Store</label>
