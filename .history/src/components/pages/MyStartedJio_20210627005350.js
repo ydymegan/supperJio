@@ -15,7 +15,6 @@ export default function MyStartedJio() {
     const [image, setImage] = useState(null);
     // eslint-disable-next-line
     const [url, setUrl] = useState("");
-    const [notif, setNotif] = useState("");
     const ref = db.collection("jio");
     const storageRef = storage.ref("receipts");
 
@@ -70,22 +69,10 @@ export default function MyStartedJio() {
     function submit(event) {
         event.preventDefault();
 
-        if (image === null) {
-            alert("Error: No File Uploaded");
+        if (order === "") {
+            alert("Invalid Order");
         } else {
             return handleUpload(event);
-        }
-    }
-
-    function notifyUsers(event) {
-        event.preventDefault();
-
-        if (selectedJio.receiptURL === "") {
-            alert("Error: Unable to Notify Users as you have not uploaded the order receipt");
-        } else if (notif !== "Yes") {
-            alert("Error: Unable to Notify Users as input is not a 'Yes'");
-        } else {
-            return updateOrder(event);
         }
     }
 
@@ -147,9 +134,9 @@ export default function MyStartedJio() {
                             <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required/>
                             <button onClick={submit}>Upload Receipt</button>
                             <br /><br />
-                            <input type="text" placeholder="Type Yes, Click Notify" onChange={e => {setNotif(e.target.value); setSelectedJio(jio)}} required></input>
+                            <input type="text" placeholder="Type Yes, Click Notify" onChange={e => setSelectedJio(jio)} required></input>
                             <br /><br />
-                            <button onClick={notifyUsers}>Notify Users Now</button>
+                            <button onClick={updateOrder}>Notify Users Now</button>
                             <br />
                         </div>
                     ))

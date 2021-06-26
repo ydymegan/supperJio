@@ -80,9 +80,9 @@ export default function MyStartedJio() {
     function notifyUsers(event) {
         event.preventDefault();
 
-        if (selectedJio.receiptURL === "") {
+        if (notif !== "Yes") {
             alert("Error: Unable to Notify Users as you have not uploaded the order receipt");
-        } else if (notif !== "Yes") {
+        } else if (selectedJio.receiptURL === "") {
             alert("Error: Unable to Notify Users as input is not a 'Yes'");
         } else {
             return updateOrder(event);

@@ -43,7 +43,7 @@ export default function JoinAJio() {
     // }
 
     function getAvailableJio(jio) {
-        return jio.orderTime.toDate().getTime() >= dateToday.getTime();
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
     }
 
     function filterByRegion(selectedRegion, jio) {

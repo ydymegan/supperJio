@@ -8,6 +8,7 @@ import firebase from "firebase/app";
 
 export default function MyStartedJio() {
     var user = firebase.auth().currentUser;
+    var dateToday = new Date();
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -72,7 +73,7 @@ export default function MyStartedJio() {
 
         if (image === null) {
             alert("Error: No File Uploaded");
-        } else {
+        } else if (selectedJio.orderTime < dateToday.getTime()) {
             return handleUpload(event);
         }
     }

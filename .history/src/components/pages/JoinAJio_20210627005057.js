@@ -11,7 +11,6 @@ import { groupedOptions } from "./RegionData.js";
 export default function JoinAJio() {
     var user = firebase.auth().currentUser;
     var selectedOption = "";
-    var dateToday = new Date();
 
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -43,7 +42,7 @@ export default function JoinAJio() {
     // }
 
     function getAvailableJio(jio) {
-        return jio.orderTime.toDate().getTime() >= dateToday.getTime();
+        return jio.orderTime.toDate().getTime() >= new Date().getTime();
     }
 
     function filterByRegion(selectedRegion, jio) {

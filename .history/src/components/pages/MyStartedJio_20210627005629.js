@@ -77,18 +77,6 @@ export default function MyStartedJio() {
         }
     }
 
-    function notifyUsers(event) {
-        event.preventDefault();
-
-        if (selectedJio.receiptURL === "") {
-            alert("Error: Unable to Notify Users as you have not uploaded the order receipt");
-        } else if (notif !== "Yes") {
-            alert("Error: Unable to Notify Users as input is not a 'Yes'");
-        } else {
-            return updateOrder(event);
-        }
-    }
-
     const updateOrder = () => {
         ref.doc(selectedJio.jioID).update({
             orderStatus: "Ready to Collect"
@@ -149,7 +137,7 @@ export default function MyStartedJio() {
                             <br /><br />
                             <input type="text" placeholder="Type Yes, Click Notify" onChange={e => {setNotif(e.target.value); setSelectedJio(jio)}} required></input>
                             <br /><br />
-                            <button onClick={notifyUsers}>Notify Users Now</button>
+                            <button onClick={updateOrder}>Notify Users Now</button>
                             <br />
                         </div>
                     ))
