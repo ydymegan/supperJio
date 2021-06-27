@@ -114,7 +114,7 @@ export default function StartAJio() {
                             onChange={(e) => setOrderTime(e)}
                             timeInputLabel="Time:"
                             dateFormat="MM/dd/yyyy h:mm aa"
-                            minDate={new Date()}
+                            minDate={dateToday}
                             showTimeInput
                             required
                         />

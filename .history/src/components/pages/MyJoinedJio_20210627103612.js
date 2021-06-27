@@ -132,7 +132,7 @@ export default function MyJoinedJio() {
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Order Status: {jio.orderStatus}</p>
                             <p>My Orders: {displayOrders(jio)}</p>
-                            <input placeholder="Type Yes, Click Remove" onChange={e => { setNotif(e.target.value); setSelectedJio(jio)}}></input>
+                            <input placeholder="Type Yes, Click Remove" onChange={e => setSelectedJio(jio)}></input>
                             <br /><br />
                             <button type="submit" 
                                 onClick={removeOrder} 

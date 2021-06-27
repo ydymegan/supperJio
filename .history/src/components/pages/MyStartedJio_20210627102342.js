@@ -69,7 +69,8 @@ export default function MyStartedJio() {
 
     function submit(event) {
         event.preventDefault();
-       
+        console.log(selectedJio.orderTime.toDate().getTime());
+        console.log(dateToday.getTime());
         if (image === null) {
             alert("Error: No File Uploaded");
         } else if (selectedJio.orderTime.toDate().getTime() > new Date().getTime()) {
@@ -84,7 +85,7 @@ export default function MyStartedJio() {
 
         if (selectedJio.receiptURL === "") {
             alert("Error: Unable to Notify Users as you have not uploaded the order receipt");
-        } else if (notif.toUpperCase() !== "YES") {
+        } else if (notif !== "Yes") {
             alert("Error: Unable to Notify Users as input is not a 'Yes'");
         } else {
             return updateOrder(event);

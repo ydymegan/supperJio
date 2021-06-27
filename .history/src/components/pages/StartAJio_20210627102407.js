@@ -61,7 +61,7 @@ export default function StartAJio() {
     function submit(event) {
         event.preventDefault();
 
-        if (orderTime < new Date()) {
+        if (orderTime < dateToday) {
             alert("Order time is invalid");
             setLoader(false);
         } else if (region === "" || region.label === "" || region.value === "") {
@@ -114,7 +114,7 @@ export default function StartAJio() {
                             onChange={(e) => setOrderTime(e)}
                             timeInputLabel="Time:"
                             dateFormat="MM/dd/yyyy h:mm aa"
-                            minDate={new Date()}
+                            minDate={dateToday}
                             showTimeInput
                             required
                         />
