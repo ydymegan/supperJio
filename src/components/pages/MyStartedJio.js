@@ -69,7 +69,7 @@ export default function MyStartedJio() {
 
     function submit(event) {
         event.preventDefault();
-       
+
         if (image === null) {
             alert("Error: No File Uploaded");
         } else if (selectedJio.orderTime.toDate().getTime() > new Date().getTime()) {
@@ -117,16 +117,15 @@ export default function MyStartedJio() {
                         updateStatus("Orders Placed");
                         alert('You have uploaded your receipt!');
                     })
-                    .catch(error => {
-                        alert(error.message);
-                    });
+                    // .catch(error => {
+                    //     alert(error.message);
+                    // });
             },
             error => {
                 console.log(error);
             }
         )
-        
-        setSelectedJio("");
+        //setSelectedJio("");
     };
 
     return (
@@ -146,10 +145,10 @@ export default function MyStartedJio() {
                             <p>Order Status: {jio.orderStatus}</p>
                             <p>Joiner Orders: {displayOrders(jio)}</p>
                             <p>Receipt URL: {jio.receiptURL} </p>
-                            <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required/>
+                            <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required />
                             <button onClick={submit}>Upload Receipt</button>
                             <br /><br />
-                            <input type="text" placeholder="Type Yes, Click Notify" onChange={e => {setNotif(e.target.value); setSelectedJio(jio)}} required></input>
+                            <input type="text" placeholder="Type Yes, Click Notify" onChange={e => { setNotif(e.target.value); setSelectedJio(jio) }} required></input>
                             <br /><br />
                             <button onClick={notifyUsers}>Notify Users Now</button>
                             <br />

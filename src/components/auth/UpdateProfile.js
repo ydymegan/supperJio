@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom"
 
 export default function UpdateProfile() {
   const emailRef = useRef()
+  const usernameRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
   const { currentUser, updatePassword, updateEmail } = useAuth()
@@ -58,6 +59,15 @@ export default function UpdateProfile() {
                   ref={emailRef}
                   required
                   defaultValue={currentUser.email}
+                />
+              </Form.Group>
+              <Form.Group id="username">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="username"
+                  ref={usernameRef}
+                  required
+                  placeholder="Leave blank to keep the same"
                 />
               </Form.Group>
               <Form.Group id="password">

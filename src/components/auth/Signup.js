@@ -2,34 +2,64 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
+import { db } from '../../firebase.js'
 
 export default function Signup() {
 
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const passwordConfirmRef = useRef()
-  const { signup } = useAuth()
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const history = useHistory()
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const usernameRef = useRef();
+  const { signup } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const [usernameList, setUsernameList] = useState([]);
+  const ref = db.collection("users");
+
+  function checkConflictingUsername(username) {
+    setLoading(true);
+    ref.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.id);
+      });
+      setUsernameList(items);
+      setLoading(false);
+    });
+
+    var i;
+    for (i = 0; i < usernameList.length; i++) {
+      if (username === usernameList[i]) {
+        return true;
+      }
+      return false;
+    }
+  }
 
   async function handleSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError("Passwords do not match")
+      return setError("Passwords do not match");
+    } else if (checkConflictingUsername(usernameRef.current.value)) {
+      return setError("Username taken");
     }
 
     try {
-      setError("")
-      setLoading(true)
-      await signup(emailRef.current.value, passwordRef.current.value)
-      history.push("/") // Brings to the dashboard page after successful sign up
+      setError("");
+      setLoading(true);
+      await signup(emailRef.current.value, passwordRef.current.value);
+      db.collection("users").doc(emailRef.current.value).set({
+        username: usernameRef.current.value,
+        email: emailRef.current.value,
+        password: passwordRef.current.value
+      })
+      history.push("/"); // Brings to the dashboard page after successful sign up
     } catch {
-      setError("Failed to create an account")
+      setError("Failed to create an account");
     }
-
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
@@ -45,6 +75,10 @@ export default function Signup() {
               <Form.Group id="email">
                 <Form.Label>Email</Form.Label>
                 <Form.Control type="email" ref={emailRef} required />
+              </Form.Group>
+              <Form.Group id="username">
+                <Form.Label>Username</Form.Label>
+                <Form.Control type="username" ref={usernameRef} required />
               </Form.Group>
               <Form.Group id="password">
                 <Form.Label>Password</Form.Label>

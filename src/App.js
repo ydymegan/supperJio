@@ -14,6 +14,7 @@ import StartAJio from "./components/pages/StartAJio"
 import JoinAJio from "./components/pages/JoinAJio"
 import MyStartedJio from "./components/pages/MyStartedJio"
 import MyJoinedJio from "./components/pages/MyJoinedJio"
+import Review from "./components/pages/Review"
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <PrivateRoute path="/start-a-jio" component={StartAJio} />
             <PrivateRoute path="/my-started-jio" component={MyStartedJio} />
             <PrivateRoute path="/my-joined-jio" component={MyJoinedJio} />
+            <PrivateRoute path="/review" component={Review} />
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/forgot-password" component={ForgotPassword} />
