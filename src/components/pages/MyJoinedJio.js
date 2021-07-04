@@ -15,6 +15,12 @@ export default function MyJoinedJio() {
     const [loader, setLoader] = useState(false);
     const [notif, setNotif] = useState("");
     const ref = db.collection("jio");
+    const [username, setUsername] = useState("");
+
+    var docRef = db.collection("users").doc(user.email);
+    docRef.get().then((doc) => {
+        setUsername(doc.data().username);
+    });
 
     function getJio() {
         setLoading(true);
@@ -37,10 +43,10 @@ export default function MyJoinedJio() {
         return <h1>Loading...</h1>
     }
 
-    function filterByID(jio) {
+    function filterByUsername(jio) {
         var i;
-        for (i = 0; i < jio.joinerID.length; i++) {
-            if (user.uid === jio.joinerID[i]) {
+        for (i = 0; i < jio.joinerUsernames.length; i++) {
+            if (username === jio.joinerUsernames[i]) {
                 return true;
             }
         }
@@ -48,7 +54,7 @@ export default function MyJoinedJio() {
     }
 
     function filterJio() {
-        return startAJio.filter(jio => filterByID(jio))
+        return startAJio.filter(jio => filterByUsername(jio))
     }
 
     function displayOrders(jio) {
@@ -56,9 +62,9 @@ export default function MyJoinedJio() {
         var j;
         let temp = [];
         let output = "";
-        for (i = 0; i < jio.order.length; i++) {
-            if (user.uid === jio.joinerID[i]) {
-                temp.push(jio.order[i]);
+        for (i = 0; i < jio.orders.length; i++) {
+            if (username === jio.joinerUsernames[i]) {
+                temp.push(jio.orders[i]);
             }
         }
         for (j = 0; j < temp.length; j++) {
@@ -70,7 +76,7 @@ export default function MyJoinedJio() {
     function removeOrder(event) {
         event.preventDefault();
 
-         if (notif.toUpperCase() !== "YES") {
+        if (notif.toUpperCase() !== "YES") {
             alert("Error: Unable to Remove Order as input is not a 'Yes'");
         } else {
             return handleSubmit(event);
@@ -81,30 +87,30 @@ export default function MyJoinedJio() {
         e.preventDefault();
         setLoader(true);
 
-        var joinerIDArray = [];
+        var joinerUsernameArray = [];
         var orderArray = []
         var i;
         var j;
         var idxForOrders = [];
         var k = 0;
 
-        for (i = 0; i < selectedJio.joinerID.length; i++) {
-            if (selectedJio.joinerID[i] !== user.uid) {
-                joinerIDArray.push(selectedJio.joinerID[i]);
+        for (i = 0; i < selectedJio.joinerUsernames.length; i++) {
+            if (selectedJio.joinerUsernames[i] !== username) {
+                joinerUsernameArray.push(selectedJio.joinerUsernames[i]);
             } else {
                 idxForOrders.push(i);
             }
         }
 
-        for (j = 0; j < selectedJio.order.length; j++) {
+        for (j = 0; j < selectedJio.orders.length; j++) {
             if (j !== idxForOrders[k]) {
-                orderArray.push(selectedJio.order[j]);
+                orderArray.push(selectedJio.orders[j]);
             } else {
                 k = (idxForOrders.length !== k + 1) ? k + 1 : k;
             }
         }
 
-        ref.doc(selectedJio.jioID).update({ joinerID: joinerIDArray, order: orderArray }
+        ref.doc(selectedJio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {
                 alert('You have successfully removed your order!')
@@ -131,15 +137,16 @@ export default function MyJoinedJio() {
                             <p>Collection Point: {jio.collectionPoint}</p>
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Order Status: {jio.orderStatus}</p>
+                            <p>Starter: {jio.starterUsername}</p>
                             <p>My Orders: {displayOrders(jio)}</p>
-                            <input placeholder="Type Yes, Click Remove" onChange={e => { setNotif(e.target.value); setSelectedJio(jio)}}></input>
+                            <input placeholder="Type Yes, Click Remove" onChange={e => { setNotif(e.target.value); setSelectedJio(jio) }}></input>
                             <br /><br />
-                            <button type="submit" 
-                                onClick={removeOrder} 
+                            <button type="submit"
+                                onClick={removeOrder}
                                 disabled={jio.orderTime.toDate().getTime() <= new Date().getTime()}
-                                style={{background: loader ? "#ccc" : "#bdc1eb"}}
+                                style={{ background: loader ? "#ccc" : "#bdc1eb" }}
                             >
-                                    Remove My Order
+                                Remove My Order
                             </button>
                         </div>
                     ))}

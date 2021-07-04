@@ -20,6 +20,12 @@ export default function StartAJio() {
     const [region, setRegion] = useState("");
     const jioID = Math.random().toString();
     const [loader, setLoader] = useState(false);
+    const [username, setUsername] = useState("");
+
+    var docRef = db.collection("users").doc(user.email);
+    docRef.get().then((doc) => {
+        setUsername(doc.data().username);
+    });
 
     const handleRegionChange = (selectedOption) => {
         setRegion(selectedOption);
@@ -31,14 +37,14 @@ export default function StartAJio() {
 
         db.collection('jio').doc(jioID).set({
             jioID: jioID,
-            starterID: user.uid,
+            starterUsername: username,
             foodStore: foodStore,
             deliveryApp: deliveryApp,
             collectionPoint: collectionPoint,
             orderTime: orderTime,
             region: region,
-            joinerID: [],
-            order: [],
+            joinerUsernames: [],
+            orders: [],
             receiptURL: "",
             orderStatus: "Collating Orders"
         })

@@ -18,6 +18,12 @@ export default function MyStartedJio() {
     const [notif, setNotif] = useState("");
     const ref = db.collection("jio");
     const storageRef = storage.ref("receipts");
+    const [username, setUsername] = useState("");
+
+    var docRef = db.collection("users").doc(user.email);
+    docRef.get().then((doc) => {
+        setUsername(doc.data().username);
+    });
 
     function getJio() {
         setLoading(true);
@@ -40,20 +46,31 @@ export default function MyStartedJio() {
         return <h1>Loading...</h1>
     }
 
-    function filterByID(jio) {
-        return user.uid === jio.starterID;
+    function filterByUsername(jio) {
+        return username === jio.starterUsername;
     }
 
     function filterJio() {
-        return startAJio.filter(jio => filterByID(jio))
+        return startAJio.filter(jio => filterByUsername(jio))
     }
 
     function displayOrders(jio) {
-        if (jio.starterID === user.uid) {
+        if (jio.starterUsername === username) {
             var i;
             let output = "";
-            for (i = 0; i < jio.order.length; i++) {
-                (i === jio.order.length - 1) ? output += jio.order[i] : output += jio.order[i] + ", ";
+            for (i = 0; i < jio.orders.length; i++) {
+                (i === jio.orders.length - 1) ? output += jio.orders[i] : output += jio.orders[i] + ", ";
+            }
+            return output;
+        }
+    }
+
+    function displayJoinerUsernames(jio) {
+        if (jio.starterUsername === username) {
+            var i;
+            let output = "";
+            for (i = 0; i < jio.joinerUsernames.length; i++) {
+                (i === jio.joinerUsernames.length - 1) ? output += jio.joinerUsernames[i] : output += jio.joinerUsernames[i] + ", ";
             }
             return output;
         }
@@ -69,7 +86,7 @@ export default function MyStartedJio() {
 
     function submit(event) {
         event.preventDefault();
-
+       
         if (image === null) {
             alert("Error: No File Uploaded");
         } else if (selectedJio.orderTime.toDate().getTime() > new Date().getTime()) {
@@ -125,6 +142,7 @@ export default function MyStartedJio() {
                 console.log(error);
             }
         )
+        
         //setSelectedJio("");
     };
 
@@ -143,12 +161,13 @@ export default function MyStartedJio() {
                             <p>Collection Point: {jio.collectionPoint}</p>
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Order Status: {jio.orderStatus}</p>
-                            <p>Joiner Orders: {displayOrders(jio)}</p>
+                            <p>Joiners: {displayJoinerUsernames(jio)}</p>
+                            <p>Orders: {displayOrders(jio)}</p>
                             <p>Receipt URL: {jio.receiptURL} </p>
-                            <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required />
+                            <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required/>
                             <button onClick={submit}>Upload Receipt</button>
                             <br /><br />
-                            <input type="text" placeholder="Type Yes, Click Notify" onChange={e => { setNotif(e.target.value); setSelectedJio(jio) }} required></input>
+                            <input type="text" placeholder="Type Yes, Click Notify" onChange={e => {setNotif(e.target.value); setSelectedJio(jio)}} required></input>
                             <br /><br />
                             <button onClick={notifyUsers}>Notify Users Now</button>
                             <br />
