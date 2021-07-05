@@ -26,7 +26,7 @@ export default function LandingPage() {
             <Button href="/join-a-jio" style={{ padding: "20px" }} variant="outline-primary">Join A Jio</Button>{' '}
             <Button href="/my-started-jio" style={{ padding: "20px" }} variant="outline-primary">My Started Jio</Button>{' '}
             <Button href="/my-joined-jio" style={{ padding: "20px" }} variant="outline-primary">My Joined Jio</Button>{' '}
-            <Button href="/review" style={{ padding: "20px" }} variant="outline-primary">Review</Button>{' '}
+            {/* <Button href="/review" style={{ padding: "20px" }} variant="outline-primary">Review</Button>{' '} */}
           </div>
         </div>
       </Container>
