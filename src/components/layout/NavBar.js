@@ -3,12 +3,19 @@ import { Nav, Navbar, Alert } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { useHistory } from "react-router-dom"
 import './NavBar.css'
+import { db } from '../../firebase.js'
 
 export default function NavBar() {
 
     const [error, setError] = useState("")
     const { currentUser, logout } = useAuth()
     const history = useHistory()
+    const [username, setUsername] = useState("");
+
+    var docRef = db.collection("users").doc(currentUser.email);
+    docRef.get().then((doc) => {
+        setUsername(doc.data().username);
+    });
 
     async function handleLogout() {
         setError("")
@@ -30,7 +37,7 @@ export default function NavBar() {
                     <Nav.Link href="FAQ" className="nav-links">FAQs</Nav.Link>
                     <Nav.Link href="contact-us" className="nav-links">Contact Us</Nav.Link>
                     <Nav.Link href="update-profile" className="nav-links">Update Profile</Nav.Link>
-                    <Nav.Link className="nav-links" onClick={handleLogout}>Logout from {currentUser.email}</Nav.Link>
+                    <Nav.Link className="nav-links" onClick={handleLogout}>Logout from {username}</Nav.Link>
                     {error && <Alert variant="danger">{error}</Alert>}
                 </nav>
             </Navbar>

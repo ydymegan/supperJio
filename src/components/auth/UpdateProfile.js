@@ -2,15 +2,24 @@ import React, { useRef, useState } from "react"
 import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
+import { db } from '../../firebase.js'
 
 export default function UpdateProfile() {
   const emailRef = useRef()
+  const usernameRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
   const { currentUser, updatePassword, updateEmail } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
+  const ref = db.collection("users");
+  const [username, setUsername] = useState("");
+
+  var docRef = ref.doc(currentUser.email);
+  docRef.get().then((doc) => {
+    setUsername(doc.data().username);
+  });
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -22,12 +31,31 @@ export default function UpdateProfile() {
     setLoading(true)
     setError("")
 
-    if (emailRef.current.value !== currentUser.email) {
-      promises.push(updateEmail(emailRef.current.value))
+    if (usernameRef.current.value && usernameRef.current.value !== ref.doc(currentUser.email)) {
+      ref.doc(currentUser.email).update({
+        username: usernameRef.current.value,
+      })
     }
     if (passwordRef.current.value) {
+      ref.doc(currentUser.email).update({
+        password: passwordRef.current.value,
+      })
       promises.push(updatePassword(passwordRef.current.value))
     }
+    if (emailRef.current.value !== currentUser.email) {
+      ref.doc(currentUser.email).update({
+        email: emailRef.current.value,
+      })
+      ref.doc(currentUser.email).get().then(function (doc) {
+        if (doc && doc.exists) {
+          var data = doc.data();
+          ref.doc(emailRef.current.value).set(data);
+          ref.doc(currentUser.email).delete();
+        }
+      });
+      promises.push(updateEmail(emailRef.current.value))
+    }
+
 
     Promise.all(promises)
       .then(() => {
@@ -58,6 +86,15 @@ export default function UpdateProfile() {
                   ref={emailRef}
                   required
                   defaultValue={currentUser.email}
+                />
+              </Form.Group>
+              <Form.Group id="username">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="username"
+                  ref={usernameRef}
+                  required
+                  defaultValue={username}
                 />
               </Form.Group>
               <Form.Group id="password">

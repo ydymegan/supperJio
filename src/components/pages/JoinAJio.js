@@ -19,6 +19,12 @@ export default function JoinAJio() {
     const [selectedJio, setSelectedJio] = useState("");
     const [loader, setLoader] = useState(false);
     const ref = db.collection("jio");
+    const [username, setUsername] = useState("");
+
+    var docRef = db.collection("users").doc(user.email);
+    docRef.get().then((doc) => {
+        setUsername(doc.data().username);
+    });
 
     function getJio() {
         setLoading(true);
@@ -49,14 +55,14 @@ export default function JoinAJio() {
         return selectedRegion.label === jio.region.label;
     }
 
-    function filterByID(jio) {
-        return user.uid !== jio.starterID;
+    function filterByUsername(jio) {
+        return username !== jio.starterUsername;
     }
 
     function filterJio() {
         return (region === "" || region.label === "") ?
-            startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByID(jio)) :
-            startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).filter(jio => filterByID(jio));
+            startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByUsername(jio)) :
+            startAJio.filter(jio => getAvailableJio(jio)).filter(jio => filterByRegion(region, jio)).filter(jio => filterByUsername(jio));
     }
 
     function submit(event) {
@@ -86,23 +92,23 @@ export default function JoinAJio() {
         e.preventDefault();
         setLoader(true);
 
-        var joinerIDArray = [];
+        var joinerUsernameArray = [];
         var orderArray = [];
         var i;
         var j;
 
-        for (i = 0; i < selectedJio.joinerID.length; i++) {
-            joinerIDArray.push(selectedJio.joinerID[i]);
+        for (i = 0; i < selectedJio.joinerUsernames.length; i++) {
+            joinerUsernameArray.push(selectedJio.joinerUsernames[i]);
         }
 
-        for (j = 0; j < selectedJio.order.length; j++) {
-            orderArray.push(selectedJio.order[j]);
+        for (j = 0; j < selectedJio.orders.length; j++) {
+            orderArray.push(selectedJio.orders[j]);
         }
 
-        joinerIDArray.push(user.uid);
+        joinerUsernameArray.push(username);
         orderArray.push(order);
 
-        ref.doc(selectedJio.jioID).update({ joinerID: joinerIDArray, order: orderArray }
+        ref.doc(selectedJio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {
                 alert('You have successfully joined a Jio!')
@@ -140,6 +146,7 @@ export default function JoinAJio() {
                             <p>Collection Point: {jio.collectionPoint}</p>
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Order Status: {jio.orderStatus}</p>
+                            <p>Starter: {jio.starterUsername}</p>
                             <input
                                 placeholder="Order"
                                 value={(jio.jioID === selectedJio.jioID) ? order : null}
