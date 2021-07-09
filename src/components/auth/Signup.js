@@ -53,7 +53,9 @@ export default function Signup() {
       db.collection("users").doc(emailRef.current.value).set({
         username: usernameRef.current.value,
         email: emailRef.current.value,
-        password: passwordRef.current.value
+        password: passwordRef.current.value,
+        rating: "",
+        reviews: []
       })
       history.push("/"); // Brings to the dashboard page after successful sign up
     } catch {

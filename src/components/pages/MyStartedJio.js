@@ -19,6 +19,7 @@ export default function MyStartedJio() {
     const ref = db.collection("jio");
     const storageRef = storage.ref("receipts");
     const [username, setUsername] = useState("");
+    const [removeUser, setRemoveUser] = useState("");
 
     var docRef = db.collection("users").doc(user.email);
     docRef.get().then((doc) => {
@@ -59,7 +60,8 @@ export default function MyStartedJio() {
             var i;
             let output = "";
             for (i = 0; i < jio.orders.length; i++) {
-                (i === jio.orders.length - 1) ? output += jio.orders[i] : output += jio.orders[i] + ", ";
+                output += jio.joinerUsernames[i] + ": " + jio.orders[i];
+                output += (i === jio.orders.length - 1) ? "" : ", ";
             }
             return output;
         }
@@ -107,6 +109,63 @@ export default function MyStartedJio() {
             return updateOrder(event);
         }
     }
+
+    function remove(event) {
+        event.preventDefault();
+        var i;
+
+        if (removeUser === "") {
+            alert("Error: No username has been input");
+        } else {
+            for (i = 0; i < selectedJio.joinerUsernames.length; i++) {
+                if (selectedJio.joinerUsernames[i] === removeUser) {
+                    return removeUserAndOrder(event);
+                }
+            }
+
+            if (i === selectedJio.joinerUsernames.length) {
+                alert("Error: No Such Username");
+            }
+
+        }
+    }
+
+    const removeUserAndOrder = (e) => {
+        e.preventDefault();
+
+        var joinerUsernameArray = [];
+        var orderArray = []
+        var i;
+        var j;
+        var idxForOrders = [];
+        var k = 0;
+
+        for (i = 0; i < selectedJio.joinerUsernames.length; i++) {
+            if (selectedJio.joinerUsernames[i] !== removeUser) {
+                joinerUsernameArray.push(selectedJio.joinerUsernames[i]);
+            } else {
+                idxForOrders.push(i);
+            }
+        }
+
+        for (j = 0; j < selectedJio.orders.length; j++) {
+            if (j !== idxForOrders[k]) {
+                orderArray.push(selectedJio.orders[j]);
+            } else {
+                k = (idxForOrders.length !== k + 1) ? k + 1 : k;
+            }
+        }
+
+        ref.doc(selectedJio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
+        )
+            .then(() => {
+                alert('You have successfully removed the user!')
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+
+    };
 
     const updateOrder = () => {
         ref.doc(selectedJio.jioID).update({
@@ -163,6 +222,10 @@ export default function MyStartedJio() {
                             <p>Order Status: {jio.orderStatus}</p>
                             <p>Joiners: {displayJoinerUsernames(jio)}</p>
                             <p>Orders: {displayOrders(jio)}</p>
+                            <p>
+                                <input type="text" placeholder="Type the Username Here" onChange={e => { setSelectedJio(jio); setRemoveUser(e.target.value);}} ></input>
+                                <button style={{marginLeft: "1rem"}} onClick={remove}>Remove User From Jio</button>
+                            </p>
                             <p>Receipt URL: {jio.receiptURL} </p>
                             <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required/>
                             <button onClick={submit}>Upload Receipt</button>

@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+ 
+.page {
+    background-color: #FFFAEA;
+}
+
+.button {
+    color: #5C65CF !important;
+    background: #FFFAEA !important; 
+    justify-self: start !important;
+    margin-left: 50px !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    padding: 0.5rem 1rem !important;
+}
+
+.button:hover {
+    background-color: #5C65CF !important;
+    color: #FFFAEA !important; 
+    border-radius: 4px !important;
+    transition: all 0.2s ease-out;
+}
+
+.ratingTitle {
+    color: #5C65CF;
+    font-family: 'Coiny', cursive;
+    padding: 10px;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.displayreviews {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.displayreviews ul {
+    list-style: none;
+    display: flex;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    margin-left: 5%;
+}
+
+.displayreviews h2 {
+    color: #5C65CF;
+    font-family: 'Coiny', cursive;
+    padding: 10px;
+    text-align: center;
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    background-color: #5C65CF;
+    color: white;
+    margin: 0 1rem 1rem 0;
+    width: 18rem;
+    height: auto;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    position: relative;
+    font-family: 'Inter', sans-serif;
+}
