@@ -71,6 +71,16 @@ export default function MyJoinedJio() {
         return output;
     }
 
+    function viewReceipt(e, jio) {
+        e.preventDefault();
+        
+        if (jio.receiptURL === "") {
+            alert("Receipt has not been uploaded!");
+        } else {
+            return window.open(jio.receiptURL, "_blank");
+        }
+    }
+
     const handleSubmit = (e, jio) => {
         e.preventDefault();
         setLoader(true);
@@ -127,6 +137,8 @@ export default function MyJoinedJio() {
                             <p>Order Status: {jio.orderStatus}</p>
                             <p>Starter: {jio.starterUsername}</p>
                             <p>My Orders: {displayOrders(jio)}</p>
+                            <td className="button" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
+                            <br />
                             <button type="submit"
                                 onClick={e => {handleSubmit(e, jio)}}
                                 disabled={jio.orderTime.toDate().getTime() <= new Date().getTime()}
