@@ -87,18 +87,6 @@ export default function MyStartedJio() {
         ref.doc(selectedJio.jioID).update({ orderStatus: message });
     }
 
-    function submit(event) {
-        event.preventDefault();
-
-        if (image === null) {
-            alert("Error: No File Uploaded");
-        } else if (selectedJio.orderTime.toDate().getTime() > new Date().getTime()) {
-            alert("Error: You cannot place an order before the Order Time");
-        } else {
-            return handleUpload(event);
-        }
-    }
-
     async function notifyUsers(event, jio) {
         event.preventDefault();
 
@@ -138,6 +126,16 @@ export default function MyStartedJio() {
             options.push({ value: i, label: jio.joinerUsernames[i] });
         }
         return options;
+    }
+
+    function viewReceipt(e, jio) {
+        e.preventDefault();
+
+        if (jio.receiptURL === "") {
+            alert("Receipt has not been uploaded!");
+        } else {
+            return window.open(jio.receiptURL, "_blank");
+        }
     }
 
     const handleRemoveUser = (selectedOption) => {
@@ -193,29 +191,34 @@ export default function MyStartedJio() {
             });
     };
 
-    const handleUpload = () => {
-        const uploadTask = storageRef.child(`${selectedJio.jioID}.receipt`).put(image);
-        uploadTask.on(
-            "state_changed",
-            () => {
-                storageRef
-                    .child(`${selectedJio.jioID}.receipt`)
-                    .getDownloadURL()
-                    .then(url => {
-                        setUrl(url);
-                        updateURL(url);
-                        updateStatus("Orders Placed");
-                        alert('You have uploaded your receipt!');
-                    })
-                // .catch(error => {
-                //     alert(error.message);
-                // });
-            },
-            error => {
-                console.log(error);
-            }
-        )
+    async function handleUpload(e, jio) {
+        e.preventDefault();
 
+        if (image === null) {
+            alert("Error: No File Uploaded");
+        } else if (jio.orderTime.toDate().getTime() > new Date().getTime()) {
+            alert("Error: You cannot place an order before the Order Time");
+        } else {
+            storageRef.child(`${jio.jioID}.receipt`).put(image).then(
+                () => {
+                    storageRef
+                        .child(`${jio.jioID}.receipt`)
+                        .getDownloadURL()
+                        .then(url => {
+                            setUrl(url);
+                            updateURL(url);
+                            updateStatus("Orders Placed");
+                            alert('You have uploaded your receipt!');
+                        })
+                        .catch(error => {
+                            alert(error.message);
+                        });
+                },
+                error => {
+                    console.log(error);
+                }
+            )
+        }
         //setSelectedJio("");
     };
 
@@ -246,9 +249,10 @@ export default function MyStartedJio() {
                             <p>
                                 <button onClick={e => { remove(e, jio) }}>Remove User From Jio</button>
                             </p>
-                            <p>Receipt URL: {jio.receiptURL} </p>
+                            <td className="button" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
+                            <br />
                             <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required />
-                            <button onClick={submit}>Upload Receipt</button>
+                            <button onClick={e => { handleUpload(e, jio) }}>Upload Receipt</button>
                             <br /><br />
                             <button onClick={e => { notifyUsers(e, jio) }}>Notify Users Now</button>
                             <br />
