@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useState, useEffect } from "react"
 import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from "../../contexts/AuthContext"
 import { Link, useHistory } from "react-router-dom"
@@ -15,16 +15,53 @@ export default function UpdateProfile() {
   const history = useHistory()
   const ref = db.collection("users");
   const [username, setUsername] = useState("");
+  const [usernameList, setUsernameList] = useState([]);
 
   var docRef = ref.doc(currentUser.email);
   docRef.get().then((doc) => {
     setUsername(doc.data().username);
   });
 
+  function getUsername() {
+    setLoading(true);
+    ref.get().then(queryResult => {
+      const items = []; 
+      queryResult.forEach(doc => {
+        const userDetails = doc.data();
+        items.push(userDetails.username);
+      });
+
+      setUsernameList(items);
+      setLoading(false);
+    });
+
+  }
+
+  useEffect(() => {
+    getUsername();
+    // eslint-disable-next-line
+}, []);
+
+  function checkConflictingUsername(username) {
+    var i;
+  
+    for (i = 0; i < usernameList.length; i++) {
+      if (username === usernameList[i]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   function handleSubmit(e) {
     e.preventDefault()
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match")
+    }
+
+    if (checkConflictingUsername(username)) {
+      return setError("Username is Taken")
     }
 
     const promises = []

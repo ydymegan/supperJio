@@ -240,12 +240,12 @@ export default function MyStartedJio() {
                             <p>Joiners: {displayJoinerUsernames(jio)}</p>
                             <p>Orders: {displayOrders(jio)}</p>
                             <Select
-                                placeholder="Remove User"
                                 value={selectedOption.label}
                                 options={getUsernames(jio)}
                                 onChange={handleRemoveUser}
-                                placeholder={"Select User To Remove From Jio"}
+                                placeholder="Select User To Remove From Jio"
                             />
+                            <br />
                             <p>
                                 <button onClick={e => { remove(e, jio) }}>Remove User From Jio</button>
                             </p>
