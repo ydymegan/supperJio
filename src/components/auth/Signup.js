@@ -20,7 +20,7 @@ export default function Signup() {
   function getUsername() {
     setLoading(true);
     ref.get().then(queryResult => {
-      const items = []; 
+      const items = [];
       queryResult.forEach(doc => {
         const userDetails = doc.data();
         items.push(userDetails.username);
@@ -29,17 +29,16 @@ export default function Signup() {
       setUsernameList(items);
       setLoading(false);
     });
-
   }
 
   useEffect(() => {
     getUsername();
     // eslint-disable-next-line
-}, []);
+  }, []);
 
   function checkConflictingUsername(username) {
     var i;
-  
+
     for (i = 0; i < usernameList.length; i++) {
       if (username === usernameList[i]) {
         return true;
@@ -54,8 +53,8 @@ export default function Signup() {
 
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
-    } 
-    
+    }
+
     if (checkConflictingUsername(usernameRef.current.value)) {
       return setError("Username taken");
     }

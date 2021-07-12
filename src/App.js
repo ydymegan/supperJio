@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useRef, useState, useEffect } from "react"
 import Signup from "./components/auth/Signup"
 import { AuthProvider } from "./contexts/AuthContext"
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import LandingPage from "./components/pages/LandingPage"
 import FAQ from "./components/pages/FAQ"
 import AboutUs from "./components/pages/AboutUs"
@@ -16,8 +16,30 @@ import MyStartedJio from "./components/pages/MyStartedJio"
 import MyJoinedJio from "./components/pages/MyJoinedJio"
 import Review from "./components/pages/Review"
 import Profile from "./components/pages/Profile"
+import User from "./components/pages/User"
+import { db } from './firebase.js'
 
 function App() {
+  const [usernameList, setUsernameList] = useState([]);
+  const ref = db.collection("users");
+
+  function getUsernames() {
+    ref.get().then(queryResult => {
+      const items = [];
+      queryResult.forEach(doc => {
+        const userDetails = doc.data();
+        items.push(userDetails.username);
+      });
+
+      setUsernameList(items);
+    });
+  }
+
+  useEffect(() => {
+    getUsernames();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div>
       <Router>
@@ -34,6 +56,13 @@ function App() {
             <PrivateRoute path="/my-started-jio" component={MyStartedJio} />
             <PrivateRoute path="/my-joined-jio" component={MyJoinedJio} />
             <PrivateRoute path="/review" component={Review} />
+            <Router>
+              {
+                usernameList.map((item) =>
+                  <div><Link to={"/user/" + item}>{item}</Link></div>)
+              }
+              <Route path="/user/:name" ><User /></Route>
+            </Router>
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/forgot-password" component={ForgotPassword} />
