@@ -56,13 +56,13 @@ function App() {
             <PrivateRoute path="/my-started-jio" component={MyStartedJio} />
             <PrivateRoute path="/my-joined-jio" component={MyJoinedJio} />
             <PrivateRoute path="/review" component={Review} />
-            <Router>
+            {/* <Router>
               {
                 usernameList.map((item) =>
                   <div><Link to={"/user/" + item}>{item}</Link></div>)
-              }
-              <Route path="/user/:name" ><User /></Route>
-            </Router>
+              } */}
+              <PrivateRoute path="/user/:name" ><User /></PrivateRoute>
+            {/* </Router> */}
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
             <Route path="/forgot-password" component={ForgotPassword} />
