@@ -8,6 +8,7 @@ import firebase from "firebase/app";
 export default function ContactUs() {
     var user = firebase.auth().currentUser;
 
+    const contactRef = db.collection('contacts')
     const [name, setName] = useState("");
     const [queryType, setQueryType] = useState("");
     const [message, setMessage] = useState("");
@@ -17,7 +18,7 @@ export default function ContactUs() {
         e.preventDefault();
         setLoader(true);
 
-        db.collection('contacts').add({
+        contactRef.add({
             name: name,
             email: user.email,
             queryType: queryType,

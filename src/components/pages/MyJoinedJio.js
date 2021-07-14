@@ -9,20 +9,21 @@ import firebase from "firebase/app";
 export default function MyJoinedJio() {
     var user = firebase.auth().currentUser;
 
+    const jioRef = db.collection("jio");
+    const userRef = db.collection("users");
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
     const [loader, setLoader] = useState(false);
-    const ref = db.collection("jio");
     const [username, setUsername] = useState("");
 
-    var docRef = db.collection("users").doc(user.email);
+    var docRef = userRef.doc(user.email);
     docRef.get().then((doc) => {
         setUsername(doc.data().username);
     });
 
     function getJio() {
         setLoading(true);
-        ref.onSnapshot((querySnapshot) => {
+        jioRef.onSnapshot((querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
                 items.push(doc.data());
@@ -73,7 +74,7 @@ export default function MyJoinedJio() {
 
     function viewReceipt(e, jio) {
         e.preventDefault();
-        
+
         if (jio.receiptURL === "") {
             alert("Receipt has not been uploaded!");
         } else {
@@ -108,7 +109,7 @@ export default function MyJoinedJio() {
             }
         }
 
-        ref.doc(jio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
+        jioRef.doc(jio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {
                 alert('You have successfully removed your order!')
@@ -140,7 +141,7 @@ export default function MyJoinedJio() {
                             <td className="button" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
                             <br />
                             <button type="submit"
-                                onClick={e => {handleSubmit(e, jio)}}
+                                onClick={e => { handleSubmit(e, jio) }}
                                 disabled={jio.orderTime.toDate().getTime() <= new Date().getTime()}
                                 style={{ background: loader ? "#ccc" : "#bdc1eb" }}
                             >

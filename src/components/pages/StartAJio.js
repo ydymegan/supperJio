@@ -7,12 +7,14 @@ import { Container, Button } from "react-bootstrap";
 import NavBar from '../layout/NavBar.js';
 import './StartAJio.css';
 import firebase from "firebase/app";
-import { groupedOptions } from "./RegionData.js";
+import { groupedOptions } from "../../data/RegionData";
 
 export default function StartAJio() {
     var user = firebase.auth().currentUser;
     var selectedOption = "";
 
+    const userRef = db.collection("users");
+    const jioRef = db.collection("jio");
     const [foodStore, setFoodStore] = useState("");
     const [deliveryApp, setDeliveryApp] = useState("");
     const [collectionPoint, setCollectionPoint] = useState("");
@@ -22,7 +24,7 @@ export default function StartAJio() {
     const [loader, setLoader] = useState(false);
     const [username, setUsername] = useState("");
 
-    var docRef = db.collection("users").doc(user.email);
+    var docRef = userRef.doc(user.email);
     docRef.get().then((doc) => {
         setUsername(doc.data().username);
     });
@@ -35,8 +37,8 @@ export default function StartAJio() {
         e.preventDefault();
         setLoader(true);
 
-        db.collection('jio').doc(jioID).set({
-            jioID: jioID,
+        jioRef.doc(jioID).set({
+            jioID: username + "_" + userRef.doc(user.email).numOfJioStarted,
             starterUsername: username,
             foodStore: foodStore,
             deliveryApp: deliveryApp,
@@ -56,6 +58,10 @@ export default function StartAJio() {
                 alert(error.message);
                 setLoader(false);
             });
+
+        userRef.doc(user.email).update({
+            numOfJioStarted: firebase.firestore.FieldValue.increment(1)
+        })
 
         setFoodStore("");
         setDeliveryApp("");

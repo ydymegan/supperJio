@@ -6,8 +6,9 @@ import firebase from "firebase/app";
 import { db } from '../../firebase.js'
 
 export default function LandingPage() {
+  var user = firebase.auth().currentUser;
+
   const [username, setUsername] = useState("");
-  let user = firebase.auth().currentUser;
 
   var docRef = db.collection("users").doc(user.email);
   docRef.get().then((doc) => {
