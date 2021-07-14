@@ -10,16 +10,16 @@ export default function Signup() {
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
   const usernameRef = useRef();
+  const userRef = db.collection("users");
   const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
   const [usernameList, setUsernameList] = useState([]);
-  const ref = db.collection("users");
+  const history = useHistory();
 
   function getUsername() {
     setLoading(true);
-    ref.get().then(queryResult => {
+    userRef.get().then(queryResult => {
       const items = [];
       queryResult.forEach(doc => {
         const userDetails = doc.data();
@@ -63,11 +63,13 @@ export default function Signup() {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
-      db.collection("users").doc(emailRef.current.value).set({
+      userRef.doc(emailRef.current.value).set({
         username: usernameRef.current.value,
         email: emailRef.current.value,
         password: passwordRef.current.value,
-        rating: "",
+        numOfJioStarted: 0,
+        ratingArray: [],
+        ratingAverage: 0,
         reviews: []
       })
       history.push("/"); // Brings to the dashboard page after successful sign up

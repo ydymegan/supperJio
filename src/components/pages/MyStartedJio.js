@@ -11,25 +11,25 @@ export default function MyStartedJio() {
     var user = firebase.auth().currentUser;
     var selectedOption = "";
 
+    const jioRef = db.collection("jio");
+    const userRef = db.collection("users");
+    const storageRef = storage.ref("receipts");
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedJio, setSelectedJio] = useState("");
     const [image, setImage] = useState(null);
-    // eslint-disable-next-line
-    const [url, setUrl] = useState("");
-    const ref = db.collection("jio");
-    const storageRef = storage.ref("receipts");
     const [username, setUsername] = useState("");
     const [removeUser, setRemoveUser] = useState("");
 
-    var docRef = db.collection("users").doc(user.email);
+
+    var docRef = userRef.doc(user.email);
     docRef.get().then((doc) => {
         setUsername(doc.data().username);
     });
 
     function getJio() {
         setLoading(true);
-        ref.onSnapshot((querySnapshot) => {
+        jioRef.onSnapshot((querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
                 items.push(doc.data());
@@ -80,11 +80,11 @@ export default function MyStartedJio() {
     }
 
     function updateURL(url) {
-        ref.doc(selectedJio.jioID).update({ receiptURL: url });
+        jioRef.doc(selectedJio.jioID).update({ receiptURL: url });
     }
 
     function updateStatus(message) {
-        ref.doc(selectedJio.jioID).update({ orderStatus: message });
+        jioRef.doc(selectedJio.jioID).update({ orderStatus: message });
     }
 
     async function notifyUsers(event, jio) {
@@ -168,7 +168,7 @@ export default function MyStartedJio() {
             }
         }
 
-        ref.doc(jio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
+        jioRef.doc(jio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {
                 alert('You have successfully removed the user!')
@@ -180,7 +180,7 @@ export default function MyStartedJio() {
     };
 
     const updateOrder = (jio) => {
-        ref.doc(jio.jioID).update({
+        jioRef.doc(jio.jioID).update({
             orderStatus: "Ready to Collect"
         })
             .then(() => {
@@ -205,7 +205,6 @@ export default function MyStartedJio() {
                         .child(`${jio.jioID}.receipt`)
                         .getDownloadURL()
                         .then(url => {
-                            setUrl(url);
                             updateURL(url);
                             updateStatus("Orders Placed");
                             alert('You have uploaded your receipt!');

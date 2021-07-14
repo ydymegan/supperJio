@@ -6,29 +6,31 @@ import './JoinAJio.css'
 import moment from "moment";
 import firebase from "firebase/app";
 import Select from "react-select";
-import { groupedOptions } from "./RegionData.js";
+import { groupedOptions } from "../../data/RegionData";
 
 export default function JoinAJio() {
     var user = firebase.auth().currentUser;
     var selectedOption = "";
 
+    const jioRef = db.collection("jio");
+    const userRef = db.collection("users");
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
     const [region, setRegion] = useState("");
     const [order, setOrder] = useState("");
     const [selectedJio, setSelectedJio] = useState("");
     const [loader, setLoader] = useState(false);
-    const ref = db.collection("jio");
     const [username, setUsername] = useState("");
 
-    var docRef = db.collection("users").doc(user.email);
+
+    var docRef = userRef.doc(user.email);
     docRef.get().then((doc) => {
         setUsername(doc.data().username);
     });
 
     function getJio() {
         setLoading(true);
-        ref.onSnapshot((querySnapshot) => {
+        jioRef.onSnapshot((querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
                 items.push(doc.data());
@@ -40,7 +42,7 @@ export default function JoinAJio() {
 
     // function getJio() {
     //     setLoading(true);
-    //     ref.get().then((item) => {
+    //     jioRef.get().then((item) => {
     //         const items = item.docs.map((doc) => doc.data());
     //         setstartAJio(items);
     //         setLoading(false);
@@ -108,7 +110,7 @@ export default function JoinAJio() {
         joinerUsernameArray.push(username);
         orderArray.push(order);
 
-        ref.doc(selectedJio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
+        jioRef.doc(selectedJio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {
                 alert('You have successfully joined a Jio!')
@@ -151,7 +153,7 @@ export default function JoinAJio() {
                                 placeholder="Order"
                                 value={(jio.jioID === selectedJio.jioID) ? order : null}
                                 onClick={(e) => { setOrder(e.target.value); setSelectedJio(jio) }}
-                                onChange={(e) => { setOrder(e.target.value); setSelectedJio(jio) }} 
+                                onChange={(e) => { setOrder(e.target.value); setSelectedJio(jio) }}
                                 required />
                             <button type="submit" onClick={submit}
                                 style={{

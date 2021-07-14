@@ -7,13 +7,13 @@ import { db } from '../../firebase.js'
 
 export default function NavBar() {
 
-    const [error, setError] = useState("")
+    const userRef = db.collection("users");
     const { currentUser, logout } = useAuth()
-    const history = useHistory()
+    const [error, setError] = useState("")
     const [username, setUsername] = useState("");
+    const history = useHistory()
 
-    var docRef = db.collection("users").doc(currentUser.email);
-    
+    var docRef = userRef.doc(currentUser.email);
     docRef.get().then((doc) => {
         setUsername(doc.data().username);
     });

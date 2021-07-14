@@ -9,25 +9,25 @@ import firebase from "firebase/app";
 export default function Review() {
     var user = firebase.auth().currentUser;
 
+    const jioRef = db.collection("jio");
+    const userRef = db.collection("users");
+    const storageRef = storage.ref("receipts");
     const [startAJio, setStartAJio] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedJio, setSelectedJio] = useState("");
     const [image, setImage] = useState(null);
-    // eslint-disable-next-line
-    const [url, setUrl] = useState("");
     const [notif, setNotif] = useState("");
-    const ref = db.collection("jio");
-    const storageRef = storage.ref("receipts");
     const [username, setUsername] = useState("");
 
-    var docRef = db.collection("users").doc(user.email);
+
+    var docRef = userRef.doc(user.email);
     docRef.get().then((doc) => {
         setUsername(doc.data().username);
     });
 
     function getJio() {
         setLoading(true);
-        ref.onSnapshot((querySnapshot) => {
+        jioRef.onSnapshot((querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
                 items.push(doc.data());
@@ -77,16 +77,16 @@ export default function Review() {
     }
 
     function updateURL(url) {
-        ref.doc(selectedJio.jioID).update({ receiptURL: url });
+        jioRef.doc(selectedJio.jioID).update({ receiptURL: url });
     }
 
     function updateStatus(message) {
-        ref.doc(selectedJio.jioID).update({ orderStatus: message });
+        jioRef.doc(selectedJio.jioID).update({ orderStatus: message });
     }
 
     function submit(event) {
         event.preventDefault();
-       
+
         if (image === null) {
             alert("Error: No File Uploaded");
         } else if (selectedJio.orderTime.toDate().getTime() > new Date().getTime()) {
@@ -109,7 +109,7 @@ export default function Review() {
     }
 
     const updateOrder = () => {
-        ref.doc(selectedJio.jioID).update({
+        jioRef.doc(selectedJio.jioID).update({
             orderStatus: "Ready to Collect"
         })
             .then(() => {
@@ -129,20 +129,19 @@ export default function Review() {
                     .child(`${selectedJio.jioID}.receipt`)
                     .getDownloadURL()
                     .then(url => {
-                        setUrl(url);
                         updateURL(url);
                         updateStatus("Orders Placed");
                         alert('You have uploaded your receipt!');
                     })
-                    // .catch(error => {
-                    //     alert(error.message);
-                    // });
+                // .catch(error => {
+                //     alert(error.message);
+                // });
             },
             error => {
                 console.log(error);
             }
         )
-        
+
         //setSelectedJio("");
     };
 
@@ -164,10 +163,10 @@ export default function Review() {
                             <p>Joiners: {displayJoinerUsernames(jio)}</p>
                             <p>Orders: {displayOrders(jio)}</p>
                             <p>Receipt URL: {jio.receiptURL} </p>
-                            <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required/>
+                            <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required />
                             <button onClick={submit}>Upload Receipt</button>
                             <br /><br />
-                            <input type="text" placeholder="Type Yes, Click Notify" onChange={e => {setNotif(e.target.value); setSelectedJio(jio)}} required></input>
+                            <input type="text" placeholder="Type Yes, Click Notify" onChange={e => { setNotif(e.target.value); setSelectedJio(jio) }} required></input>
                             <br /><br />
                             <button onClick={notifyUsers}>Notify Users Now</button>
                             <br />
