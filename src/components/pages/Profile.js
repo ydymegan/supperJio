@@ -78,6 +78,16 @@ export default function Profile() {
                     </ul>
                 </div>
             </Container>
+            <Container>
+                Pending User Rating
+                <div className="displayjios">
+                    {/* Things to do:
+                        - create an array of active jios under the users 
+                        - map out active jio
+                        - only enable review after jio.orderStatus = ready for collection 
+                        - once submitted, jio is removed from the array of active jios and will not be displayed */}
+                </div>
+            </Container>
         </div>
     );
 }
