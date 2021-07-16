@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { withRouter } from 'react-router-dom'
 import { db } from '../../firebase.js'
-import { Container, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { FaStar } from 'react-icons/fa';
 import './User.css'
 
