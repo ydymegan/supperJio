@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { db, storage } from '../../firebase.js'
-import { Container, Button } from "react-bootstrap"
+import { Container, Button, Nav } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './MyStartedJio.css'
 import moment from "moment";
@@ -242,18 +242,19 @@ export default function MyStartedJio() {
                                 value={selectedOption.label}
                                 options={getUsernames(jio)}
                                 onChange={handleRemoveUser}
-                                placeholder="Select User To Remove From Jio"
+                                placeholder="Select User To Remove From Jio / View Profile"
                             />
                             <br />
-                            <p>
-                                <button onClick={e => { remove(e, jio) }}>Remove User From Jio</button>
-                            </p>
-                            <td className="button" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
+                            <div className="set">
+                                <button className="button2" onClick={e => { remove(e, jio) }}>Remove User From Jio</button>
+                                <Nav.Link className="button2" href={'/user/' + removeUser}>View User Profile</Nav.Link>
+                            </div>
+                            <td className="button2" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
                             <br />
                             <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required />
-                            <button onClick={e => { handleUpload(e, jio) }}>Upload Receipt</button>
+                            <button className="button2" onClick={e => { handleUpload(e, jio) }}>Upload Receipt</button>
                             <br /><br />
-                            <button onClick={e => { notifyUsers(e, jio) }}>Notify Users Now</button>
+                            <button className="button2" onClick={e => { notifyUsers(e, jio) }}>Notify Users Now</button>
                             <br />
                         </div>
                     ))

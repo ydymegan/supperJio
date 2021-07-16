@@ -4,6 +4,7 @@ import { Container, Button } from "react-bootstrap";
 import firebase from "firebase/app";
 import { db } from '../../firebase.js'
 import './Profile.css';
+import { FaStar } from 'react-icons/fa';
 
 export default function Profile() {
     var user = firebase.auth().currentUser;
@@ -11,6 +12,8 @@ export default function Profile() {
     const userRef = db.collection("users");
     const [reviewList, setReviewList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [userRating, setUserRating] = useState(0);
+    const [originalRating, setOriginalRating] = useState(0);
 
     function getReview() {
         userRef.doc(user.email).get().then(queryResult => {
@@ -28,6 +31,9 @@ export default function Profile() {
                     i++;
                 }
             }
+
+            setOriginalRating(queryResult.data().ratingAverage);
+            setUserRating(Math.round(queryResult.data().ratingAverage));
             setReviewList(list);
             setLoading(false);
         })
@@ -47,8 +53,22 @@ export default function Profile() {
             <NavBar></NavBar>
             <Button href="/" className="button">Back to Home</Button>
             <Container>
-                <div className="ratingTitle">Ratings</div>
-                {/* insert rating here */}
+                <div className="ratingTitle">
+                Ratings
+                <br />
+                {[...Array(5)].map((star, i) => {
+                    const ratingValue = i+1;
+                    return (
+                        <FaStar
+                            className="star"
+                            size={50}
+                            color={ratingValue <= userRating ? "#ffc107" : "e4e5e9"}
+                        />
+                    )
+                })}
+                <br />
+                <div className="description">My Current Rating is {originalRating}</div>
+                </div>
                 <div className="displayreviews">
                     <h2>Reviews</h2>
                     <ul>

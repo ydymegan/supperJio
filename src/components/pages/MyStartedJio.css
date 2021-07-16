@@ -24,6 +24,26 @@
     transition: all 0.2s ease-out;
 }
 
+.button2 {
+    color: #FFFAEA !important;
+    background: #5C65CF !important; 
+    justify-self: start !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    padding: 10px !important;
+    border: none;
+    border-radius: 10px !important;
+    width: max-content !important;
+    margin-right: 5px;
+}
+
+.button2:hover {
+    background-color: #FFFAEA !important;
+    color: #5C65CF !important; 
+    border-radius: 4px !important;
+    transition: all 0.2s ease-out;
+}
+
 .page > h1 {
     margin-bottom: 30px;
     display: flex;
@@ -56,4 +76,10 @@
     color: #5C65CF;
 }
 
+.set{
+    display: flex;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+}
 

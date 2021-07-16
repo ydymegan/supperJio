@@ -20,13 +20,14 @@ export default function StartAJio() {
     const [collectionPoint, setCollectionPoint] = useState("");
     const [orderTime, setOrderTime] = useState("");
     const [region, setRegion] = useState("");
-    const jioID = Math.random().toString();
     const [loader, setLoader] = useState(false);
     const [username, setUsername] = useState("");
+    const [jioStarted, setJioStarted] = useState(0);
 
     var docRef = userRef.doc(user.email);
     docRef.get().then((doc) => {
         setUsername(doc.data().username);
+        setJioStarted(doc.data().numOfJioStarted+1);
     });
 
     const handleRegionChange = (selectedOption) => {
@@ -35,10 +36,10 @@ export default function StartAJio() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoader(true);
+        setLoader(true);    
 
-        jioRef.doc(jioID).set({
-            jioID: username + "_" + userRef.doc(user.email).numOfJioStarted,
+        jioRef.doc(username + "_" + jioStarted).set({
+            jioID: username + "_" + jioStarted,
             starterUsername: username,
             foodStore: foodStore,
             deliveryApp: deliveryApp,
