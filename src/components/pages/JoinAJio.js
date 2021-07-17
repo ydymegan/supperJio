@@ -21,13 +21,16 @@ export default function JoinAJio() {
     const [selectedJio, setSelectedJio] = useState("");
     const [loader, setLoader] = useState(false);
     const [username, setUsername] = useState("");
+    const [active, setActive] = useState([]);
 
-
-    var docRef = userRef.doc(user.email);
-    docRef.get().then((doc) => {
-        setUsername(doc.data().username);
-    });
-
+    function getDetails() {
+        var docRef = userRef.doc(user.email);
+        docRef.get().then((doc) => {
+            setUsername(doc.data().username);
+            setActive(doc.data().activeJio);
+        });
+    }
+    
     function getJio() {
         setLoading(true);
         jioRef.onSnapshot((querySnapshot) => {
@@ -39,15 +42,6 @@ export default function JoinAJio() {
             setLoading(false);
         });
     }
-
-    // function getJio() {
-    //     setLoading(true);
-    //     jioRef.get().then((item) => {
-    //         const items = item.docs.map((doc) => doc.data());
-    //         setstartAJio(items);
-    //         setLoading(false);
-    //     });
-    // }
 
     function getAvailableJio(jio) {
         return jio.orderTime.toDate().getTime() >= new Date().getTime();
@@ -79,6 +73,7 @@ export default function JoinAJio() {
 
     useEffect(() => {
         getJio();
+        getDetails();
         // eslint-disable-next-line
     }, []);
 
@@ -110,6 +105,12 @@ export default function JoinAJio() {
         joinerUsernameArray.push(username);
         orderArray.push(order);
 
+        active.push(selectedJio.jioID);
+
+        userRef.doc(user.email).update({
+            activeJio: active
+        })
+
         jioRef.doc(selectedJio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {
@@ -122,6 +123,7 @@ export default function JoinAJio() {
             });
 
         setOrder("");
+        setActive([]);
     };
 
     return (

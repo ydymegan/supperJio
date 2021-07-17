@@ -1,6 +1,6 @@
 import DatePicker from "react-datepicker"
 import "react-datepicker/src/stylesheets/datepicker.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { db } from '../../firebase.js';
 import { Container, Button } from "react-bootstrap";
@@ -23,12 +23,21 @@ export default function StartAJio() {
     const [loader, setLoader] = useState(false);
     const [username, setUsername] = useState("");
     const [jioStarted, setJioStarted] = useState(0);
+    const [active, setActive] = useState([]);
 
-    var docRef = userRef.doc(user.email);
-    docRef.get().then((doc) => {
-        setUsername(doc.data().username);
-        setJioStarted(doc.data().numOfJioStarted+1);
-    });
+    function getDetails() {
+        var docRef = userRef.doc(user.email);
+        docRef.get().then((doc) => {
+            setUsername(doc.data().username);
+            setJioStarted(doc.data().numOfJioStarted+1);
+            setActive(doc.data().activeJio);
+        });
+    }
+    
+    useEffect(() => {
+        getDetails();
+        // eslint-disable-next-line
+    }, []);
 
     const handleRegionChange = (selectedOption) => {
         setRegion(selectedOption);
@@ -60,8 +69,11 @@ export default function StartAJio() {
                 setLoader(false);
             });
 
+        active.push(username + "_" + jioStarted);
+
         userRef.doc(user.email).update({
-            numOfJioStarted: firebase.firestore.FieldValue.increment(1)
+            numOfJioStarted: jioStarted,
+            activeJio: active
         })
 
         setFoodStore("");
@@ -69,6 +81,8 @@ export default function StartAJio() {
         setCollectionPoint("");
         setOrderTime("");
         setRegion("");
+        setActive([]);
+        setJioStarted(0);
     };
 
     function submit(event) {

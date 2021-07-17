@@ -70,7 +70,8 @@ export default function Signup() {
         numOfJioStarted: 0,
         ratingArray: [],
         ratingAverage: 0,
-        reviews: []
+        reviews: [],
+        activeJio: []
       })
       history.push("/"); // Brings to the dashboard page after successful sign up
     } catch {
