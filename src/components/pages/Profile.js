@@ -5,9 +5,11 @@ import firebase from "firebase/app";
 import { db } from '../../firebase.js'
 import './Profile.css';
 import { FaStar } from 'react-icons/fa';
+import Select from 'react-select';
 
 export default function Profile() {
     var user = firebase.auth().currentUser;
+    var selectedOption = "";
 
     const userRef = db.collection("users");
     const jioRef = db.collection("jio");
@@ -16,6 +18,9 @@ export default function Profile() {
     const [userRating, setUserRating] = useState(0);
     const [originalRating, setOriginalRating] = useState(0);
     const [activeList, setActiveList] = useState([]);
+    const [reviewUser, setReviewUser] = useState("");
+    const [userReview, setUserReview] = useState("");
+    const [selectedJio, setSelectedJio] = useState("");
 
     function getRatings() {
         userRef.doc(user.email).get().then(queryResult => {
@@ -78,6 +83,39 @@ export default function Profile() {
         return <h1>Loading...</h1>
     }
 
+    function getUsernames(activeJio) {
+        var i;
+        let options = [{ value: "", label: "" }];
+        if (activeJio.activeJio.starterUsername !== user.username) {
+            for (i = 0; i < activeJio.activeJio.joinerUsernames.length; i++) {
+                options.push({ value: i, label: activeJio.activeJio.joinerUsernames[i] });
+            }
+        } else {
+            options.push({ value: i, label: activeJio.activeJio.starterUsername });
+        }
+        return options;
+    }
+    
+    const handleReview = (selectedOption) => {
+        setReviewUser(selectedOption.label);
+    };
+
+    function handleSubmit(activeJio) {
+        if (userReview === "") {
+            alert("User Review is Empty");
+        } else if (activeJio.activeJio.orderStatus !== "Ready to Collect") {
+            alert("Unable to submit review as orders are not collected")
+        }
+        return submitReviews;
+    }
+
+    const submitReviews = () => {
+
+        setReviewUser("");
+        setUserReview("");
+        setSelectedJio("");
+    }
+
     return (
         <div className="page">
             <NavBar></NavBar>
@@ -109,7 +147,7 @@ export default function Profile() {
                 </div>
             </Container>
             <Container>
-                <div className="displayreviews">
+                <div className="displayjios">
                     <h2>Pending User Rating</h2>
                     <ul>
                         
@@ -117,16 +155,28 @@ export default function Profile() {
                             <div key={activeJio.id} className="box">
                                 <p>Jio ID: {activeJio.activeJio.jioID}</p>
                                 <p>Order Status: {activeJio.activeJio.orderStatus}</p>
-                                {activeJio.activeJio.joinerUsernames}
-                            
+                                <Select
+                                className="select"
+                                value={selectedOption.label}
+                                options={getUsernames(activeJio)}
+                                onChange={handleReview}
+                                placeholder="Select User to Review"
+                                />
+                                <br />
+                                <input
+                                placeholder="Type Your Review Here"
+                                value={(activeJio.activeJio.jioID === selectedJio) ? userReview : null}
+                                onClick={(e) => { setUserReview(e.target.value); setSelectedJio(activeJio.activeJio.jioID); }}
+                                onChange={(e) => { setUserReview(e.target.value); setSelectedJio(activeJio.activeJio.jioID); }}
+                                required />
+                                <br />
+                                <button className="button2" onClick={e => { handleSubmit(activeJio) }}>Submit Review</button>
                             </div>
                         ))}
                     </ul>
                     {/* Things to do:
-                        - create an array of active jios under the users 
-                        - map out active jio
-                        - only enable review after jio.orderStatus = ready for collection 
-                        - once submitted, jio is removed from the array of active jios and will not be displayed */}
+                        - complete handle submit / submit review
+                        - create a boolean array somewhere for getUsernames */}
                 </div>
             </Container>
         </div>
