@@ -163,6 +163,7 @@ export default function Profile() {
                                 placeholder="Select User to Review"
                                 />
                                 <br />
+                                <p>Reviewing {reviewUser} currently</p>
                                 <input
                                 placeholder="Type Your Review Here"
                                 value={(activeJio.activeJio.jioID === selectedJio) ? userReview : null}
