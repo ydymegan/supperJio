@@ -92,8 +92,16 @@
 .displayjios h2 {
     color: #5C65CF;
     font-family: 'Coiny', cursive;
-    padding: 10px;
+    padding-bottom: 5px;
     text-align: center;
+}
+
+.displayjios h4 {
+    color: #5C65CF;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    font-size: large;
+    padding-bottom: 10px;
 }
 
 .select {
@@ -101,7 +109,7 @@
     font-family: 'Inter', sans-serif;
 }
 
-.button2 {
+.button3 {
     color: #5C65CF !important;
     background: #FFFAEA !important; 
     justify-self: start !important;
@@ -114,9 +122,26 @@
     margin-right: 5px;
 }
 
-.button2:hover {
+.button3:hover {
     background-color: #090e3f !important;
     color: #FFFAEA !important; 
     border-radius: 4px !important;
     transition: all 0.2s ease-out;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.star {
+    cursor: pointer;
+    transition: color 200ms;
+    margin-right: 10px;
+}
+
+.starRating {
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
