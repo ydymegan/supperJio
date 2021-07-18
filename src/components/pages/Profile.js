@@ -15,10 +15,11 @@ export default function Profile() {
     const jioRef = db.collection("jio");
     const [reviewList, setReviewList] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [currentUser, setCurrentUser] = useState(null); // to store details of current user
     const [userRating, setUserRating] = useState(0); // rounded off rating
     const [originalRating, setOriginalRating] = useState(0); // original rating 
+    const [active, setActive] = useState([]); // active list (jioID only)
     const [activeList, setActiveList] = useState([]); // active list of jios
+    const [tracker, setTracker] = useState([]);
     const [reviewUser, setReviewUser] = useState(""); // for username of user being rated
     const [userReview, setUserReview] = useState(""); // for written review
     const [selectedJio, setSelectedJio] = useState(""); // for jio ID
@@ -42,6 +43,7 @@ export default function Profile() {
                 }
             }
 
+            setActive(queryResult.data().activeJio);
             setOriginalRating(queryResult.data().ratingAverage);
             setUserRating(Math.round(queryResult.data().ratingAverage));
             setReviewList(list);
@@ -51,15 +53,21 @@ export default function Profile() {
 
     function getDetails() {
         var active = [];
+        var username = "";
+        var dataLength;
+        var data = [];
 
         userRef.doc(user.email).get().then(queryResult => {
             active = queryResult.data().activeJio;
-            setCurrentUser(queryResult.data());
+            username = queryResult.data().username;
+            dataLength = queryResult.data().activeJioTracker.length;
+            data = queryResult.data().activeJioTracker;
         })
 
         jioRef.onSnapshot((querySnapshot) => {
             setLoading(true);
             const items = [];
+            var track = [];
 
             querySnapshot.forEach((doc) => {
                 var length = active.length;
@@ -67,11 +75,32 @@ export default function Profile() {
                     if (doc.data().jioID === active[length-1]) {
                         var r = {id: length-1, activeJio: doc.data()};
                         items.push(r);
+                        if (dataLength < 1) {
+                            var userList = [];
+                            var reviewDone = [];
+                            var i;
+                            if (username === doc.data().starterUsername) {
+                                for (i = 0; i < doc.data().joinerUsernames.length; i++) {
+                                    userList.push(doc.data().joinerUsernames[i]);
+                                    reviewDone.push(false);
+                                }
+                            } else {
+                                userList.push(doc.data().starterUsername);
+                                reviewDone.push(false);
+                            }
+                            
+                            var t = {jioID: doc.data().jioID, users: userList, reviewDone: reviewDone}
+                            track.push(t);
+                        } else {
+                            track = data;
+                        }
                     }
                     length--;
                 }
             });
 
+            userRef.doc(user.email).update({ activeJioTracker: track });
+            setTracker(track);
             setActiveList(items);
             setLoading(false);
         });
@@ -89,14 +118,20 @@ export default function Profile() {
 
     function getUsernames(activeJio) {
         var i;
+        var j;
+        var k = 0;
         let options = [{ value: "", label: "" }];
-        if (activeJio.activeJio.starterUsername === currentUser.username) {
-            for (i = 0; i < activeJio.activeJio.joinerUsernames.length; i++) {
-                options.push({ value: i, label: activeJio.activeJio.joinerUsernames[i] });
+        for (i = 0; i < tracker.length; i++) {
+            if (tracker[i].jioID === activeJio.activeJio.jioID) {
+                for (j = 0; j < tracker[i].users.length; j++) {
+                    if (tracker[i].reviewDone[j] === false) {
+                        options.push({ value: k, label: tracker[i].users[j]});
+                        k++;
+                    }
+                }
             }
-        } else {
-            options.push({ value: i, label: activeJio.activeJio.starterUsername });
         }
+        
         return options;
     }
     
@@ -129,7 +164,9 @@ export default function Profile() {
 
                     var newRatingArray = [];
                     var newReviewsArray = [];
-  
+                    var newActiveJioTracker = [];
+                    var newActiveJio = [];
+
                     var i;
                     for (i = 0; i < details.ratingArray.length; i++) {
                         newRatingArray.push(details.ratingArray[i]);
@@ -152,10 +189,48 @@ export default function Profile() {
 
                     newReviewsArray.push(userReview);
 
+                    for (i = 0; i < tracker.length; i++) {
+                        var t;
+                        if (tracker[i].jioID === selectedJio) {
+                            var newReviewDone = [];
+                            for (idx = 0; idx < tracker[i].users.length; idx++) {
+                                newReviewDone[idx] = ((tracker[i].users[idx] === reviewUser) || (tracker[i].reviewDone[idx] === true)) ? true : false;
+                            }
+
+                            var j;
+                            var count = 0;
+                            for (j = 0; j < newReviewDone.length; j++) {
+                                count += (newReviewDone[j] === false) ? 1 : 0;
+                            }
+
+                            if (count === 0) {
+                                var k;
+                                for (k = 0; k < active.length; k++) {
+                                    if (active[k] !== selectedJio) {
+                                        newActiveJio.push(active[k]);
+                                    }
+                                }
+                            } else {
+                                newActiveJio = active
+                                t = {jioID: selectedJio, users: tracker[i].users, reviewDone: newReviewDone}
+                                newActiveJioTracker.push(t)
+                            }
+
+                        } else {
+                            t = {jioID: tracker[i].jioID, users: tracker[i].users, reviewDone: tracker[i].reviewDone}
+                            newActiveJioTracker.push(t)
+                        }
+                    }
+
+                    userRef.doc(user.email).update({
+                        activeJioTracker: newActiveJioTracker,
+                        activeJio: newActiveJio
+                    })
+
                     userRef.doc(details.email).update({ 
                         ratingArray: newRatingArray, 
                         ratingAverage: newRatingAverage.toFixed(2),
-                        reviews: newReviewsArray
+                        reviews: newReviewsArray,
                     }).then(() => {
                         alert('You have successfully submitted your review!')
                     })

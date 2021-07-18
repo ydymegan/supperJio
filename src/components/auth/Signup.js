@@ -63,6 +63,7 @@ export default function Signup() {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
+
       userRef.doc(emailRef.current.value).set({
         username: usernameRef.current.value,
         email: emailRef.current.value,
@@ -71,7 +72,8 @@ export default function Signup() {
         ratingArray: [],
         ratingAverage: 0,
         reviews: [],
-        activeJio: []
+        activeJio: [],
+        activeJioTracker: []
       })
       history.push("/"); // Brings to the dashboard page after successful sign up
     } catch {

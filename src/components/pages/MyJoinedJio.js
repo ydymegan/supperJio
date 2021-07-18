@@ -15,10 +15,12 @@ export default function MyJoinedJio() {
     const [loading, setLoading] = useState(false);
     const [loader, setLoader] = useState(false);
     const [username, setUsername] = useState("");
+    const [currentUser, setCurrentUser] = useState(null); // details of current user
 
     var docRef = userRef.doc(user.email);
     docRef.get().then((doc) => {
         setUsername(doc.data().username);
+        setCurrentUser(doc.data());
     });
 
     function getJio() {
@@ -87,11 +89,12 @@ export default function MyJoinedJio() {
         setLoader(true);
 
         var joinerUsernameArray = [];
-        var orderArray = []
+        var orderArray = [];
         var i;
         var j;
         var idxForOrders = [];
         var k = 0;
+        var newActiveJio = [];
 
         for (i = 0; i < jio.joinerUsernames.length; i++) {
             if (jio.joinerUsernames[i] !== username) {
@@ -109,6 +112,13 @@ export default function MyJoinedJio() {
             }
         }
 
+        for (i = 0; i < currentUser.activeJio.length; i++) {
+            if (jio.jioID !== currentUser.activeJio[i]) {
+                newActiveJio.push(currentUser.activeJio[i]);
+            }
+        }
+
+        userRef.doc(user.email).update({ activeJio: newActiveJio });
         jioRef.doc(jio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {
