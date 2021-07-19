@@ -19,13 +19,19 @@ export default function MyStartedJio() {
     const [selectedJio, setSelectedJio] = useState("");
     const [image, setImage] = useState(null);
     const [username, setUsername] = useState("");
-    const [removeUser, setRemoveUser] = useState("");
+    const [selectedUser, setSelectedUser] = useState("");
 
+    function setUser() {
+        var docRef = userRef.doc(user.email);
+        docRef.get().then((doc) => {
+            setUsername(doc.data().username);
+        });
+    }
 
-    var docRef = userRef.doc(user.email);
-    docRef.get().then((doc) => {
-        setUsername(doc.data().username);
-    });
+    useEffect(() => {
+        setUser();
+        // eslint-disable-next-line
+    }, []);
 
     function getJio() {
         setLoading(true);
@@ -68,16 +74,16 @@ export default function MyStartedJio() {
         }
     }
 
-    function displayJoinerUsernames(jio) {
-        if (jio.starterUsername === username) {
-            var i;
-            let output = "";
-            for (i = 0; i < jio.joinerUsernames.length; i++) {
-                (i === jio.joinerUsernames.length - 1) ? output += jio.joinerUsernames[i] : output += jio.joinerUsernames[i] + ", ";
-            }
-            return output;
-        }
-    }
+    // function displayJoinerUsernames(jio) {
+    //     if (jio.starterUsername === username) {
+    //         var i;
+    //         let output = "";
+    //         for (i = 0; i < jio.joinerUsernames.length; i++) {
+    //             (i === jio.joinerUsernames.length - 1) ? output += jio.joinerUsernames[i] : output += jio.joinerUsernames[i] + ", ";
+    //         }
+    //         return output;
+    //     }
+    // }
 
     function updateURL(url) {
         jioRef.doc(selectedJio.jioID).update({ receiptURL: url });
@@ -103,17 +109,17 @@ export default function MyStartedJio() {
         event.preventDefault();
         var i;
 
-        if (removeUser === "") {
+        if (selectedUser === "") {
             alert("Error: No username has been input");
         } else {
             for (i = 0; i < jio.joinerUsernames.length; i++) {
-                if (jio.joinerUsernames[i] === removeUser) {
+                if (jio.joinerUsernames[i] === selectedUser) {
                     return removeUserAndOrder(event, jio);
                 }
             }
 
             if (i === jio.joinerUsernames.length) {
-                alert("Error: No Such Username" + removeUser);
+                alert("Error: No Such Username" + selectedUser);
             }
 
         }
@@ -138,8 +144,8 @@ export default function MyStartedJio() {
         }
     }
 
-    const handleRemoveUser = (selectedOption) => {
-        setRemoveUser(selectedOption.label);
+    const handleSelectUser = (selectedOption) => {
+        setSelectedUser(selectedOption.label);
     };
 
     const removeUserAndOrder = (e, jio) => {
@@ -153,7 +159,7 @@ export default function MyStartedJio() {
         var k = 0;
 
         for (i = 0; i < jio.joinerUsernames.length; i++) {
-            if (jio.joinerUsernames[i] !== removeUser) {
+            if (jio.joinerUsernames[i] !== selectedUser) {
                 joinerUsernameArray.push(jio.joinerUsernames[i]);
             } else {
                 idxForOrders.push(i);
@@ -236,26 +242,26 @@ export default function MyStartedJio() {
                             <p>Collection Point: {jio.collectionPoint}</p>
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Order Status: {jio.orderStatus}</p>
-                            <p>Joiners: {displayJoinerUsernames(jio)}</p>
-                            <p>Orders: {displayOrders(jio)}</p>
+                            <p>Joiners/Orders: {displayOrders(jio)}</p>
                             <Select
                                 value={selectedOption.label}
                                 options={getUsernames(jio)}
-                                onChange={handleRemoveUser}
+                                onChange={handleSelectUser}
                                 placeholder="Select User To Remove From Jio / View Profile"
                             />
                             <br />
                             <div className="set">
                                 <button className="button2" onClick={e => { remove(e, jio) }}>Remove User From Jio</button>
-                                <Nav.Link className="button2" href={'/user/' + removeUser}>View User Profile</Nav.Link>
+                                <Nav.Link className="button2" href={'/user/' + selectedUser}>View User Profile</Nav.Link>
                             </div>
-                            <td className="button2" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
                             <br />
                             <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required />
                             <button className="button2" onClick={e => { handleUpload(e, jio) }}>Upload Receipt</button>
                             <br /><br />
-                            <button className="button2" onClick={e => { notifyUsers(e, jio) }}>Notify Users Now</button>
-                            <br />
+                            <div className="set">
+                                <td className="button2" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
+                                <button className="button2" onClick={e => { notifyUsers(e, jio) }}>Notify Users Now</button>
+                            </div>
                         </div>
                     ))
                 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { db } from '../../firebase.js'
-import { Container, Button } from "react-bootstrap"
+import { Container, Button, Nav } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './MyJoinedJio.css'
 import moment from "moment";
@@ -17,11 +17,18 @@ export default function MyJoinedJio() {
     const [username, setUsername] = useState("");
     const [currentUser, setCurrentUser] = useState(null); // details of current user
 
-    var docRef = userRef.doc(user.email);
-    docRef.get().then((doc) => {
-        setUsername(doc.data().username);
-        setCurrentUser(doc.data());
-    });
+    function setUser() {
+        var docRef = userRef.doc(user.email);
+        docRef.get().then((doc) => {
+            setUsername(doc.data().username);
+            setCurrentUser(doc.data());
+        });
+    }
+
+    useEffect(() => {
+        setUser();
+        // eslint-disable-next-line
+    }, []);
 
     function getJio() {
         setLoading(true);
@@ -148,7 +155,10 @@ export default function MyJoinedJio() {
                             <p>Order Status: {jio.orderStatus}</p>
                             <p>Starter: {jio.starterUsername}</p>
                             <p>My Orders: {displayOrders(jio)}</p>
-                            <td className="button" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
+                            <div className="set">
+                                <Nav.Link className="button2" href={'/user/' + jio.starterUsername}>View Starter Profile</Nav.Link>
+                                <td className="button2" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
+                            </div>
                             <br />
                             <button type="submit"
                                 onClick={e => { handleSubmit(e, jio) }}

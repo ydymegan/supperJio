@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { db } from '../../firebase.js'
-import { Container, Button } from "react-bootstrap"
+import { Container, Button, Nav } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './JoinAJio.css'
 import moment from "moment";
@@ -151,6 +151,8 @@ export default function JoinAJio() {
                             <p>Order Time: {moment(jio.orderTime.toDate()).format('MMMM Do YYYY, h:mm:ss a')}</p>
                             <p>Order Status: {jio.orderStatus}</p>
                             <p>Starter: {jio.starterUsername}</p>
+                            <Nav.Link className="button2" href={'/user/' + jio.starterUsername}>View Starter Profile</Nav.Link>
+                            <br></br>
                             <input
                                 placeholder="Order"
                                 value={(jio.jioID === selectedJio.jioID) ? order : null}
