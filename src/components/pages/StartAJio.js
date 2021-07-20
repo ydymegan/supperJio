@@ -29,7 +29,7 @@ export default function StartAJio() {
         var docRef = userRef.doc(user.email);
         docRef.get().then((doc) => {
             setUsername(doc.data().username);
-            setJioStarted(doc.data().numOfJioStarted+1);
+            setJioStarted(doc.data().numOfJioStarted);
             setActive(doc.data().activeJio);
         });
     }
@@ -45,7 +45,13 @@ export default function StartAJio() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoader(true);    
+        setLoader(true);   
+        
+        var docRef = userRef.doc(user.email);
+        docRef.get().then((doc) => {
+            setJioStarted(doc.data().numOfJioStarted);
+            setActive(doc.data().activeJio);
+        });
 
         jioRef.doc(username + "_" + jioStarted).set({
             jioID: username + "_" + jioStarted,
@@ -71,8 +77,10 @@ export default function StartAJio() {
 
         active.push(username + "_" + jioStarted);
 
+        console.log(jioStarted)
+
         userRef.doc(user.email).update({
-            numOfJioStarted: jioStarted,
+            numOfJioStarted: (jioStarted+1),
             activeJio: active
         })
 
@@ -81,18 +89,26 @@ export default function StartAJio() {
         setCollectionPoint("");
         setOrderTime("");
         setRegion("");
-        setActive([]);
-        setJioStarted(0);
+        // setActive([]);
+        // setJioStarted(0);
     };
 
     function submit(event) {
         event.preventDefault();
+
+        var docRef = userRef.doc(user.email);
+        docRef.get().then((doc) => {
+            setActive(doc.data().activeJio);
+        });
 
         if (orderTime < new Date()) {
             alert("Order time is invalid");
             setLoader(false);
         } else if (region === "" || region.label === "" || region.value === "") {
             alert("Region not set");
+            setLoader(false);
+        } else if (active.length > 4) {
+            alert("You are in 5 active jios");
             setLoader(false);
         } else {
             return handleSubmit(event);

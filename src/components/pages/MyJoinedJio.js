@@ -95,6 +95,11 @@ export default function MyJoinedJio() {
         e.preventDefault();
         setLoader(true);
 
+        var docRef = userRef.doc(user.email);
+        docRef.get().then((doc) => {
+            setCurrentUser(doc.data());
+        });
+
         var joinerUsernameArray = [];
         var orderArray = [];
         var i;
@@ -102,6 +107,7 @@ export default function MyJoinedJio() {
         var idxForOrders = [];
         var k = 0;
         var newActiveJio = [];
+        var newActiveJioTracker = [];
 
         for (i = 0; i < jio.joinerUsernames.length; i++) {
             if (jio.joinerUsernames[i] !== username) {
@@ -125,7 +131,13 @@ export default function MyJoinedJio() {
             }
         }
 
-        userRef.doc(user.email).update({ activeJio: newActiveJio });
+        for (i = 0; i < currentUser.activeJioTracker.length; i++) {
+            if (jio.jioID !== currentUser.activeJio[i].jioID) {
+                newActiveJioTracker.push(currentUser.activeJioTracker[i]);
+            }
+        }
+
+        userRef.doc(user.email).update({ activeJio: newActiveJio, activeJioTracker: newActiveJioTracker });
         jioRef.doc(jio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {

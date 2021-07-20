@@ -69,7 +69,7 @@ function User(props) {
             )
           })}
           <br />
-          <div className="description">{username}'s current rating is {originalRating}</div>
+          <div className="description">{username}'s average rating is {originalRating}</div>
         </div>
         <div className="displayreviews">
           <h2>Reviews</h2>

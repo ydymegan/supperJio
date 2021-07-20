@@ -267,7 +267,7 @@ export default function Profile() {
                     )
                 })}
                 <br />
-                <div className="description">My Current Rating is {originalRating}</div>
+                <div className="description">My Average Rating is {originalRating}</div>
                 </div>
                 <div className="displayreviews">
                     <h2>Reviews</h2>

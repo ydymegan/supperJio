@@ -227,6 +227,45 @@ export default function MyStartedJio() {
         //setSelectedJio("");
     };
 
+    const deleteJio = (e, jio) => {
+        e.preventDefault();
+
+        userRef.get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                var details = doc.data();
+                var i;
+                var newActiveJio = [];
+                var newActiveJioTracker = [];
+
+                for (i = 0; i < details.activeJio.length; i++) {
+                    if (details.activeJio[i] !== jio.jioID) {
+                        newActiveJio.push(details.activeJio[i]);
+                    }
+                }
+
+                for (i = 0; i < details.activeJioTracker.length; i++) {
+                    if (details.activeJioTracker[i].jioID !== jio.jioID) {
+                        newActiveJioTracker.push(details.activeJioTracker[i]);
+                    }
+                }
+
+                userRef.doc(details.email).update({ 
+                    activeJio: newActiveJio,
+                    activeJioTracker: newActiveJioTracker
+                })
+            })
+        })
+
+        jioRef.doc(jio.jioID).get().then(queryResult => {
+            queryResult.ref.delete();
+        }).then(() => {
+                alert('You have successfully deleted the jio!')
+            })
+            .catch(error => {
+                alert(error.message);
+            });
+    }
+
     return (
         <div className="page">
             <NavBar></NavBar>
@@ -261,6 +300,7 @@ export default function MyStartedJio() {
                             <div className="set">
                                 <td className="button2" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
                                 <button className="button2" onClick={e => { notifyUsers(e, jio) }}>Notify Users Now</button>
+                                <button className="button2" onClick={e => { deleteJio(e, jio)}}>Delete Jio</button>
                             </div>
                         </div>
                     ))

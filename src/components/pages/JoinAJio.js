@@ -64,8 +64,15 @@ export default function JoinAJio() {
     function submit(event) {
         event.preventDefault();
 
+        var docRef = userRef.doc(user.email);
+        docRef.get().then((doc) => {
+            setActive(doc.data().activeJio);
+        });
+
         if (order === "") {
             alert("Invalid Order");
+        } else if (active.length > 4) {
+            alert ("You are in 5 active jios");
         } else {
             return handleSubmit(event);
         }
