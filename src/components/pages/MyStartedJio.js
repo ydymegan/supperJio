@@ -148,6 +148,62 @@ export default function MyStartedJio() {
         setSelectedUser(selectedOption.label);
     };
 
+    function update(jio) {
+        var newActive = [];
+        var newActiveJioTracker = [];
+        var i;
+
+        userRef.get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+
+                // updating active jio and active jio tracker of the removed user
+                if (doc.data().username === selectedUser) {
+                    for (i = 0; i < doc.data().activeJio.length; i++) {
+                        if (doc.data().activeJio[i] !== jio.jioID) {
+                            newActive.push(doc.data().activeJio[i]);
+                        }
+                        if (doc.data().activeJioTracker[i].jioID !== jio.jioID) {
+                            newActiveJioTracker.push(doc.data().activeJioTracker[i]);
+                        }
+                    }
+   
+                    userRef.doc(doc.data().email).update({
+                        activeJio: newActive,
+                        activeJioTracker: newActiveJioTracker
+                    })
+                }
+
+                // updating starter user's active jio tracker
+                var newUsers = [];
+                var newReviewDone = [];
+
+                if (doc.data().username === jio.starterUsername) {
+                    newActiveJioTracker = [];
+                    for (i = 0; i < doc.data().activeJioTracker.length; i++) {
+                        if (doc.data().activeJioTracker[i].jioID === jio.jioID) {
+                            var idx;
+                            for (idx = 0; idx < doc.data().activeJioTracker[i].users.length; idx++) {
+                                if (doc.data().activeJioTracker[i].users[idx] !== selectedUser) {
+                                    newUsers.push(doc.data().activeJioTracker[i].users[idx]);
+                                    newReviewDone.push(doc.data().activeJioTracker[i].reviewDone[idx]);
+                                }
+                            }
+                        } else {
+                            newActiveJioTracker.push(doc.data().activeJioTracker[i]);
+                        }
+                    }
+
+                    var t = {jioID: jio.jioID, users: newUsers, reviewDone: newReviewDone};
+                    newActiveJioTracker.push(t);
+
+                    userRef.doc(doc.data().email).update({
+                        activeJioTracker: newActiveJioTracker
+                    })
+                }
+            })
+        })
+    }
+
     const removeUserAndOrder = (e, jio) => {
         e.preventDefault();
 
@@ -174,6 +230,9 @@ export default function MyStartedJio() {
             }
         }
 
+        update(jio);
+
+        // updating jio document
         jioRef.doc(jio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {

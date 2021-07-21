@@ -124,15 +124,49 @@ export default function MyJoinedJio() {
                 k = (idxForOrders.length !== k + 1) ? k + 1 : k;
             }
         }
+        
+        // updating starter's activeJioTracker
+        userRef.get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                newActiveJioTracker = [];
+                var newUsers = [];
+                var newReviewDone = [];
+                if (doc.data().username === jio.starterUsername) {
+                    for (i = 0; i < doc.data().activeJioTracker.length; i++) {
+                        if (doc.data().activeJioTracker[i].jioID === jio.jioID) {
+                            var idx;
+                            for (idx = 0; idx < doc.data().activeJioTracker[i].users.length; idx++) {
+                                if (doc.data().activeJioTracker[i].users[idx] !== username) {
+                                    newUsers.push(doc.data().activeJioTracker[i].users[idx]);
+                                    newReviewDone.push(doc.data().activeJioTracker[i].reviewDone[idx]);
+                                }
+                            }
+                        } else {
+                            newActiveJioTracker.push(doc.data().activeJioTracker[i]);
+                        }
+                    }
 
+                    var t = {jioID: jio.jioID, users: newUsers, reviewDone: newReviewDone};
+                    newActiveJioTracker.push(t);
+
+                    userRef.doc(doc.data().email).update({
+                        activeJioTracker: newActiveJioTracker
+                    })
+                }
+            })
+        })
+
+        // updating user's activeJio and activeJioTracker
         for (i = 0; i < currentUser.activeJio.length; i++) {
             if (jio.jioID !== currentUser.activeJio[i]) {
                 newActiveJio.push(currentUser.activeJio[i]);
             }
         }
 
+        newActiveJioTracker = [];
+
         for (i = 0; i < currentUser.activeJioTracker.length; i++) {
-            if (jio.jioID !== currentUser.activeJio[i].jioID) {
+            if (jio.jioID !== currentUser.activeJioTracker[i].jioID) {
                 newActiveJioTracker.push(currentUser.activeJioTracker[i]);
             }
         }

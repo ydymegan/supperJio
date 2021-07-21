@@ -47,10 +47,13 @@ export default function StartAJio() {
         e.preventDefault();
         setLoader(true);   
         
+        var originalActiveJioTracker = [];
+
         var docRef = userRef.doc(user.email);
         docRef.get().then((doc) => {
             setJioStarted(doc.data().numOfJioStarted);
             setActive(doc.data().activeJio);
+            originalActiveJioTracker = doc.data().activeJioTracker;
         });
 
         jioRef.doc(username + "_" + jioStarted).set({
@@ -77,11 +80,19 @@ export default function StartAJio() {
 
         active.push(username + "_" + jioStarted);
 
-        console.log(jioStarted)
+        var newActiveJioTracker = [];
+        var i;
+        for (i = 0; i < originalActiveJioTracker.length; i++) {
+            newActiveJioTracker.push(originalActiveJioTracker[i]);
+        }
+
+        i = {jioID: username + "_" + jioStarted, users: [], reviewDone: []};
+        newActiveJioTracker.push(i);
 
         userRef.doc(user.email).update({
             numOfJioStarted: (jioStarted+1),
-            activeJio: active
+            activeJio: active,
+            activeJioTracker: newActiveJioTracker
         })
 
         setFoodStore("");

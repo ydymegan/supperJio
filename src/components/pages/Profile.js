@@ -19,7 +19,7 @@ export default function Profile() {
     const [originalRating, setOriginalRating] = useState(0); // original rating 
     const [active, setActive] = useState([]); // active list (jioID only)
     const [activeList, setActiveList] = useState([]); // active list of jios
-    const [tracker, setTracker] = useState([]);
+    const [tracker, setTracker] = useState([]); // for active jio tracker details of current user
     const [reviewUser, setReviewUser] = useState(""); // for username of user being rated
     const [userReview, setUserReview] = useState(""); // for written review
     const [selectedJio, setSelectedJio] = useState(""); // for jio ID
@@ -53,21 +53,15 @@ export default function Profile() {
 
     function getDetails() {
         var active = [];
-        var username = "";
-        var dataLength;
-        var data = [];
 
         userRef.doc(user.email).get().then(queryResult => {
             active = queryResult.data().activeJio;
-            username = queryResult.data().username;
-            dataLength = queryResult.data().activeJioTracker.length;
-            data = queryResult.data().activeJioTracker;
+            setTracker(queryResult.data().activeJioTracker);
         })
 
         jioRef.onSnapshot((querySnapshot) => {
             setLoading(true);
             const items = [];
-            var track = [];
 
             querySnapshot.forEach((doc) => {
                 var length = active.length;
@@ -75,32 +69,11 @@ export default function Profile() {
                     if (doc.data().jioID === active[length-1]) {
                         var r = {id: length-1, activeJio: doc.data()};
                         items.push(r);
-                        if (dataLength < 1) {
-                            var userList = [];
-                            var reviewDone = [];
-                            var i;
-                            if (username === doc.data().starterUsername) {
-                                for (i = 0; i < doc.data().joinerUsernames.length; i++) {
-                                    userList.push(doc.data().joinerUsernames[i]);
-                                    reviewDone.push(false);
-                                }
-                            } else {
-                                userList.push(doc.data().starterUsername);
-                                reviewDone.push(false);
-                            }
-                            
-                            var t = {jioID: doc.data().jioID, users: userList, reviewDone: reviewDone}
-                            track.push(t);
-                        } else {
-                            track = data;
-                        }
                     }
                     length--;
                 }
             });
 
-            userRef.doc(user.email).update({ activeJioTracker: track });
-            setTracker(track);
             setActiveList(items);
             setLoading(false);
         });
@@ -227,6 +200,8 @@ export default function Profile() {
                         activeJio: newActiveJio
                     })
 
+                    setTracker(newActiveJioTracker);
+                    
                     userRef.doc(details.email).update({ 
                         ratingArray: newRatingArray, 
                         ratingAverage: newRatingAverage.toFixed(2),

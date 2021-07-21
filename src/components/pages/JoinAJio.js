@@ -92,6 +92,52 @@ export default function JoinAJio() {
         setRegion(selectedOption);
     };
 
+    function update() {
+        var originalActiveJioTracker = [];
+        var newActiveJioTracker = [];
+        var newUsers = [];
+        var newReviewDone = [];
+        var joinerActiveJioTracker = [];
+
+        userRef.get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                // updating starter user's activeJioTracker
+                if (doc.data().username === selectedJio.starterUsername) {
+                    originalActiveJioTracker = doc.data().activeJioTracker;
+                    var i;
+                    for (i = 0; i < originalActiveJioTracker.length; i++) {
+                        if (originalActiveJioTracker[i].jioID === selectedJio.jioID) {
+                            newUsers = originalActiveJioTracker[i].users;
+                            newReviewDone = originalActiveJioTracker[i].reviewDone;
+                        } else {
+                            newActiveJioTracker.push(originalActiveJioTracker[i]);
+                        }
+                    }
+
+                    newUsers.push(username);
+                    newReviewDone.push(false);
+                    var t = {jioID: selectedJio.jioID, users: newUsers, reviewDone: newReviewDone}
+                    newActiveJioTracker.push(t);
+
+                    userRef.doc(doc.data().email).update({
+                        activeJioTracker: newActiveJioTracker
+                    })
+                } 
+                // updating joiner's activeJioTracker
+                if (doc.data().username === username) {
+                    joinerActiveJioTracker = doc.data().activeJioTracker;
+                    var n = {jioID: selectedJio.jioID, users: [selectedJio.starterUsername], reviewDone: [false]}
+                    joinerActiveJioTracker.push(n);
+
+                    userRef.doc(user.email).update({
+                        activeJio: active,
+                        activeJioTracker: joinerActiveJioTracker
+                    })
+                }
+            })
+        })    
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoader(true);
@@ -114,9 +160,7 @@ export default function JoinAJio() {
 
         active.push(selectedJio.jioID);
 
-        userRef.doc(user.email).update({
-            activeJio: active
-        })
+        update();
 
         jioRef.doc(selectedJio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
