@@ -67,16 +67,11 @@ export default function MyJoinedJio() {
 
     function displayOrders(jio) {
         var i;
-        var j;
-        let temp = [];
         let output = "";
         for (i = 0; i < jio.orders.length; i++) {
             if (username === jio.joinerUsernames[i]) {
-                temp.push(jio.orders[i]);
+                output = jio.orders[i];
             }
-        }
-        for (j = 0; j < temp.length; j++) {
-            (j === temp.length - 1) ? output += temp[j] : output += temp[j] + ", ";
         }
         return output;
     }

@@ -15,6 +15,7 @@ export default function Profile() {
     const jioRef = db.collection("jio");
     const [reviewList, setReviewList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [username, setUsername] = useState(""); // username of current user
     const [userRating, setUserRating] = useState(0); // rounded off rating
     const [originalRating, setOriginalRating] = useState(0); // original rating 
     const [active, setActive] = useState([]); // active list (jioID only)
@@ -57,6 +58,7 @@ export default function Profile() {
         userRef.doc(user.email).get().then(queryResult => {
             active = queryResult.data().activeJio;
             setTracker(queryResult.data().activeJioTracker);
+            setUsername(queryResult.data().username);
         })
 
         jioRef.onSnapshot((querySnapshot) => {
@@ -106,6 +108,23 @@ export default function Profile() {
         }
         
         return options;
+    }
+
+    function getFoodOrder(orders, joinerUsernames) {
+        var order = "";
+        var idx;
+
+        for (idx = 0; idx < joinerUsernames.length; idx++) {
+            if (joinerUsernames[idx] === username) {
+                order = orders[idx];
+            }
+        }
+
+        if (order === "") {
+            order = "You Started the Jio";
+        }
+
+        return order;
     }
     
     const handleReview = (selectedOption, activeJio) => {
@@ -260,7 +279,8 @@ export default function Profile() {
                     <ul>
                         {activeList.map(activeJio => (
                             <div key={activeJio.id} className="box">
-                                <p>Jio ID: {activeJio.activeJio.jioID}</p>
+                                <p>Food Store: {activeJio.activeJio.foodStore}</p>
+                                <p>Food Order: {getFoodOrder(activeJio.activeJio.orders, activeJio.activeJio.joinerUsernames)}</p>
                                 <p>Order Status: {activeJio.activeJio.orderStatus}</p>
                                 <Select
                                 className="select"

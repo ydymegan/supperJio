@@ -151,17 +151,25 @@ export default function JoinAJio() {
             joinerUsernameArray.push(selectedJio.joinerUsernames[i]);
         }
 
+        var exists = false;
+
         for (j = 0; j < selectedJio.orders.length; j++) {
-            orderArray.push(selectedJio.orders[j]);
+            if (joinerUsernameArray[j] === username) {
+                var newOrder = selectedJio.orders[j] + ", " + order;
+                orderArray.push(newOrder);
+                exists = true;
+            } else {
+                orderArray.push(selectedJio.orders[j]);
+            }
         }
 
-        joinerUsernameArray.push(username);
-        orderArray.push(order);
-
-        active.push(selectedJio.jioID);
-
-        update();
-
+        if (!exists) {
+            joinerUsernameArray.push(username);
+            orderArray.push(order);
+            active.push(selectedJio.jioID);
+            update();
+        }
+        
         jioRef.doc(selectedJio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {
