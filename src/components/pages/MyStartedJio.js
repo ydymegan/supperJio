@@ -341,7 +341,7 @@ export default function MyStartedJio() {
                             <br />
                             <div className="set">
                                 <button className="button2" onClick={e => { remove(e, jio) }}>Remove User From Jio</button>
-                                <Nav.Link className="button2" href={'/user/' + selectedUser}>View User Profile</Nav.Link>
+                                <Nav.Link className="button2" href={(selectedUser !== "") ? '/user/' + selectedUser : '/my-started-jio'}>View User Profile</Nav.Link>
                             </div>
                             <br />
                             <input type="file" onChange={e => { setImage(e.target.files[0]); setSelectedJio(jio); }} required />
