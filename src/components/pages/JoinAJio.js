@@ -22,13 +22,24 @@ export default function JoinAJio() {
     const [loader, setLoader] = useState(false);
     const [username, setUsername] = useState("");
     const [active, setActive] = useState([]);
+    const [pendingList, setPendingList] = useState([]);
+    const [details, setDetails] = useState([]);
 
     function getDetails() {
         var docRef = userRef.doc(user.email);
         docRef.get().then((doc) => {
             setUsername(doc.data().username);
             setActive(doc.data().activeJio);
+            setPendingList(doc.data().activeJioTracker);
         });
+
+        jioRef.onSnapshot((querySnapshot) => { 
+            const items = [];
+            querySnapshot.forEach((doc) => {
+                items.push(doc.data());
+            });
+            setDetails(items);
+        })
     }
     
     function getJio() {
@@ -67,12 +78,33 @@ export default function JoinAJio() {
         var docRef = userRef.doc(user.email);
         docRef.get().then((doc) => {
             setActive(doc.data().activeJio);
+            setPendingList(doc.data().activeJioTracker);
         });
+
+        var idx;
+        var check = true;
+        
+        for (idx = 0; idx < pendingList.length; idx++) {
+            var i;
+            for (i = 0; i < details.length; i++) {
+                if (details[i].jioID === pendingList[idx].jioID && details[i].orderStatus === "Ready to Collect") {
+                    var j
+                    for (j = 0; j < pendingList[idx].reviewDone.length; j++) {
+                        if (pendingList[idx].reviewDone[j] === false) {
+                            check = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         if (order === "") {
             alert("Invalid Order");
+        } else if (!check) {
+            alert("Error: You have pending user reviews, please complete them in the Profile Page");
         } else if (active.length > 4) {
-            alert ("You are in 5 active jios");
+            alert ("Error: You are in 5 active jios");
         } else {
             return handleSubmit(event);
         }

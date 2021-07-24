@@ -74,17 +74,6 @@ export default function MyStartedJio() {
         }
     }
 
-    // function displayJoinerUsernames(jio) {
-    //     if (jio.starterUsername === username) {
-    //         var i;
-    //         let output = "";
-    //         for (i = 0; i < jio.joinerUsernames.length; i++) {
-    //             (i === jio.joinerUsernames.length - 1) ? output += jio.joinerUsernames[i] : output += jio.joinerUsernames[i] + ", ";
-    //         }
-    //         return output;
-    //     }
-    // }
-
     function updateURL(url) {
         jioRef.doc(selectedJio.jioID).update({ receiptURL: url });
     }
@@ -107,21 +96,13 @@ export default function MyStartedJio() {
 
     function remove(event, jio) {
         event.preventDefault();
-        var i;
 
         if (selectedUser === "") {
-            alert("Error: No username has been input");
+            alert("Error: You have not selected any user");
+        } else if (jio.orderTime < new Date()) {
+            alert("Error: You are unable to remove users after order time.");
         } else {
-            for (i = 0; i < jio.joinerUsernames.length; i++) {
-                if (jio.joinerUsernames[i] === selectedUser) {
-                    return removeUserAndOrder(event, jio);
-                }
-            }
-
-            if (i === jio.joinerUsernames.length) {
-                alert("Error: No Such Username" + selectedUser);
-            }
-
+            return removeUserAndOrder(event, jio);
         }
     }
 
@@ -286,6 +267,15 @@ export default function MyStartedJio() {
         //setSelectedJio("");
     };
 
+    function deleting(e, jio) {
+        e.preventDefault();
+        if (jio.orderTime < new Date()) {
+            alert("You cannot delete the jio after the order time");
+        } else {
+            return deleteJio(e, jio);
+        }
+    }
+
     const deleteJio = (e, jio) => {
         e.preventDefault();
 
@@ -358,8 +348,8 @@ export default function MyStartedJio() {
                             <br /><br />
                             <div className="set">
                                 <td className="button2" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
-                                <button className="button2" onClick={e => { notifyUsers(e, jio) }}>Notify Users Now</button>
-                                <button className="button2" onClick={e => { deleteJio(e, jio)}}>Delete Jio</button>
+                                <button className="button2" onClick={e => { notifyUsers(e, jio) }}>Food is Ready for Collection</button>
+                                <button className="button2" onClick={e => { deleting(e, jio)}}>Delete Jio</button>
                             </div>
                         </div>
                     ))
