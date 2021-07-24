@@ -4,6 +4,7 @@ import { Container, Button } from "react-bootstrap"
 import NavBar from '../layout/NavBar.js'
 import './ContactUs.css'
 import firebase from "firebase/app";
+import { useHistory } from 'react-router-dom'
 
 export default function ContactUs() {
     var user = firebase.auth().currentUser;
@@ -13,6 +14,7 @@ export default function ContactUs() {
     const [queryType, setQueryType] = useState("");
     const [message, setMessage] = useState("");
     const [loader, setLoader] = useState(false);
+    let history = useHistory();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,7 +43,7 @@ export default function ContactUs() {
     return (
         <div className="page">
             <NavBar></NavBar>
-            <Button href="/" className="button">Back to Home</Button>
+            <Button onClick={history.goBack} className="button">Back</Button>
             <Container
                 className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>

@@ -147,7 +147,7 @@ export default function MyStartedJio() {
                             newActiveJioTracker.push(doc.data().activeJioTracker[i]);
                         }
                     }
-   
+
                     userRef.doc(doc.data().email).update({
                         activeJio: newActive,
                         activeJioTracker: newActiveJioTracker
@@ -174,7 +174,7 @@ export default function MyStartedJio() {
                         }
                     }
 
-                    var t = {jioID: jio.jioID, users: newUsers, reviewDone: newReviewDone};
+                    var t = { jioID: jio.jioID, users: newUsers, reviewDone: newReviewDone };
                     newActiveJioTracker.push(t);
 
                     userRef.doc(doc.data().email).update({
@@ -298,7 +298,7 @@ export default function MyStartedJio() {
                     }
                 }
 
-                userRef.doc(details.email).update({ 
+                userRef.doc(details.email).update({
                     activeJio: newActiveJio,
                     activeJioTracker: newActiveJioTracker
                 })
@@ -308,8 +308,8 @@ export default function MyStartedJio() {
         jioRef.doc(jio.jioID).get().then(queryResult => {
             queryResult.ref.delete();
         }).then(() => {
-                alert('You have successfully deleted the jio!')
-            })
+            alert('You have successfully deleted the jio!')
+        })
             .catch(error => {
                 alert(error.message);
             });
@@ -348,8 +348,8 @@ export default function MyStartedJio() {
                             <br /><br />
                             <div className="set">
                                 <td className="button2" onClick={e => viewReceipt(e, jio)}>View Receipt</td>
-                                <button className="button2" onClick={e => { notifyUsers(e, jio) }}>Food is Ready for Collection</button>
-                                <button className="button2" onClick={e => { deleting(e, jio)}}>Delete Jio</button>
+                                <button className="button2" onClick={e => { notifyUsers(e, jio) }}>Notify Users for Collection</button>
+                                <button className="button2" onClick={e => { deleting(e, jio) }}>Delete Jio</button>
                             </div>
                         </div>
                     ))

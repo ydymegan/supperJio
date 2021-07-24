@@ -33,7 +33,7 @@ export default function JoinAJio() {
             setPendingList(doc.data().activeJioTracker);
         });
 
-        jioRef.onSnapshot((querySnapshot) => { 
+        jioRef.onSnapshot((querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
                 items.push(doc.data());
@@ -41,7 +41,7 @@ export default function JoinAJio() {
             setDetails(items);
         })
     }
-    
+
     function getJio() {
         setLoading(true);
         jioRef.onSnapshot((querySnapshot) => {
@@ -83,7 +83,7 @@ export default function JoinAJio() {
 
         var idx;
         var check = true;
-        
+
         for (idx = 0; idx < pendingList.length; idx++) {
             var i;
             for (i = 0; i < details.length; i++) {
@@ -104,7 +104,7 @@ export default function JoinAJio() {
         } else if (!check) {
             alert("Error: You have pending user reviews, please complete them in the Profile Page");
         } else if (active.length > 4) {
-            alert ("Error: You are in 5 active jios");
+            alert("Error: You are in 5 active jios");
         } else {
             return handleSubmit(event);
         }
@@ -148,17 +148,17 @@ export default function JoinAJio() {
 
                     newUsers.push(username);
                     newReviewDone.push(false);
-                    var t = {jioID: selectedJio.jioID, users: newUsers, reviewDone: newReviewDone}
+                    var t = { jioID: selectedJio.jioID, users: newUsers, reviewDone: newReviewDone }
                     newActiveJioTracker.push(t);
 
                     userRef.doc(doc.data().email).update({
                         activeJioTracker: newActiveJioTracker
                     })
-                } 
+                }
                 // updating joiner's activeJioTracker
                 if (doc.data().username === username) {
                     joinerActiveJioTracker = doc.data().activeJioTracker;
-                    var n = {jioID: selectedJio.jioID, users: [selectedJio.starterUsername], reviewDone: [false]}
+                    var n = { jioID: selectedJio.jioID, users: [selectedJio.starterUsername], reviewDone: [false] }
                     joinerActiveJioTracker.push(n);
 
                     userRef.doc(user.email).update({
@@ -167,7 +167,7 @@ export default function JoinAJio() {
                     })
                 }
             })
-        })    
+        })
     }
 
     const handleSubmit = (e) => {
@@ -201,7 +201,7 @@ export default function JoinAJio() {
             active.push(selectedJio.jioID);
             update();
         }
-        
+
         jioRef.doc(selectedJio.jioID).update({ joinerUsernames: joinerUsernameArray, orders: orderArray }
         )
             .then(() => {
@@ -222,7 +222,7 @@ export default function JoinAJio() {
             <NavBar></NavBar>
             <Button href="/" className="button">Back to Home</Button>
             <Container style={{ width: "600px", justify: "center" }}>
-                <div className="title">Filter Available Jios by Region</div>
+                <div className="title">Filter by Region</div>
                 <Select
                     placeholder="Region"
                     value={selectedOption.label}

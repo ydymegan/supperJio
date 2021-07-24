@@ -3,8 +3,10 @@ import NavBar from '../layout/NavBar.js'
 import { Data } from '../../data/FaqData.js'
 import { Container, Button } from "react-bootstrap"
 import './FAQ.css'
+import { useHistory } from 'react-router-dom'
 
 export default function FAQ() {
+    let history = useHistory();
 
     const [selected, setSelected] = useState(null)
 
@@ -19,7 +21,7 @@ export default function FAQ() {
     return (
         <div className="body">
             <NavBar></NavBar>
-            <Button href="/" className="button">Back to Home</Button>
+            <Button onClick={history.goBack} className="button">Back</Button>
             <Container style={{ width: "600px", justify: "center" }}>
                 <div className="head">Frequently Asked Questions</div>
                 <div className="accordion">

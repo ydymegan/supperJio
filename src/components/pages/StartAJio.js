@@ -36,7 +36,7 @@ export default function StartAJio() {
             setPendingList(doc.data().activeJioTracker);
         });
 
-        jioRef.onSnapshot((querySnapshot) => { 
+        jioRef.onSnapshot((querySnapshot) => {
             const items = [];
             querySnapshot.forEach((doc) => {
                 items.push(doc.data());
@@ -44,9 +44,9 @@ export default function StartAJio() {
             setDetails(items);
         })
     }
-    
+
     useEffect(() => {
-        getDetails(); 
+        getDetails();
         // eslint-disable-next-line
     }, []);
 
@@ -56,14 +56,14 @@ export default function StartAJio() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoader(true); 
-        
+        setLoader(true);
+
         var originalActiveJioTracker = [];
 
         var docRef = userRef.doc(user.email);
         docRef.get().then((doc) => {
             setActive(doc.data().activeJio);
-            setJioStarted(doc.data().numOfJioStarted); 
+            setJioStarted(doc.data().numOfJioStarted);
             originalActiveJioTracker = doc.data().activeJioTracker;
 
             jioRef.doc(username + "_" + jioStarted).set({
@@ -87,20 +87,20 @@ export default function StartAJio() {
                     alert(error.message);
                     setLoader(false);
                 });
-    
+
             active.push(username + "_" + jioStarted);
-    
+
             var newActiveJioTracker = [];
             var i;
             for (i = 0; i < originalActiveJioTracker.length; i++) {
                 newActiveJioTracker.push(originalActiveJioTracker[i]);
             }
-    
-            i = {jioID: username + "_" + jioStarted, users: [], reviewDone: []};
+
+            i = { jioID: username + "_" + jioStarted, users: [], reviewDone: [] };
             newActiveJioTracker.push(i);
-    
+
             userRef.doc(user.email).update({
-                numOfJioStarted: (jioStarted+1),
+                numOfJioStarted: (jioStarted + 1),
                 activeJio: active,
                 activeJioTracker: newActiveJioTracker
             })
