@@ -99,7 +99,8 @@ export default function MyStartedJio() {
 
         if (selectedUser === "") {
             alert("Error: You have not selected any user");
-        } else if (jio.orderTime < new Date()) {
+        } else if (jio.orderTime.toDate().getTime() < new Date().getTime()) {
+            console.log(jio.orderTime);
             alert("Error: You are unable to remove users after order time.");
         } else {
             return removeUserAndOrder(event, jio);
@@ -269,7 +270,7 @@ export default function MyStartedJio() {
 
     function deleting(e, jio) {
         e.preventDefault();
-        if (jio.orderTime < new Date()) {
+        if (jio.orderTime.toDate().getTime() < new Date().getTime()) {
             alert("You cannot delete the jio after the order time");
         } else {
             return deleteJio(e, jio);
