@@ -119,7 +119,7 @@ export default function MyJoinedJio() {
                 k = (idxForOrders.length !== k + 1) ? k + 1 : k;
             }
         }
-        
+
         // updating starter's activeJioTracker
         userRef.get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
@@ -141,7 +141,7 @@ export default function MyJoinedJio() {
                         }
                     }
 
-                    var t = {jioID: jio.jioID, users: newUsers, reviewDone: newReviewDone};
+                    var t = { jioID: jio.jioID, users: newUsers, reviewDone: newReviewDone };
                     newActiveJioTracker.push(t);
 
                     userRef.doc(doc.data().email).update({

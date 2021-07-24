@@ -2,12 +2,15 @@ import React from "react"
 import NavBar from '../layout/NavBar.js'
 import { Container, Button } from "react-bootstrap"
 import './AboutUs.css'
+import { useHistory } from 'react-router-dom'
 
 export default function AboutUs() {
+    let history = useHistory();
+
     return (
         <div className="page">
             <NavBar></NavBar>
-            <Button href="/" className="button">Back to Home</Button>
+            <Button onClick={history.goBack} className="button">Back</Button>
             <Container className="d-flex align-items-center justify-content-center"
                 style={{ minHeight: "100vh" }}>
                 <div className="w-100" style={{ maxWidth: "600px" }}>

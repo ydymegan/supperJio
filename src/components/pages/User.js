@@ -13,7 +13,7 @@ function User(props) {
   const [userRating, setUserRating] = useState(0);
   const [originalRating, setOriginalRating] = useState(0);
   let history = useHistory();
-  
+
   function getRatingAndReview() {
     userRef.get().then(queryResult => {
       var reviews = [];

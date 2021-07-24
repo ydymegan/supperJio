@@ -6,6 +6,7 @@ import { db } from '../../firebase.js'
 import './Profile.css';
 import { FaStar } from 'react-icons/fa';
 import Select from 'react-select';
+import { useHistory } from 'react-router-dom'
 
 export default function Profile() {
     var user = firebase.auth().currentUser;
@@ -25,7 +26,8 @@ export default function Profile() {
     const [userReview, setUserReview] = useState(""); // for written review
     const [selectedJio, setSelectedJio] = useState(""); // for jio ID
     const [starRating, setStarRating] = useState(0); // for star rating
-    const [hover, setHover] = useState(null); 
+    const [hover, setHover] = useState(null);
+    let history = useHistory();
 
     function getRatings() {
         userRef.doc(user.email).get().then(queryResult => {
@@ -33,16 +35,13 @@ export default function Profile() {
             var length = queryResult.data().reviews.length;
             var i = 0;
             var list = [];
-            if (length === 0) {
-                list.push({ id: 0, review: "No Reviews Yet" });
-            } else {
-                while (length > 0) {
-                    var r = { id: i, review: queryResult.data().reviews[length - 1] };
-                    list.push(r);
-                    length--;
-                    i++;
-                }
+            while (length > 0) {
+                var r = { id: i, review: queryResult.data().reviews[length - 1] };
+                list.push(r);
+                length--;
+                i++;
             }
+
 
             setActive(queryResult.data().activeJio);
             setOriginalRating(queryResult.data().ratingAverage);
@@ -68,8 +67,8 @@ export default function Profile() {
             querySnapshot.forEach((doc) => {
                 var length = active.length;
                 while (length > 0) {
-                    if (doc.data().jioID === active[length-1]) {
-                        var r = {id: length-1, activeJio: doc.data()};
+                    if (doc.data().jioID === active[length - 1]) {
+                        var r = { id: length - 1, activeJio: doc.data() };
                         items.push(r);
                     }
                     length--;
@@ -100,13 +99,13 @@ export default function Profile() {
             if (tracker[i].jioID === activeJio.activeJio.jioID) {
                 for (j = 0; j < tracker[i].users.length; j++) {
                     if (tracker[i].reviewDone[j] === false) {
-                        options.push({ value: k, label: tracker[i].users[j]});
+                        options.push({ value: k, label: tracker[i].users[j] });
                         k++;
                     }
                 }
             }
         }
-        
+
         return options;
     }
 
@@ -126,8 +125,24 @@ export default function Profile() {
 
         return order;
     }
-    
-    const handleReview = (selectedOption, activeJio) => {
+
+    function filterByJoiner(activeJio) {
+        return activeJio.activeJio.joinerUsernames.length !== 0;
+    }
+
+    function filterByStatus(activeJio) {
+        return activeJio.activeJio.orderStatus === "Ready to Collect";
+    }
+
+    function filterActiveList() {
+        if (activeList.length > 0) {
+            return activeList.filter(activeJio => filterByJoiner(activeJio)).filter(activeJio => filterByStatus(activeJio));
+        } else {
+            return activeList;
+        }
+    }
+
+    const handleReview = (selectedOption) => {
         setReviewUser(selectedOption.label);
     };
 
@@ -204,12 +219,12 @@ export default function Profile() {
                                 }
                             } else {
                                 newActiveJio = active
-                                t = {jioID: selectedJio, users: tracker[i].users, reviewDone: newReviewDone}
+                                t = { jioID: selectedJio, users: tracker[i].users, reviewDone: newReviewDone }
                                 newActiveJioTracker.push(t)
                             }
 
                         } else {
-                            t = {jioID: tracker[i].jioID, users: tracker[i].users, reviewDone: tracker[i].reviewDone}
+                            t = { jioID: tracker[i].jioID, users: tracker[i].users, reviewDone: tracker[i].reviewDone }
                             newActiveJioTracker.push(t)
                         }
                     }
@@ -220,20 +235,20 @@ export default function Profile() {
                     })
 
                     setTracker(newActiveJioTracker);
-                    
-                    userRef.doc(details.email).update({ 
-                        ratingArray: newRatingArray, 
+
+                    userRef.doc(details.email).update({
+                        ratingArray: newRatingArray,
                         ratingAverage: newRatingAverage.toFixed(2),
                         reviews: newReviewsArray,
                     }).then(() => {
                         alert('You have successfully submitted your review!')
                     })
-                    .catch(error => {
-                        alert(error.message);
-                    });
+                        .catch(error => {
+                            alert(error.message);
+                        });
                 }
             })
-        });                
+        });
 
         setReviewUser("");
         setUserReview("");
@@ -245,23 +260,23 @@ export default function Profile() {
     return (
         <div className="page">
             <NavBar></NavBar>
-            <Button href="/" className="button">Back to Home</Button>
+            <Button onClick={history.goBack} className="button">Back</Button>
             <Container>
                 <div className="ratingTitle">
-                Ratings
-                <br />
-                {[...Array(5)].map((star, i) => {
-                    const ratingValue = i+1;
-                    return (
-                        <FaStar
-                            className="star"
-                            size={50}
-                            color={ratingValue <= userRating ? "#ffc107" : "e4e5e9"}
-                        />
-                    )
-                })}
-                <br />
-                <div className="description">My Average Rating is {originalRating}</div>
+                    Ratings
+                    <br />
+                    {[...Array(5)].map((star, i) => {
+                        const ratingValue = i + 1;
+                        return (
+                            <FaStar
+                                className="star"
+                                size={50}
+                                color={ratingValue <= userRating ? "#ffc107" : "e4e5e9"}
+                            />
+                        )
+                    })}
+                    <br />
+                    <div className="description">My Average Rating is {originalRating}</div>
                 </div>
                 <div className="displayreviews">
                     <h2>Reviews</h2>
@@ -274,40 +289,38 @@ export default function Profile() {
             </Container>
             <Container>
                 <div className="displayjios">
-                    <h2> {(activeList.length === 0) ? "No " : null} Pending User Rating</h2>
-                    <h4>You may only review once order status is "Ready to Collect"</h4>
+                    <h2>Pending User Rating</h2>
                     <ul>
-                        {activeList.map(activeJio => (
+                        {filterActiveList().map(activeJio => (
                             <div key={activeJio.id} className="box">
                                 <p>Food Store: {activeJio.activeJio.foodStore}</p>
                                 <p>Food Order: {getFoodOrder(activeJio.activeJio.orders, activeJio.activeJio.joinerUsernames)}</p>
-                                <p>Order Status: {activeJio.activeJio.orderStatus}</p>
                                 <Select
-                                className="select"
-                                value={selectedOption.label}
-                                options={getUsernames(activeJio)}
-                                onChange={handleReview}
-                                placeholder="Select User to Review"
+                                    className="select"
+                                    value={selectedOption.label}
+                                    options={getUsernames(activeJio)}
+                                    onChange={handleReview}
+                                    placeholder="Select User to Review"
                                 />
-                                <br /> 
+                                <br />
                                 <div className="starRating">
                                     {[...Array(5)].map((star, i) => {
-                                        const ratingValue = i+1;
+                                        const ratingValue = i + 1;
                                         return (
                                             <label>
-                                            <input
-                                                type="radio"
-                                                className="rating"
-                                                value={ratingValue}
-                                                onClick={() => {setStarRating(ratingValue); setSelectedJio(activeJio.activeJio.jioID); }}
-                                            />
-                                            <FaStar
-                                                className="star"
-                                                size={30}
-                                                color={(ratingValue <= (hover || starRating )) && (activeJio.activeJio.jioID === selectedJio) ? "#ffc107" : "e4e5e9"}
-                                                onMouseEnter={() => (activeJio.activeJio.jioID === selectedJio) ? setHover(ratingValue) : null}
-                                                onMouseLeave={() => (activeJio.activeJio.jioID === selectedJio) ? setHover(null) : null}
-                                            />
+                                                <input
+                                                    type="radio"
+                                                    className="rating"
+                                                    value={ratingValue}
+                                                    onClick={() => { setStarRating(ratingValue); setSelectedJio(activeJio.activeJio.jioID); }}
+                                                />
+                                                <FaStar
+                                                    className="star"
+                                                    size={30}
+                                                    color={(ratingValue <= (hover || starRating)) && (activeJio.activeJio.jioID === selectedJio) ? "#ffc107" : "e4e5e9"}
+                                                    onMouseEnter={() => (activeJio.activeJio.jioID === selectedJio) ? setHover(ratingValue) : null}
+                                                    onMouseLeave={() => (activeJio.activeJio.jioID === selectedJio) ? setHover(null) : null}
+                                                />
                                             </label>
                                         )
                                     })}
@@ -318,7 +331,7 @@ export default function Profile() {
                                     value={(activeJio.activeJio.jioID === selectedJio) ? userReview : null}
                                     onClick={(e) => { setUserReview(e.target.value); setSelectedJio(activeJio.activeJio.jioID); }}
                                     onChange={(e) => { setUserReview(e.target.value); setSelectedJio(activeJio.activeJio.jioID); }}
-                                    required 
+                                    required
                                 />
                                 <br />
                                 <button className="button3" onClick={e => { handleSubmit(activeJio) }}>Submit Review</button>
