@@ -62,7 +62,7 @@ export default function ContactUs() {
 
                         <label>Subject</label>
                         <input
-                            placeholder="Query Type"
+                            placeholder="Subject"
                             value={queryType}
                             onChange={(e) => setQueryType(e.target.value)}
                             required
