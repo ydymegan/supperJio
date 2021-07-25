@@ -56,5 +56,5 @@ npm start or yarn start
 * **Rating & Review System**
 
 ## Status
-Under development. 
+Under development. <br />
 Last Updated: 25th July 2021
