@@ -1,7 +1,7 @@
 # supperJio
 
 NUS Orbital (CP2106 Independent Software Development Project) <br />
-*By Megan Yee and Milton Sia*
+*By Megan Yee and Milton Sia* <br />
 **Demo of App:** https://supper-jio.vercel.app/
 
 ## General Info
