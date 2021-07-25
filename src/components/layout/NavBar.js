@@ -11,7 +11,8 @@ export default function NavBar() {
     const { currentUser, logout } = useAuth()
     const [error, setError] = useState("")
     const [username, setUsername] = useState("");
-    const history = useHistory()
+    const [clicked, setClicked] = useState(false);
+    const history = useHistory();
 
     var docRef = userRef.doc(currentUser.email);
     docRef.get().then((doc) => {
@@ -33,7 +34,10 @@ export default function NavBar() {
         <div>
             <Navbar>
                 <Nav.Link href="/"><h1 className="navbar-logo">supperJio <i className="fas fa-utensils"></i></h1></Nav.Link>
-                <nav className="navbar-items">
+                <div className="menu-icon" onClick={() => setClicked(!clicked)}>
+                    <div className={(clicked) ? 'fas fa-times' : 'fas fa-bars'}></div>
+                </div>
+                <nav className={(clicked) ? 'navbar-items active' : 'navbar-items'}>
                     <Nav.Link href="about-us" className="nav-links">About Us</Nav.Link>
                     <Nav.Link href="FAQ" className="nav-links">FAQs</Nav.Link>
                     <Nav.Link href="contact-us" className="nav-links">Contact Us</Nav.Link>

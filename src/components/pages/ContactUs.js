@@ -60,7 +60,7 @@ export default function ContactUs() {
                             required
                         />
 
-                        <label>Query Type</label>
+                        <label>Subject</label>
                         <input
                             placeholder="Query Type"
                             value={queryType}

@@ -334,7 +334,7 @@ export default function MyStartedJio() {
                             <p>Joiners/Orders: {displayOrders(jio)}</p>
                             <Select
                                 value={selectedOption.label}
-                                options={getUsernames(jio)}
+                                options={getUsernames(jio)}     
                                 onChange={handleSelectUser}
                                 placeholder="Select User To Remove From Jio / View Profile"
                             />
