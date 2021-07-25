@@ -38,8 +38,20 @@ npm start or yarn start
 
 ## Features
 
-**Current Features**
-* Firebase Authentication 
-* Landing Page
+**List of System Features**
+* Firebase Authentication (Email & Password) 
+* Landing Page w/ options to Start a Jio or Join a Jio and to look at details of My Started Jio & My Joined Jio
+* Navigation Bar (About Us, FAQs, Contact Us, Profile, Update Profile & Logout)
+* Join a Jio: Filter function to narrow down jios of a desired region
+* My Started Jio:
+  * Select users to remove them / view their profile
+  * Upload & View receipt 
+  * Notify users when food is ready for collection
+  * Delete the entire Jio
+* My Joined Jio:
+  * View starter user profile
+  * Remove order
+  * View Receipt
+* Rating & Review System
 
-Last Updated: 27th May 2021
+Last Updated: 25th July 2021
