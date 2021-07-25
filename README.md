@@ -43,7 +43,7 @@ npm start or yarn start
 * **Landing Page** w/ options to Start a Jio or Join a Jio and to look at details of My Started Jio & My Joined Jio
 * **Navigation Bar** (About Us, FAQs, Contact Us, Profile, Update Profile & Logout)
 * **Join a Jio:** 
- * Filter function to narrow down jios of a desired region
+  * Filter function to narrow down jios of a desired region
 * **My Started Jio:**
   * Select users to remove them / view their profile
   * Upload & View receipt 
