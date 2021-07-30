@@ -253,7 +253,9 @@ export default function MyStartedJio() {
                         .getDownloadURL()
                         .then(url => {
                             updateURL(url);
-                            updateStatus("Orders Placed");
+                            if (jio.orderStatus !== "Ready to Collect") {
+                                updateStatus("Orders Placed");
+                            } 
                             alert('You have uploaded your receipt!');
                         })
                         .catch(error => {

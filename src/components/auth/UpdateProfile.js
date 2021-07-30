@@ -46,7 +46,7 @@ export default function UpdateProfile() {
     var i;
 
     for (i = 0; i < usernameList.length; i++) {
-      if (username === usernameList[i]) {
+      if (usernameRef.current.value === usernameList[i]) {
         return true;
       }
     }
