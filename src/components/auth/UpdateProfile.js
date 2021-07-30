@@ -7,10 +7,9 @@ import { db } from '../../firebase.js'
 export default function UpdateProfile() {
   
   const userRef = db.collection("users");
-  const emailRef = useRef()
   const passwordRef = useRef()
   const passwordConfirmRef = useRef()
-  const { currentUser, updatePassword, updateEmail } = useAuth()
+  const { currentUser, updatePassword } = useAuth()
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const history = useHistory()
@@ -25,12 +24,6 @@ export default function UpdateProfile() {
     setLoading(true)
     setError("")
 
-    if (emailRef.current.value !== currentUser.email) {
-      promises.push(updateEmail(emailRef.current.value));
-      userRef.doc(currentUser.email).update({
-        email: emailRef.current.value
-      })
-    }
     if (passwordRef.current.value) {
       promises.push(updatePassword(passwordRef.current.value))
       userRef.doc(currentUser.email).update({
@@ -40,7 +33,7 @@ export default function UpdateProfile() {
 
     Promise.all(promises)
       .then(() => {
-        history.push("/")
+        history.push("/login")
       })
       .catch(() => {
         setError("Failed to update account")
@@ -61,15 +54,6 @@ export default function UpdateProfile() {
             <h2 className="text-center mb-4">Update Profile</h2>
             {error && <Alert variant="danger">{error}</Alert>}
             <Form onSubmit={handleSubmit}>
-              <Form.Group id="email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  ref={emailRef}
-                  required
-                  defaultValue={currentUser.email}
-                />
-              </Form.Group>
               <Form.Group id="password">
                 <Form.Label>Password</Form.Label>
                 <Form.Control
